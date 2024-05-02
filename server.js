@@ -11,10 +11,14 @@ require("./config/passport")(passport);
 const cors = require("cors");
 app.use(cors());
 
+const path = require("path");
+const port = process.env.PORT || 8080;
+
 // 連結MongoDB
 mongoose
   // .connect("mongodb://localhost:27017/mernDB")
-  .connect("mongodb://127.0.0.1:27017/mernDB")
+  // .connect("mongodb://127.0.0.1:27017/mernDB")
+  .connect(process.env.MONGODB_CONNECTION)
   .then(() => {
     console.log("連結到mongodb...");
   })
@@ -25,6 +29,9 @@ mongoose
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, "client", "build")));
+
 app.use("/api/user", authRoute);
 // app.use(
 //   cors({
@@ -44,6 +51,15 @@ app.use(
   courseRoute
 );
 
-app.listen(8080, () => {
+if (
+  process.env.NODE_ENV === "production" ||
+  process.env.NODE_ENV === "staging"
+) {
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "bulid", "index.html"));
+  });
+}
+
+app.listen(port, () => {
   console.log("後端伺服器聆聽在port8080...");
 });
