@@ -33,13 +33,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.use("/api/user", authRoute);
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000", // 允许 localhost:3000 访问
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//   })
-// );
 
 //只有登入系統的人,才能夠去新增課程或是註冊課程
 // 驗證jwt
@@ -51,15 +44,17 @@ app.use(
   courseRoute
 );
 
-if (
-  process.env.NODE_ENV === "production" ||
-  process.env.NODE_ENV === "staging"
-) {
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "bulid", "index.html"));
-  });
+// 為Node.js 伺服器應用程式中設定一個萬用路由處理器。
+// 確保在生產環境(production)或暫存環境(staging)中,
+// 所有不符合路由規則的 URL都被對應到React應用程式建置後的index.html檔案。
+
+if (process.env.NODE_ENV === 'production') {
+  //*Set static folder up in production
+  app.use(express.static('client/build'));
+
+  app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'client', 'build','index.html')));
 }
 
 app.listen(port, () => {
-  console.log("後端伺服器聆聽在port8080...");
+  console.log(`Server is running on port ${port}`);
 });

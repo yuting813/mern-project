@@ -1,11 +1,7 @@
 import axios from "axios";
 // import { JSON } from "react-router-dom";
-// const API_CoursesURL = "http://localhost:8080/api/courses";
-// const API_CoursesURL = "hhttps://mern-project-p7hk.onrender.com/api/courses";
-const API_CoursesURL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:8080/api/courses"
-    : "https://mern-project-p7hk.onrender.com/api/user";
+// const API_URL = "http://localhost:8080/api/courses";
+const API_URL = "https://mern-project-p7hk.onrender.com/api/courses";
 
 // 定義獲取token的函數
 function getToken() {
@@ -17,7 +13,7 @@ class CourseService {
   post(title, description, price) {
     const token = getToken();
     return axios.post(
-      API_CoursesURL,
+      API_URL,
       { title, description, price },
       {
         headers: {
@@ -31,7 +27,7 @@ class CourseService {
   async getEnrolledCourses(_id) {
     const token = getToken();
     try {
-      const response = await axios.get(API_CoursesURL + "/student/" + _id, {
+      const response = await axios.get(API_URL + "/student/" + _id, {
         headers: {
           Authorization: token,
         },
@@ -48,7 +44,7 @@ class CourseService {
   // 使用instructor id,來找到講師擁有的課程
   async get(_id) {
     const token = getToken();
-    const response = await axios.get(API_CoursesURL + "/instructor/" + _id, {
+    const response = await axios.get(API_URL + "/instructor/" + _id, {
       headers: {
         Authorization: token,
       },
@@ -66,7 +62,7 @@ class CourseService {
   // 使用課程名稱搜尋課程
   // getCourseByName(name) {
   //   const token = getToken();
-  //   return axios.get(API_CoursesURL + "/findByName/" + name, {
+  //   return axios.get(API_URL + "/findByName/" + name, {
   //     headers: {
   //       Authorization: token,
   //     },
@@ -76,7 +72,7 @@ class CourseService {
   // 使用课程名称模糊搜索課程
   getCourseByName(name) {
     const token = getToken();
-    return axios.get(API_CoursesURL + /search/ + name, {
+    return axios.get(API_URL + /search/ + name, {
       headers: {
         Authorization: token,
       },
@@ -87,7 +83,7 @@ class CourseService {
   enroll(_id) {
     const token = getToken();
     return axios.post(
-      API_CoursesURL + "/enroll/" + _id,
+      API_URL + "/enroll/" + _id,
       {},
       {
         headers: {
