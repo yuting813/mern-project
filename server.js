@@ -30,7 +30,7 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static(path.join(__dirname, "/client/build")));
 
 app.use("/api/user", authRoute);
 
@@ -48,11 +48,14 @@ app.use(
 // 確保在生產環境(production)或暫存環境(staging)中,
 // 所有不符合路由規則的 URL都被對應到React應用程式建置後的index.html檔案。
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   //*Set static folder up in production
-  app.use(express.static('client/build'));
+  app.use(express.static("client/build"));
 
-  app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'client', 'build','index.html')));
+  // app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'client', 'build','index.html')));
+  app.get("*", (req, res) =>
+    res.sendFile(path.join(process.cwd(), "client", "build", "index.html"))
+  );
 }
 
 app.listen(port, () => {
