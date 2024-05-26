@@ -1,4 +1,4 @@
 module.exports = {
   auth: require("./auth"),
-  course:require("./course-route")
+  course: require("./course-route"),
 };

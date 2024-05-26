@@ -1,0 +1,45 @@
+.hover-text-primary:hover {
+  color: #007bff !important;
+}
+
+.bg-image {
+  background-image: url("../assets/bgimg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.custom-login-link {
+  position: relative;
+  border: 1px solid black;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+
+  @media scren and;
+}
+
+.custom-login-link:hover {
+  background-color: #edad68;
+}
+
+.custom-register-link {
+  position: relative;
+
+  background-color: black;
+  color: white;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.custom-register-link:hover {
+  background-color: #615d58;
+}
+
+.custom-register-link-sm {
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+}

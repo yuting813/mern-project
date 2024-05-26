@@ -8,6 +8,7 @@ const PostCourseComponent = (props) => {
   let [description, setDescription] = useState("");
   let [price, setPrice] = useState(0);
   let [message, setMessage] = useState("");
+  // let [image, setImage] = useState(null);
 
   const navigate = useNavigate();
   const handleTakeToLogin = () => {
@@ -22,7 +23,14 @@ const PostCourseComponent = (props) => {
   const handleChangePrice = (e) => {
     setPrice(e.target.value);
   };
+  // const handleChangeImage = (e) => {
+  //   setImage(e.target.files[0]);
+  // };
 
+  // function handleError(error) {
+  //   console.error("發生錯誤:", error);
+  //   // 你可以在這裡添加更多的錯誤處理邏輯
+  
   const postCourse = () => {
     CourseService.post(title, description, price)
       .then(() => {
@@ -34,6 +42,20 @@ const PostCourseComponent = (props) => {
         setMessage(error.response.data);
       });
   };
+
+  // const postCourse = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await CourseService.post(title, description, price, image);
+
+  //     window.alert("新課程已創建成功");
+  //     navigate("/course");
+  //   } catch (error) {
+  //     // console.log(error.response);
+  //     handleError(error);
+  //     setMessage(error.response.data);
+  //   }
+  // };
 
   return (
     <div style={{ padding: "3rem" }}>
@@ -53,7 +75,7 @@ const PostCourseComponent = (props) => {
           <p>只有講師可以發布新課程。</p>
         </div>
       )}
-      
+
       {currentUser && currentUser.user.role == "instructor" && (
         <div className="form-group">
           <label for="exampleforTitle">課程標題：</label>
@@ -83,6 +105,9 @@ const PostCourseComponent = (props) => {
             onChange={handleChangePrice}
           />
           <br />
+          {/* <input type="file" accept="image/*" onChange={handleChangeImage} /> */}
+
+
           <button className="btn btn-primary" onClick={postCourse}>
             交出表單
           </button>

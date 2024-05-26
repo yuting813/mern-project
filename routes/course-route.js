@@ -2,10 +2,12 @@ const router = require("express").Router();
 const Course = require("../models").course;
 const courseValidation = require("../validation").courseValidation;
 
+
 router.use((req, res, next) => {
   console.log("course route正在接受一個request...");
   next();
 });
+
 
 // 獲得系統中所有的課程
 router.get("/", async (req, res) => {
@@ -54,7 +56,7 @@ router.get("/student/:_student_id", async (req, res) => {
 router.get("/search/:name", async (req, res) => {
   try {
     const { name } = req.params;
-    const regex = new RegExp(name, "i"); // 'i' 使正则表达式不区分大小写
+    const regex = new RegExp(name, "i"); // 'i' 使正則表達式不須分大小寫
     const courses = await Course.find({ name: regex })
       .populate("instructor", ["email", "username"])
       .exec();
@@ -102,6 +104,38 @@ router.post("/", async (req, res) => {
     return res.status(500).send("無法創建課程。。。");
   }
 });
+
+// 新增課程
+// router.post("/", upload.single("image"), async (req, res) => {
+//   // 驗證數據符合規範
+//   let { error } = courseValidation(req.body);
+//   if (error) return res.status(400).send(error.details[0].message);
+
+//   if (req.user.isStudent()) {
+//     return res
+//       .status(400)
+//       .send("只有講師才能發佈新課程。若你已經是講師，請透過講師帳號登入。");
+//   }
+
+//   let { title, description, price } = req.body;
+  
+//   try {
+//     let newCourse = new Course({
+//       title,
+//       description,
+//       price,
+//       instructor: req.user._id,
+      
+//     });
+//     let savedCourse = await newCourse.save();
+//     return res.send("新課程已經保存").status(201).json(Course);
+//   } catch (e) {
+//     return res
+//       .status(500)
+//       .send("無法創建課程。。。")
+//       .json({ error: error.message });
+//   }
+// });
 
 // 讓學生透過課程id來註冊新課程
 router.post("/enroll/:_id", async (req, res) => {
