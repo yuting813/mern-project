@@ -1,4 +1,5 @@
-import mongoose, { Schema as _Schema, model } from "mongoose";
+// import mongoose, { Schema as _Schema, model } from "mongoose";
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const courseSchema = new Schema({
@@ -15,15 +16,12 @@ const courseSchema = new Schema({
     required: true,
   },
   instructor: {
-    type: _Schema.Types.ObjectId, //primary key
+    type: Schema.Types.ObjectId, //primary key
     ref: "User",
   },
   students: {
     type: [String],
     default: [],
-  },
-  img: {
-    type: [String],
   },
 });
 
