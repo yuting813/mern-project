@@ -57,7 +57,7 @@ const HomeComponent = () => {
           </h2>
           <p>超過2100個線上影片課程與每個月發佈的新增內容，任您選擇</p>
         </div>
-        <div className="p-3">
+        <div className="p-3 " style={{ border: "1px solid #ccc" }}>
           <h3>
             <strong>讓 JavaScript 增強您的軟體開發技能</strong>
           </h3>
@@ -94,52 +94,59 @@ const HomeComponent = () => {
               );
             })}
           </div>
-          <div>課程</div>
-          <div>課程</div>
-          <div>課程</div>
-          <div>課程</div>
         </div>
       </div>
 
-      <div className="container py-4">
-        {/* <div
-          className=" d-flex justify-content-start  align-items-center bg-light rounded-3 bg-image mb-4"
-          style={{ height: "400px" }}
-        >
-          <div
-            className="col-md-6 h-40 p-3 bg-light border rounded-3 ms-4 my-2"
-            style={{ maxWidth: "400px" }}
-          >
-            <h2>優惠只剩最後一天</h2>
-            <p>課程最低$290起，這是您學習合適技能的絕佳時機</p>
-          </div>
-        </div> */}
-
-        <div className="row align-items-md-stretch">
+      <div className="container py-5">
+        <div className="row align-items-md-center">
           <div className="col-md-6">
-            <div className="h-100 p-5 text-white bg-dark rounded-3">
-              <h2>作為一個學生</h2>
-              <p>
-                學生可以註冊他們喜歡的課程。本網站僅供練習之用，請勿提供任何個人資料，例如信用卡號碼。
-              </p>
+            <div className="p-4 m-4">
+              <h2 className="py-3">
+                <strong>透過課程升級,為您的團隊提升技能</strong>
+              </h2>
+              <ul>
+                <li>隨時隨地皆能無限制地存取260門以上的頂尖課程</li>
+
+                <li>科技及商業的頂尖證書</li>
+                <li>本網站僅供練習之用</li>
+              </ul>
+
               <button
                 onClick={handleTakeToEnroll}
-                className="btn btn-outline-light"
+                className="btn btn-lg btn-dark"
                 type="button"
               >
-                登錄會員、或者註冊一個帳號
+                登錄瞭解更多
               </button>
             </div>
           </div>
           <div className="col-md-6">
-            <div className="h-100 p-5 bg-light border rounded-3">
-              <h2>成為講師</h2>
+            <img
+              src={require("../assets/student.jpg")}
+              alt="課程學習示意圖"
+              className="img-fluid img-small"
+            />
+          </div>
+        </div>
+        <div className="row align-items-md-center">
+          <div className="col-md-6">
+            <img
+              src={require("../assets/instructor.jpg")}
+              alt="instructor"
+              className="img-fluid img-small"
+            />
+          </div>
+          <div className="col-md-6">
+            <div className=" p-4 m-4">
+              <h2 className="py-3">
+                <strong>成為講師</strong>
+              </h2>
               <p>
-                在這，有來自世界各地的講師為各位學習者講授課程。我們為您準備各種工具與技能，助您教授您所熱愛的事物。
+                在這,有來自世界各地的講師為各位學習者講授課程。我們為您準備各種工具與技能,助您教授您所熱愛的事物。
               </p>
               <button
                 onClick={handleTakeToPostCourse}
-                className="btn btn-outline-secondary"
+                className="btn btn-lg btn-dark"
                 type="button"
               >
                 立即開始教學
@@ -147,14 +154,25 @@ const HomeComponent = () => {
             </div>
           </div>
         </div>
-
-        <footer className="pt-3 mt-4 text-muted border-top d-flex justify-content-between">
-          <div>&copy; 2024 Tina Hu</div>
-          <div className="text-end">
-            本網站僅供練習之用，請勿提供任何個人資料，例如信用卡號碼。
-          </div>
-        </footer>
       </div>
+
+      <footer className="bg-light py-3 px-5 mt-5">
+        <div className="row align-items-center">
+          <div className="col-md-6">
+            <img
+              src={require("../assets/logo.png")}
+              alt="Logo"
+              className="img-fluid footer-logo"
+            />
+          </div>
+          <div className="col-md-6 text-md-end">
+            <p className="mb-0">
+              本網站僅供練習之用,請勿提供任何個人資料,例如信用卡號碼。
+            </p>
+            <p className="mb-0">&copy; 2024 Tina Hu</p>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 };

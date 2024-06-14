@@ -98,7 +98,7 @@ class CourseService {
   //   });
   // }
 
-  // 使用课程名称模糊搜索課程
+  // 使用课程名稱模糊搜索課程
   getCourseByName(name) {
     const token = getToken();
     return axios.get(API_URL + /search/ + name, {
