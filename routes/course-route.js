@@ -2,12 +2,10 @@ const router = require("express").Router();
 const Course = require("../models").course;
 const courseValidation = require("../validation").courseValidation;
 
-
 router.use((req, res, next) => {
   console.log("course route正在接受一個request...");
   next();
 });
-
 
 // 獲得系統中所有的課程
 router.get("/", async (req, res) => {
@@ -90,13 +88,14 @@ router.post("/", async (req, res) => {
       .send("只有講師才能發佈新課程。若你已經是講師，請透過講師帳號登入。");
   }
 
-  let { title, description, price } = req.body;
+  let { title, description, price, image } = req.body;
   try {
     let newCourse = new Course({
       title,
       description,
       price,
       instructor: req.user._id,
+      image: image,
     });
     let savedCourse = await newCourse.save();
     return res.send("新課程已經保存");
@@ -118,14 +117,14 @@ router.post("/", async (req, res) => {
 //   }
 
 //   let { title, description, price } = req.body;
-  
+
 //   try {
 //     let newCourse = new Course({
 //       title,
 //       description,
 //       price,
 //       instructor: req.user._id,
-      
+
 //     });
 //     let savedCourse = await newCourse.save();
 //     return res.send("新課程已經保存").status(201).json(Course);
