@@ -13,8 +13,13 @@
   border: 1px solid black;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
+}
 
-  @media scren and;
+@media screen and (max-width: 992px) {
+  .custom-login-link {
+    border: none;
+    padding: 0;
+  }
 }
 
 .custom-login-link:hover {
@@ -23,7 +28,7 @@
 
 .custom-register-link {
   position: relative;
-
+  border: 1px solid black;
   background-color: black;
   color: white;
   padding: 0.5rem 1rem;
@@ -32,6 +37,18 @@
 
 .custom-register-link:hover {
   background-color: #615d58;
+}
+
+@media screen and (max-width: 992px) {
+  .custom-register-link {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    color: inherit;
+  }
+  .custom-register-link:hover {
+    background-color: #edad68;
+  }
 }
 
 .custom-register-link-sm {
@@ -62,4 +79,73 @@
   height: auto;
   display: block;
   margin: 0 auto;
+}
+
+/* Input欄位 */
+/* 
+.custom-input-group {
+  position: relative;
+}
+
+.custom-input {
+  padding-top: 20px;
+}
+
+.custom-label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.custom-input:focus + .custom-label,
+.custom-input:not(:placeholder-shown) + .custom-label {
+  top: 0px;
+  left: 0px;
+  transform: translateY(0) scale(0.8);
+  background-color: white;
+  padding: 0 5px;
+} */
+
+.custom-input-group {
+  position: relative;
+}
+
+.custom-input {
+  padding-top: 20px;
+}
+
+.custom-label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.custom-input:focus + .custom-label,
+.custom-input:not(:placeholder-shown) + .custom-label {
+  top: 0px;
+  left: 0px;
+  transform: translateY(0) scale(0.8);
+  background-color: none;
+  padding: 0 5px;
+}
+
+.custom-button {
+  background-color: #a435F0;
+  border: 1px solid #ad67f0;
+}
+
+.custom-button:hover {
+  background-color: #661cad;
+  border-color: #661cad;
+}
+
+.tn-text-a{
+  color:#5022c3;
+  font-weight:700;
 }

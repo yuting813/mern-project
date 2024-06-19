@@ -29,33 +29,64 @@ const LoginComponent = ({ currentUser, setCurrentUser }) => {
   };
 
   return (
-    <div style={{ padding: "3rem" }} className="col-md-12">
-      <div>
+    <div className="container d-flex  flex-column-reverse flex-md-row mt-md-5">
+      <div className="col-md-6 mb-4 mb-md-0">
+        <img
+          src={require("../assets/login.webp")}
+          alt="loginImg"
+          className="img-fluid"
+        />
+      </div>
+
+      <div className="col-md-5 col-sm-8 offset-md-1 mt-md-4 ">
         {message && <div className="alert alert-danger">{message}</div>}
-        <div className="form-group">
-          <label htmlFor="username">電子信箱：</label>
+        <h2 className="my-4 text-center">登入您的帳戶</h2>
+
+        <div className="form-group custom-input-group mb-3">
           <input
             onChange={handleChangeEmail}
             type="text"
-            className="form-control"
+            className="form-control custom-input"
             name="email"
+            placeholder=" "
+            required
           />
+          <label htmlFor="email" className="custom-label">
+            <span>電子郵件</span>
+          </label>
         </div>
-        <br />
-        <div className="form-group">
-          <label htmlFor="password">密碼：</label>
+
+        <div className="form-group  custom-input-group mb-3">
           <input
             onChange={handleChangePassword}
             type="password"
-            className="form-control"
+            className="form-control custom-input"
             name="password"
+            placeholder=""
+            value={password}
+            required
           />
+          <label htmlFor="password" className="custom-label">
+            密碼
+          </label>
         </div>
-        <br />
+
         <div className="form-group">
-          <button onClick={handleLogin} className="btn btn-primary btn-block">
-            <span>登入系統</span>
+          <button
+            onClick={handleLogin}
+            className="btn btn-primary  rounded-0 custom-button w-100 py-2 mb-3"
+          >
+            <span>登入</span>
           </button>
+        </div>
+
+        <div className="text-center my-3">
+          <p className="bg-light p-3 mt-4 mb-3 ">
+            還沒有帳戶嗎？{" "}
+            <a href="/register" className="tn-text-a">
+              註冊
+            </a>
+          </p>
         </div>
       </div>
     </div>

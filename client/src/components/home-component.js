@@ -37,7 +37,7 @@ const HomeComponent = () => {
         style={{ height: "400px" }}
       >
         <div
-          className="col-md-6 p-4 bg-white border ms-4 mb-5"
+          className="col-md-6 p-4 bg-white border m-4"
           style={{ maxWidth: "410px" }}
         >
           <h1>
@@ -113,7 +113,7 @@ const HomeComponent = () => {
 
               <button
                 onClick={handleTakeToEnroll}
-                className="btn btn-lg btn-dark"
+                className="btn btn-lg btn-dark rounded-0"
                 type="button"
               >
                 登錄瞭解更多
@@ -146,7 +146,7 @@ const HomeComponent = () => {
               </p>
               <button
                 onClick={handleTakeToPostCourse}
-                className="btn btn-lg btn-dark"
+                className="btn btn-lg btn-dark rounded-0"
                 type="button"
               >
                 立即開始教學

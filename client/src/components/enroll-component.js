@@ -39,7 +39,7 @@ const EnrollComponent = (props) => {
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
         <div>
-          <p>You must login first before searching for courses.</p>
+          <p>您必須先登入才能搜尋課程。</p>
           <button
             className="btn btn-primary btn-lg"
             onClick={handleTakeToLogin}
@@ -50,7 +50,7 @@ const EnrollComponent = (props) => {
       )}
       {currentUser && currentUser.user.role == "instructor" && (
         <div>
-          <h1>Only students can enroll in courses.</h1>
+          <h1>只有學生才能註冊課程。</h1>
         </div>
       )}
       {currentUser && currentUser.user.role == "student" && (

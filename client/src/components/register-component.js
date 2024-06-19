@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
+import "../styles/custom.css";
 
 const RegisterComponent = () => {
   const Navigate = useNavigate();
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
   let [role, setRole] = useState("");
   let [message, setMessage] = useState("");
 
@@ -19,9 +19,10 @@ const RegisterComponent = () => {
     setEmail(e.target.value);
   };
 
-  const handleChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  // 原本密碼
+  // const handleChangePassword = (e) => {
+  //   setPassword(e.target.value);
+  // };
 
   const handleChnageRole = (e) => {
     setRole(e.target.value);
@@ -38,57 +39,204 @@ const RegisterComponent = () => {
       });
   };
 
+  // 限制密碼最少數字
+  const [password, setPassword] = useState("");
+  const [isValid, setIsValid] = useState(false);
+  const handleChangePassword = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setIsValid(newPassword.length >= 6 && /^[a-zA-Z0-9]+$/.test(newPassword));
+  };
+
   return (
-    <div style={{ padding: "3rem" }} className="col-md-12">
-      <div>
-        {message && <div className="alert alert-danger">{message}</div>}  
-        <div>
-          <label htmlFor="username">用戶名稱:</label>
+    <div className="container d-flex  flex-column-reverse flex-md-row mt-md-5">
+      <div className="col-md-6 mb-4 mb-md-0">
+        <img
+          src={require("../assets/register.webp")}
+          alt="loginImg"
+          className="img-fluid"
+        />
+      </div>
+
+      <div className="col-md-5 col-sm-8 offset-md-1 mt-md-4">
+        {message && <div className="alert alert-danger">{message}</div>}
+        <h2 className="my-4 text-center">註冊並開始學習</h2>
+
+       
+        <div className="form-group custom-input-group mb-3">
           <input
             onChange={handleChangeUsername}
             type="text"
-            className="form-control"
+            className="form-control custom-input"
             name="username"
+            id="username"
+            placeholder=" "
+            required
           />
+          <label htmlFor="username" className="custom-label">
+            <span>用戶名稱</span>
+          </label>
         </div>
-        <br />
-        <div className="form-group">
-          <label htmlFor="email">電子信箱：</label>
+
+        <div className="form-group custom-input-group mb-3">
           <input
             onChange={handleChangeEmail}
             type="text"
-            className="form-control"
+            className="form-control custom-input"
             name="email"
+            placeholder=" "
+            required
           />
+          <label htmlFor="email" className="custom-label">
+            <span>電子郵件</span>
+          </label>
         </div>
-        <br />
-        <div className="form-group">
-          <label htmlFor="password">密碼：</label>
+
+        <div className="form-group custom-input-group mb-3">
           <input
             onChange={handleChangePassword}
             type="password"
-            className="form-control"
+            className={`form-control custom-input ${
+              isValid ? "is-valid" : "is-invalid"
+            }`}
             name="password"
-            placeholder="長度至少超過6個英文或數字"
+            placeholder=""
+            value={password}
+            required
           />
+          <label htmlFor="password" className="custom-label">
+            <span>密碼</span>
+          </label>
+          {!isValid && password.length > 0 && (
+            <div className="invalid-feedback">
+              密碼必須至少包含6個英文字母或數字
+            </div>
+          )}
         </div>
-        <br />
-        <div className="form-group">
-          <label htmlFor="password">身份：</label>
-          <input
+        
+
+        <div className="form-group mb-2  ">
+          <label htmlFor="role" className="">
+            <span>請選擇身份 </span>
+          </label>
+
+          <select
             onChange={handleChnageRole}
-            type="text"
-            className="form-control"
-            placeholder="只能填入student或是instructor這兩個選項其一"
+            className="form-control   "
+            placeholder=""
             name="role"
-          />
+            required
+          >
+            <option value="" disabled>
+              請選擇身份
+            </option>
+            <option value="student">student</option>
+            <option value="instructor">instructor</option>
+          </select>
         </div>
-        <br />
-        <button onClick={handleRegister} className="btn btn-primary">
-          <span>註冊會員</span>
+
+
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="termsCheck"
+          />
+          <label class="form-check-label small" for="termsCheck">
+            我想收到特別優惠、個人化建議與學習秘訣。
+          </label>
+        </div>
+
+        <button
+          onClick={handleRegister}
+          className="btn btn-primary  rounded-0 w-100 p-2 mt-4 mb-3 custom-button"
+        >
+          <span className="">
+            <strong>註冊</strong>
+          </span>
         </button>
+
+        <p className="text-center small">
+          註冊即代表您同意我們的使用條款與隱私權政策。
+        </p>
+
+        <div className="text-center my-3">
+          <p className="bg-light p-3 mt-4 mb-3 ">
+            已經擁有帳戶？{" "}
+            <a href="/login" className="tn-text-a">
+              登入
+            </a>
+          </p>
+        </div>
       </div>
     </div>
+
+    // <div
+    //   className="container d-flex align-items-center flex-column-reverse flex-md-row"
+    //   style={{ minHeight: "100vh" }}
+    // >
+    //   <div className="col-md-6 mb-4 mb-md-0">
+    //     <img
+    //       src={require("../assets/login.webp")}
+    //       alt="loginImg"
+    //       className="img-fluid"
+    //     />
+    //   </div>
+
+    //   <div className="col-md-6">
+    //     {message && <div className="alert alert-danger">{message}</div>}
+    //     <h1 className="my-4 text-center">註冊並開始學習</h1>
+    //     <div className="form-group">
+    //       <label htmlFor="username">用戶名稱:</label>
+    //       <input
+    //         onChange={handleChangeUsername}
+    //         type="text"
+    //         className="form-control"
+    //         name="username"
+    //       />
+    //     </div>
+    //     <br />
+    //     <div className="form-group">
+    //       <label htmlFor="email">電子郵件：</label>
+    //       <input
+    //         onChange={handleChangeEmail}
+    //         type="text"
+    //         className="form-control"
+    //         name="email"
+    //       />
+    //     </div>
+    //     <br />
+    //     <div className="form-group">
+    //       <label htmlFor="password">密碼：</label>
+    //       <input
+    //         onChange={handleChangePassword}
+    //         type="password"
+    //         className="form-control"
+    //         name="password"
+    //         placeholder="長度至少超過6個英文或數字"
+    //       />
+    //     </div>
+    //     <br />
+    //     <div className="form-group">
+    //       <label htmlFor="password">身份：</label>
+    //       <input
+    //         onChange={handleChnageRole}
+    //         type="text"
+    //         className="form-control"
+    //         placeholder="只能填入student或是instructor這兩個選項其一"
+    //         name="role"
+    //       />
+    //     </div>
+    //     <br />
+    //     <button
+    //       onClick={handleRegister}
+    //       className="btn btn-primary btn-dark rounded-0"
+    //     >
+    //       <span>註冊會員</span>
+    //     </button>
+    //   </div>
+    // </div>
   );
 };
 
