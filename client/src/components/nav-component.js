@@ -34,6 +34,7 @@ const NavComponent = ({ currentUser, setCurrentUser }) => {
       .toString()
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
+
   return (
     <div>
       <div className="shadow-sm">

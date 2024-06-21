@@ -36,21 +36,48 @@ const EnrollComponent = (props) => {
   };
 
   return (
-    <div style={{ padding: "3rem" }}>
+    <div>
       {!currentUser && (
-        <div>
-          <p>您必須先登入才能搜尋課程。</p>
-          <button
-            className="btn btn-primary btn-lg"
-            onClick={handleTakeToLogin}
-          >
-            Take me to login page.
-          </button>
+        <div class="header-container">
+          <img
+            alt=""
+            class="header-container-img"
+            src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/10ca89f6-811b-400e-983b-32c5cd76725a.jpg"
+            sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
+          />
+
+          <div class="text-container-enroll bg-light p-3 ">
+            <h2>帶您迎向未來的技能</h2>
+            <p>為自己的現在和未來準備好必要技能。和我們一起開始吧。 </p>
+            <button
+              className="btn btn-dark rounded-0 w-100 "
+              onClick={handleTakeToLogin}
+            >
+              立即開始
+            </button>
+            {/* <p>您必須先登入才能搜尋課程</p> */}
+          </div>
         </div>
       )}
       {currentUser && currentUser.user.role == "instructor" && (
-        <div>
-          <h1>只有學生才能註冊課程。</h1>
+        <div class="header-container">
+          <img
+            alt=""
+            class="header-container-img"
+            src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/e6cc1a30-2dec-4dc5-b0f2-c5b656909d5b.jpg"
+            sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
+          />
+
+          <div class="text-container bg-light p-4 ">
+            <h2>立即開始學習</h2>
+            <p>學生帳號才能註冊課程 </p>
+            <button
+              className="btn btn-dark rounded-0 w-100 "
+              onClick={handleTakeToLogin}
+            >
+              立即開始
+            </button>
+          </div>
         </div>
       )}
       {currentUser && currentUser.user.role == "student" && (
