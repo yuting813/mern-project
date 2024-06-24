@@ -93,11 +93,12 @@ const HomeComponent = () => {
           <a key={1}>探索JavaScript</a>
 
           <div style={{ display: "flex", flexWrap: "wrap" }}>
-            {courseData.map((course) => {
+            {courseData.map((course, index) => {
               return (
                 <div
                   className="card"
                   style={{ width: "18rem", margin: "1rem" }}
+                  key={index}
                 >
                   <div className="card-body">
                     <CourseImage course={course} />
