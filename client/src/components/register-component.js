@@ -11,18 +11,12 @@ const RegisterComponent = () => {
   let [message, setMessage] = useState("");
 
   const handleChangeUsername = (e) => {
-    // console.log(e);
     setUsername(e.target.value);
   };
 
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
   };
-
-  // 原本密碼
-  // const handleChangePassword = (e) => {
-  //   setPassword(e.target.value);
-  // };
 
   const handleChnageRole = (e) => {
     setRole(e.target.value);
@@ -38,6 +32,9 @@ const RegisterComponent = () => {
         setMessage(e.response.data);
       });
   };
+
+  
+
 
   // 限制密碼最少數字
   const [password, setPassword] = useState("");
@@ -109,7 +106,7 @@ const RegisterComponent = () => {
           </label>
           {!isValid && password.length > 0 && (
             <div className="invalid-feedback">
-              密碼必須至少包含6個英文字母或數字
+              密碼必須包含至少6個英文字母或數字
             </div>
           )}
         </div>
@@ -172,71 +169,6 @@ const RegisterComponent = () => {
       </div>
     </div>
 
-    // <div
-    //   className="container d-flex align-items-center flex-column-reverse flex-md-row"
-    //   style={{ minHeight: "100vh" }}
-    // >
-    //   <div className="col-md-6 mb-4 mb-md-0">
-    //     <img
-    //       src={require("../assets/login.webp")}
-    //       alt="loginImg"
-    //       className="img-fluid"
-    //     />
-    //   </div>
-
-    //   <div className="col-md-6">
-    //     {message && <div className="alert alert-danger">{message}</div>}
-    //     <h1 className="my-4 text-center">註冊並開始學習</h1>
-    //     <div className="form-group">
-    //       <label htmlFor="username">用戶名稱:</label>
-    //       <input
-    //         onChange={handleChangeUsername}
-    //         type="text"
-    //         className="form-control"
-    //         name="username"
-    //       />
-    //     </div>
-    //     <br />
-    //     <div className="form-group">
-    //       <label htmlFor="email">電子郵件：</label>
-    //       <input
-    //         onChange={handleChangeEmail}
-    //         type="text"
-    //         className="form-control"
-    //         name="email"
-    //       />
-    //     </div>
-    //     <br />
-    //     <div className="form-group">
-    //       <label htmlFor="password">密碼：</label>
-    //       <input
-    //         onChange={handleChangePassword}
-    //         type="password"
-    //         className="form-control"
-    //         name="password"
-    //         placeholder="長度至少超過6個英文或數字"
-    //       />
-    //     </div>
-    //     <br />
-    //     <div className="form-group">
-    //       <label htmlFor="password">身份：</label>
-    //       <input
-    //         onChange={handleChnageRole}
-    //         type="text"
-    //         className="form-control"
-    //         placeholder="只能填入student或是instructor這兩個選項其一"
-    //         name="role"
-    //       />
-    //     </div>
-    //     <br />
-    //     <button
-    //       onClick={handleRegister}
-    //       className="btn btn-primary btn-dark rounded-0"
-    //     >
-    //       <span>註冊會員</span>
-    //     </button>
-    //   </div>
-    // </div>
   );
 };
 

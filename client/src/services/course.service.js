@@ -1,7 +1,7 @@
 import axios from "axios";
 // import { JSON } from "react-router-dom";
-// const API_URL = "http://localhost:8080/api/courses";
-const API_URL = "https://mern-project-p7hk.onrender.com/api/courses";
+const API_URL = "http://localhost:8080/api/courses";
+// const API_URL = "https://mern-project-p7hk.onrender.com/api/courses";
 
 // 定義獲取token的函數
 function getToken() {
@@ -15,14 +15,14 @@ function handleError(error) {
 }
 
 class CourseService {
-  post(title, description, price) {
+  post(title, description, price, image) {
     const token = getToken();
     return axios.post(
       API_URL,
-      { title, description, price },
+      { title, description, price, image},
       {
         headers: {
-          Authorization: token,
+          Authorization: token
         },
       }
     );

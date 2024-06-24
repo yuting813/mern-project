@@ -1,6 +1,6 @@
 import axios from "axios";
-// const API_URL = "http://localhost:8080/api/user";
-const API_URL = "https://mern-project-p7hk.onrender.com/api/user";
+const API_URL = "http://localhost:8080/api/user";
+// const API_URL = "https://mern-project-p7hk.onrender.com/api/user";
 // 跟登入有關的服務物件
 
 class AuthService {

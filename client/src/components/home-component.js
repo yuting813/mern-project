@@ -3,20 +3,34 @@ import { useNavigate } from "react-router-dom";
 import "../styles/custom.css";
 import CourseService from "../services/course.service";
 
+const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
+  const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
+
+  const [imgSrc, setImgSrc] = useState(course.image || defaultImage);
+
+  const handleImageError = () => {
+    if (imgSrc !== defaultImage) {
+      setImgSrc(defaultImage);
+    }
+  };
+
+  return (
+    <img
+      src={imgSrc}
+      alt="課程圖片"
+      onError={handleImageError}
+      className="img-fluid"
+      style={{
+        width,
+        height,
+        objectFit: "cover",
+      }}
+    />
+  );
+};
+
 const HomeComponent = () => {
   const navigate = useNavigate();
-  const handleTakeToLogin = () => {
-    navigate("/login");
-  };
-
-  const handleTakeToPostCourse = () => {
-    navigate("/postCourse");
-  };
-
-  const handleTakeToEnroll = () => {
-    navigate("/enroll");
-  };
-
   const [courseData, setCourseData] = useState([]);
 
   useEffect(() => {
@@ -29,6 +43,14 @@ const HomeComponent = () => {
         console.error("獲取課程資料失敗:", error);
       });
   }, []);
+
+  const handleTakeToPostCourse = () => {
+    navigate("/postCourse");
+  };
+
+  const handleTakeToEnroll = () => {
+    navigate("/enroll");
+  };
 
   return (
     <main>
@@ -78,6 +100,7 @@ const HomeComponent = () => {
                   style={{ width: "18rem", margin: "1rem" }}
                 >
                   <div className="card-body">
+                    <CourseImage course={course} />
                     <h5 className="card-title">課程名稱:{course.title}</h5>
                     <p className="card-text" style={{ margin: "0.5rem 0rem" }}>
                       {course.description}

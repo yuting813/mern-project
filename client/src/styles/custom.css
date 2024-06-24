@@ -136,7 +136,7 @@
 }
 
 .custom-button {
-  background-color: #a435F0;
+  background-color: #a435f0;
   border: 1px solid #ad67f0;
 }
 
@@ -145,7 +145,34 @@
   border-color: #661cad;
 }
 
-.tn-text-a{
-  color:#5022c3;
-  font-weight:700;
+.tn-text-a {
+  color: #5022c3;
+  font-weight: 700;
+}
+
+/* postCourse */
+.header-container {
+  position: relative;
+  text-align: center;
+}
+.header-container-img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 600px;
+}
+
+.text-container {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  text-align: start;
+}
+
+.text-container-enroll {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  text-align: start;
+  transform: translate(-12rem, -35%);
 }

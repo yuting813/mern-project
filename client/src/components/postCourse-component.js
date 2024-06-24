@@ -8,7 +8,7 @@ const PostCourseComponent = (props) => {
   let [description, setDescription] = useState("");
   let [price, setPrice] = useState(0);
   let [message, setMessage] = useState("");
-  // let [image, setImage] = useState(null);
+  let [image, setImage] = useState("");
 
   const navigate = useNavigate();
   const handleTakeToLogin = () => {
@@ -23,16 +23,23 @@ const PostCourseComponent = (props) => {
   const handleChangePrice = (e) => {
     setPrice(e.target.value);
   };
-  // const handleChangeImage = (e) => {
-  //   setImage(e.target.files[0]);
-  // };
 
-  // function handleError(error) {
-  //   console.error("發生錯誤:", error);
-  //   // 你可以在這裡添加更多的錯誤處理邏輯
-  
+  const handleChangeImage = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        setImage(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.error("Error reading file:", error);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const postCourse = () => {
-    CourseService.post(title, description, price)
+    CourseService.post(title, description, price, image)
       .then(() => {
         window.alert("新課程已創建成功");
         navigate("/course");
@@ -43,31 +50,30 @@ const PostCourseComponent = (props) => {
       });
   };
 
-  // const postCourse = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await CourseService.post(title, description, price, image);
-
-  //     window.alert("新課程已創建成功");
-  //     navigate("/course");
-  //   } catch (error) {
-  //     // console.log(error.response);
-  //     handleError(error);
-  //     setMessage(error.response.data);
-  //   }
-  // };
-
   return (
-    <div style={{ padding: "3rem" }}>
+    <div>
       {!currentUser && (
-        <div>
-          <p>在發布新課程之前，您必須先登錄。</p>
-          <button
-            className="btn btn-primary btn-lg"
-            onClick={handleTakeToLogin}
-          >
-            帶我進入登錄頁面。
-          </button>
+        <div class="header-container">
+          <img
+            src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
+            alt=""
+            class="header-container-img"
+            // loading="lazy"
+            srcset="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg 1x,
+             https://s.udemycdn.com/teaching/billboard-desktop-2x-v4.jpg 2x"
+            sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
+          ></img>
+
+          <div class="text-container">
+            <h1>與我們一起教學</h1>
+            <p>成為講師，改變您與他人的人生</p>
+            <button
+              className="btn btn-lg btn-dark rounded-0 w-100 "
+              onClick={handleTakeToLogin}
+            >
+              立即開始
+            </button>
+          </div>
         </div>
       )}
       {currentUser && currentUser.user.role !== "instructor" && (
@@ -77,7 +83,8 @@ const PostCourseComponent = (props) => {
       )}
 
       {currentUser && currentUser.user.role == "instructor" && (
-        <div className="form-group">
+        <div className="form-group container col-md-6 p-4">
+          <h2 className="my-4 text-center">建立課程</h2>
           <label for="exampleforTitle">課程標題：</label>
           <input
             name="title"
@@ -105,10 +112,14 @@ const PostCourseComponent = (props) => {
             onChange={handleChangePrice}
           />
           <br />
-          {/* <input type="file" accept="image/*" onChange={handleChangeImage} /> */}
 
+          <div>
+            <p>課程封面:</p>
+            <input type="file" accept="image/*" onChange={handleChangeImage} />
+            {image && <img src={image} alt="uploaded" />}
+          </div>
 
-          <button className="btn btn-primary" onClick={postCourse}>
+          <button className="btn btn-primary my-4" onClick={postCourse}>
             交出表單
           </button>
           <br />

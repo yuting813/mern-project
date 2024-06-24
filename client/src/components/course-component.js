@@ -2,37 +2,58 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 
+
+const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
+  const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
+
+  const [imgSrc, setImgSrc] = useState(course.image || defaultImage);
+
+  const handleImageError = () => {
+    if (imgSrc !== defaultImage) {
+      setImgSrc(defaultImage);
+    }
+  };
+
+  return (
+    <img
+      src={imgSrc}
+      alt="課程圖片"
+      onError={handleImageError}
+      className="img-fluid"
+      style={{
+        width,
+        height,
+        objectFit: "cover",
+      }}
+    />
+  );
+};
+
 const CourseComponent = ({ currentUser, setCurrentUser }) => {
   const navigate = useNavigate();
+  const [courseData, setCourseData] = useState([]);
+
   const handleTakeToLogin = () => {
     navigate("/login");
   };
 
-  // const [courseData, setCourseData] = useState(null);
-  const [courseData, setCourseData] = useState([]);
   useEffect(() => {
-    let _id;
     if (currentUser) {
-      _id = currentUser.user._id;
-      if (currentUser.user.role == "instructor") {
-        CourseService.get(_id)
-          .then((data) => {
-            setCourseData(data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      } else if (currentUser.user.role == "student") {
-        CourseService.getEnrolledCourses(_id)
-          .then((data) => {
-            setCourseData(data);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
+      const _id = currentUser.user._id;
+      const serviceMethod =
+        currentUser.user.role === "instructor"
+          ? CourseService.get
+          : CourseService.getEnrolledCourses;
+
+      serviceMethod(_id)
+        .then((data) => {
+          setCourseData(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
-  }, []);
+  }, [currentUser]);
 
   return (
     <div style={{ padding: "3rem" }}>
@@ -48,45 +69,42 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
         </div>
       )}
 
-      {currentUser && currentUser.user.role == "instructor" && (
+      {currentUser && (
         <div>
-          <h1>歡迎來到講師的課程頁面</h1>
+          <h1 >
+            歡迎來到{currentUser.user.role === "instructor" ? "講師" : "學生"}
+            的課程頁面
+          </h1>
         </div>
       )}
 
-      {currentUser && currentUser.user.role == "student" && (
-        <div>
-          <h1>歡迎來到學生的課程頁面。</h1>
-        </div>
-      )}
-
-      {currentUser && courseData && courseData.length != 0 && (
+      {currentUser && courseData.length > 0 && (
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {courseData.map((course) => {
-            return (
-              <div className="card" style={{ width: "18rem", margin: "1rem" }}>
-                <div className="card-body">
-                  <h5 className="card-title">課程名稱:{course.title}</h5>
-                  <p className="card-text" style={{ margin: "0.5rem 0rem" }}>
-                    {course.description}
-                  </p>
-                  <p style={{ margin: "0.5rem 0rem" }}>
-                    學生人數:{course.students.length}
-                  </p>
-                  <p style={{ margin: "0.5rem 0rem" }}>
-                    課程價格:{course.price}
-                  </p> 
-                  <p style={{ margin: "0.5rem 0rem" }}>
-                    講師:{course.instructor.username}
-                  </p>
-                </div>
+          {courseData.map((course) => (
+            <div
+              className="card"
+              style={{ width: "18rem", margin: "1rem" }}
+              key={course._id}
+            >
+              <div className="card-body">
+                <CourseImage course={course} />
+                <h5 className="card-title py-3">{course.title}</h5>
+                <p className="card-text" style={{ margin: "0.5rem 0rem" }}>
+                  {course.description}
+                </p>
+                <p style={{ margin: "0.5rem 0rem" }}>
+                  學生人數:{course.students.length}
+                </p>
+                <p style={{ margin: "0.5rem 0rem" }}>課程價格:{course.price}</p>
+                <p style={{ margin: "0.5rem 0rem" }}>
+                  講師:{course.instructor.username}
+                </p>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       )}
     </div>
   );
 };
-
 export default CourseComponent;
