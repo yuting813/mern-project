@@ -1,5 +1,18 @@
+@import "components/_banner.css";
+@import "components/_card-scroller.css";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 .hover-text-primary:hover {
-  color: #007bff !important;
+  color: #5022c3 !important;
+}
+
+.text-color {
+  color: #5022c3;
 }
 
 .bg-image {
@@ -150,29 +163,31 @@
   font-weight: 700;
 }
 
-/* postCourse */
-.header-container {
-  position: relative;
-  text-align: center;
+//page
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-.header-container-img {
-  display: block;
+
+.content-wrap {
+  flex: 1;
+}
+
+.profile-image-container {
+  width: 150px;
+  height: 150px;
   margin: 0 auto;
-  max-width: 100%;
-  max-height: 600px;
+  overflow: hidden;
 }
 
-.text-container {
-  position: absolute;
-  top: 40%;
-  left: 20%;
-  text-align: start;
+.profile-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.text-container-enroll {
-  position: absolute;
-  top: 40%;
-  left: 20%;
-  text-align: start;
-  transform: translate(-12rem, -35%);
+.bg-color {
+  background-color: #9169f5;
 }
