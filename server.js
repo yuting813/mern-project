@@ -32,19 +32,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // app.use(express.static(path.join(__dirname, "/client/build")));
 // 提供靜態檔案服務
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/api/user", authRoute);
 
-//只有登入系統的人,才能夠去新增課程或是註冊課程
-// 驗證jwt
-// course route應該被jwt保護
-// 如果request header內部jwt,則request就會被視為是unauthorized
-app.use(
-  "/api/courses",
-  passport.authenticate("jwt", { session: false }),
-  courseRoute
-);
+app.use("/api/courses", courseRoute);
 
 // 為Node.js 伺服器應用程式中設定一個萬用路由處理器。
 // 確保在生產環境(production)或暫存環境(staging)中,
