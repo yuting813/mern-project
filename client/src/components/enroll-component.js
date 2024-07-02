@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
+import CourseCardScroller from "./course-cardScroller";
+import CourseImage from "./course-image";
 
 const EnrollComponent = (props) => {
   let { currentUser, setCurrentUser } = props;
@@ -38,28 +40,42 @@ const EnrollComponent = (props) => {
   return (
     <div>
       {!currentUser && (
-        <div class="header-container">
-          <img
-            alt=""
-            class="header-container-img"
-            src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/10ca89f6-811b-400e-983b-32c5cd76725a.jpg"
-            sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
-          />
+        <div className="banner-container">
+          <div className="w-100">
+            <picture>
+              <source
+                srcset="https://img-c.udemycdn.com/notices/web_carousel_slide/image_responsive/940c09d8-5549-4207-8670-693e45b81afd.jpg"
+                width="1340"
+                height="400"
+                media="(max-width: 768px)"
+              ></source>
 
-          <div class="text-container-enroll bg-light p-3 ">
-            <h2>帶您迎向未來的技能</h2>
-            <p>為自己的現在和未來準備好必要技能。和我們一起開始吧。 </p>
+              <img
+                className="img-fluid w-100"
+                alt="Banner"
+                src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/10ca89f6-811b-400e-983b-32c5cd76725a.jpg"
+                loading="lazy"
+              />
+            </picture>
+          </div>
+          <div className="text-container bg-light p-3 ">
+            <h2 className="mb-3 ">學習能夠讓您</h2>
+            <p className="mb-4">
+              為自己的現在和未來準備好必要技能。
+              <br />
+              和我們一起開始吧。
+            </p>
             <button
-              className="btn btn-dark rounded-0 w-100 "
+              className="btn btn-dark rounded-0 w-100"
               onClick={handleTakeToLogin}
             >
               立即開始
             </button>
-            {/* <p>您必須先登入才能搜尋課程</p> */}
           </div>
         </div>
       )}
-      {currentUser && currentUser.user.role == "instructor" && (
+
+      {currentUser && currentUser.user.role === "instructor" && (
         <div class="header-container">
           <img
             alt=""
@@ -80,25 +96,36 @@ const EnrollComponent = (props) => {
           </div>
         </div>
       )}
-      {currentUser && currentUser.user.role == "student" && (
-        <div className="search input-group mb-3">
-          <input
-            onChange={handleChangeInput}
-            type="text"
-            className="form-control"
-          />
-          <button onClick={handleSearch} className="btn btn-primary">
-            Search
-          </button>
+      {currentUser && currentUser.user.role === "student" && (
+        <div className="container mt-5">
+          <div className="search input-group mb-3">
+            <input
+              onChange={handleChangeInput}
+              type="text"
+              className="form-control"
+              placeholder="搜尋任何事物"
+            />
+            <button onClick={handleSearch} className="btn btn-primary">
+              Search
+            </button>
+          </div>
         </div>
       )}
 
-      {currentUser && searchResult && searchResult.length != 0 && (
-        <div>
+      {!(currentUser && searchResult && searchResult.length !== 0) && (
+        <div className="container">
+          <h4 className="mt-5">為您推薦</h4>
+          <CourseCardScroller />
+        </div>
+      )}
+
+      {currentUser && searchResult && searchResult.length !== 0 && (
+        <div className="container row mx-auto">
           <p>我們從 API 返回的數據。</p>
           {searchResult.map((course) => (
             <div key={course._id} className="card" style={{ width: "18rem" }}>
               <div className="card-body">
+                <CourseImage course={course} />
                 <h5 className="card-title">課程名稱:{course.title}</h5>
                 <p className="card-text" style={{ margin: "0.5rem 0rem" }}>
                   {course.description}

@@ -1,48 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/custom.css";
-import CourseService from "../services/course.service";
-
-const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
-  const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
-
-  const [imgSrc, setImgSrc] = useState(course.image || defaultImage);
-
-  const handleImageError = () => {
-    if (imgSrc !== defaultImage) {
-      setImgSrc(defaultImage);
-    }
-  };
-
-  return (
-    <img
-      src={imgSrc}
-      alt="課程圖片"
-      onError={handleImageError}
-      className="img-fluid"
-      style={{
-        width,
-        height,
-        objectFit: "cover",
-      }}
-    />
-  );
-};
+import Banner from "./banner";
+import CourseCardScroller from "./course-cardScroller";
 
 const HomeComponent = () => {
   const navigate = useNavigate();
-  const [courseData, setCourseData] = useState([]);
-
-  useEffect(() => {
-    // 在元件初始化時獲取課程資料
-    CourseService.getAllCourses()
-      .then((response) => {
-        setCourseData(response.data);
-      })
-      .catch((error) => {
-        console.error("獲取課程資料失敗:", error);
-      });
-  }, []);
 
   const handleTakeToPostCourse = () => {
     navigate("/postCourse");
@@ -54,22 +17,7 @@ const HomeComponent = () => {
 
   return (
     <main>
-      <div
-        className=" d-flex justify-content-start  align-items-center bg-light bg-image pb-5 mb-4"
-        style={{ height: "400px" }}
-      >
-        <div
-          className="col-md-6 p-4 bg-white border m-4"
-          style={{ maxWidth: "410px" }}
-        >
-          <h1>
-            <strong>享受優惠價格，踏上學習之旅</strong>
-          </h1>
-          <p>
-            您若是剛接觸，這裡有大好消息：新的學習者可享限時優惠，課程最低只需$390！即刻選購。
-          </p>
-        </div>
-      </div>
+      <Banner />
 
       <div className="p-4">
         <div>
@@ -77,6 +25,7 @@ const HomeComponent = () => {
             {" "}
             <strong>廣泛的課程選擇 </strong>
           </h2>
+
           <p>超過2100個線上影片課程與每個月發佈的新增內容，任您選擇</p>
         </div>
         <div className="p-3 " style={{ border: "1px solid #ccc" }}>
@@ -90,34 +39,9 @@ const HomeComponent = () => {
             可用於判斷網站訪客是用電腦還是行動裝置，再決定是否提供行動版網頁。正是幕後這一件件小事，讓使用
             JavaScript 建立動態網頁有了真正的價值。
           </p>
-          <a key={1}>探索JavaScript</a>
+          <a>探索JavaScript</a>
 
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
-            {courseData.map((course, index) => {
-              return (
-                <div
-                  className="card"
-                  style={{ width: "18rem", margin: "1rem" }}
-                  key={index}
-                >
-                  <div className="card-body">
-                    <CourseImage course={course} />
-                    <h5 className="card-title">課程名稱:{course.title}</h5>
-                    <p className="card-text" style={{ margin: "0.5rem 0rem" }}>
-                      {course.description}
-                    </p>
-
-                    <p style={{ margin: "0.5rem 0rem" }}>
-                      課程價格:${course.price}
-                    </p>
-                    <p style={{ margin: "0.5rem 0rem" }}>
-                      講師:{course.instructor.username}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <CourseCardScroller />
         </div>
       </div>
 
@@ -140,18 +64,20 @@ const HomeComponent = () => {
                 className="btn btn-lg btn-dark rounded-0"
                 type="button"
               >
-                登錄瞭解更多
+                瞭解更多
               </button>
             </div>
           </div>
           <div className="col-md-6">
             <img
               src={require("../assets/student.jpg")}
-              alt="課程學習示意圖"
+              alt="學習示意圖"
               className="img-fluid img-small"
             />
           </div>
         </div>
+
+
         <div className="row align-items-md-center">
           <div className="col-md-6">
             <img
@@ -179,24 +105,6 @@ const HomeComponent = () => {
           </div>
         </div>
       </div>
-
-      <footer className="bg-light py-3 px-5 mt-5">
-        <div className="row align-items-center">
-          <div className="col-md-6">
-            <img
-              src={require("../assets/logo.png")}
-              alt="Logo"
-              className="img-fluid footer-logo"
-            />
-          </div>
-          <div className="col-md-6 text-md-end">
-            <p className="mb-0">
-              本網站僅供練習之用,請勿提供任何個人資料,例如信用卡號碼。
-            </p>
-            <p className="mb-0">&copy; 2024 Tina Hu</p>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 };
