@@ -52,13 +52,15 @@ router.get("/student/:_student_id", async (req, res) => {
 //   }
 // });
 
-router.get("/search/:name", async (req, res) => {
+router.get("/search", async (req, res) => {
   try {
-    const { name } = req.params;
-    const regex = new RegExp(name, "i"); // 'i' 使正則表達式不須分大小寫
-    const courses = await Course.find({ name: regex })
-      .populate("instructor", ["email", "username"])
-      .exec();
+    const { name } = req.query;
+    const courses = await Course.find({
+      $or: [
+        { title: { $regex: name, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
+        { description: { $regex: name, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
+      ],
+    });
     res.json(courses);
   } catch (err) {
     res.status(500).json({ message: err.message });
