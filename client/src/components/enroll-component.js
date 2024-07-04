@@ -4,8 +4,9 @@ import CourseService from "../services/course.service";
 import CourseCardScroller from "./course-cardScroller";
 import CourseImage from "./course-image";
 
-const EnrollComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
+const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+  // let { currentUser, setCurrentUser } = props;
+
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState(null);
@@ -29,8 +30,10 @@ const EnrollComponent = (props) => {
   const handleEnroll = (e) => {
     CourseService.enroll(e.target.id)
       .then(() => {
-        window.alert("課程註冊成功。重新導向到課程頁面。");
-        navigate("/course");
+        showAlert("課程註冊成功!", "將導向到課程頁面。", "elegant", 2000);
+        setTimeout(() => {
+          navigate("/course");
+        }, 500);
       })
       .catch((err) => {
         console.log(err);
@@ -59,7 +62,7 @@ const EnrollComponent = (props) => {
             </picture>
           </div>
           <div className="text-container bg-light p-3 ">
-            <h2 className="mb-3 ">學習能夠讓您</h2>
+            <h2 className="mb-3">學習能夠讓您</h2>
             <p className="mb-4">
               為自己的現在和未來準備好必要技能。
               <br />
@@ -76,17 +79,21 @@ const EnrollComponent = (props) => {
       )}
 
       {currentUser && currentUser.user.role === "instructor" && (
-        <div class="header-container">
-          <img
-            alt=""
-            class="header-container-img"
-            src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/e6cc1a30-2dec-4dc5-b0f2-c5b656909d5b.jpg"
-            sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
-          />
+        <div class="banner-container">
+          <div className="w-100">
+            <picture>
+              <img
+                alt="Banner"
+                class="img-fluid w-100"
+                src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/e6cc1a30-2dec-4dc5-b0f2-c5b656909d5b.jpg"
+                // sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
+              />
+            </picture>
+          </div>
 
-          <div class="text-container bg-light p-4 ">
-            <h2>立即開始學習</h2>
-            <p>學生帳號才能註冊課程 </p>
+          <div class="text-container bg-light p-4 ms-4">
+            <h2 className="mb-3">立即開始學習</h2>
+            <p className="mb-4">學生帳號才能註冊課程 </p>
             <button
               className="btn btn-dark rounded-0 w-100 "
               onClick={handleTakeToLogin}
@@ -137,14 +144,13 @@ const EnrollComponent = (props) => {
                 <p style={{ margin: "0.5rem 0rem" }}>
                   講師:{course.instructor.username}
                 </p>
-                <a
-                  href="#"
+                <button
                   id={course._id}
                   onClick={handleEnroll}
                   className="card-text btn btn-primary"
                 >
                   註冊課程
-                </a>
+                </button>
               </div>
             </div>
           ))}

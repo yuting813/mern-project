@@ -5,13 +5,13 @@ import logoImage from "../assets/logo.png";
 import "../styles/custom.css";
 import { useState, useEffect } from "react";
 
-const NavComponent = ({ currentUser, setCurrentUser }) => {
+const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const [showBanner, setShowBanner] = useState(true);
   const [countdownTime, setCountdownTime] = useState(10800);
 
   const handleLogout = () => {
     AuthService.logout(); //清空local storage
-    window.alert("已登出!現在您會被導向到首頁");
+    showAlert("已登出!", "您將被導向至首頁", "elegant", 500);
     setCurrentUser(null);
   };
   const handleCloseBanner = () => {

@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import "../styles/custom.css";
 
-const RegisterComponent = () => {
-  const Navigate = useNavigate();
+const RegisterComponent = ({ showAlert }) => {
+  const navigate = useNavigate();
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [role, setRole] = useState("");
@@ -18,23 +18,21 @@ const RegisterComponent = () => {
     setEmail(e.target.value);
   };
 
-  const handleChnageRole = (e) => {
+  const handleChangeRole = (e) => {
     setRole(e.target.value);
   };
 
-  const handleRegister = () => {
-    AuthService.register(username, email, password, role)
-      .then(() => {
-        window.alert("註冊成功。您現在將被導向登入頁面");
-        Navigate("/login");
-      })
-      .catch((e) => {
-        setMessage(e.response.data);
-      });
+  const handleRegister = async () => {
+    try {
+      AuthService.register(username, email, password, role);
+      showAlert("註冊成功!", "您將被導向至註冊頁面。", "elegant", 500);
+      setTimeout(() => {
+        navigate("/login");
+      }, 500);
+    } catch (e) {
+      setMessage(e.response.data);
+    }
   };
-
-  
-
 
   // 限制密碼最少數字
   const [password, setPassword] = useState("");
@@ -59,7 +57,6 @@ const RegisterComponent = () => {
         {message && <div className="alert alert-danger">{message}</div>}
         <h2 className="my-4 text-center">註冊並開始學習</h2>
 
-       
         <div className="form-group custom-input-group mb-3">
           <input
             onChange={handleChangeUsername}
@@ -110,19 +107,19 @@ const RegisterComponent = () => {
             </div>
           )}
         </div>
-        
 
         <div className="form-group mb-2  ">
-          <label htmlFor="role" className="">
-            <span>請選擇身份 </span>
+          <label htmlFor="role" className="form-label">
+            <span>請選擇身份</span>
           </label>
 
           <select
-            onChange={handleChnageRole}
-            className="form-control   "
-            placeholder=""
+            id="role"
+            onChange={handleChangeRole}
+            className="form-control"
             name="role"
             required
+            value={role}
           >
             <option value="" disabled>
               請選擇身份
@@ -131,7 +128,6 @@ const RegisterComponent = () => {
             <option value="instructor">instructor</option>
           </select>
         </div>
-
 
         <div class="form-check">
           <input
@@ -168,7 +164,6 @@ const RegisterComponent = () => {
         </div>
       </div>
     </div>
-
   );
 };
 

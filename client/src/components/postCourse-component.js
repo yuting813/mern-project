@@ -56,7 +56,6 @@ const PostCourseComponent = (props) => {
   return (
     <div>
       {!currentUser && (
-       
         <div class="banner-container">
           <div className="w-100">
             <picture>
@@ -91,20 +90,28 @@ const PostCourseComponent = (props) => {
       )}
       {currentUser && currentUser.user.role !== "instructor" && (
         <div>
-          <div class="header-container">
-            <img
-              src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
-              alt=""
-              class="header-container-img"
-              // loading="lazy"
-              srcset="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg 1x,
-             https://s.udemycdn.com/teaching/billboard-desktop-2x-v4.jpg 2x"
-              sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
-            ></img>
+          <div class="banner-container">
+            <picture>
+              <source
+                srcset="https://s.udemycdn.com/teaching/billboard-mobile-v3.jpg"
+                width="650"
+                height="416"
+                media="(max-width: 768px)"
+                loading="lazy"
+              ></source>
 
-            <div class="text-container">
-              <h1>只有講師可以發布新課程</h1>
-              <p>成為講師，改變您與他人的人生</p>
+              <img
+                className="w-100 img-fluid"
+                alt="Banner"
+                src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
+                s
+                loading="lazy"
+              ></img>
+            </picture>
+
+            <div class="text-container bg-light">
+              <h2 className="mb-3 ">只有講師能發布新課程</h2>
+              <p className="mb-4 ">成為講師，改變您與他人的人生</p>
               <button
                 className="btn btn-lg btn-dark rounded-0 w-100 "
                 onClick={handleTakeToRegister}

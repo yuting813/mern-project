@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-const LoginComponent = ({ currentUser, setCurrentUser }) => {
-  const Navigate = useNavigate();
+const LoginComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+  const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [message, setMessage] = useState("");
@@ -20,9 +20,12 @@ const LoginComponent = ({ currentUser, setCurrentUser }) => {
     try {
       let response = await AuthService.login(email, password);
       localStorage.setItem("user", JSON.stringify(response.data));
-      window.alert("登入成功。您現在將被重新導向到個人資料頁面");
+      showAlert("登入成功!", "您將被導向至個人資料頁面。", "elegant", 500);
       setCurrentUser(AuthService.getCurrentUser());
-      Navigate("/profile");
+
+      setTimeout(() => {
+        navigate("/profile");
+      }, 500);
     } catch (e) {
       setMessage(e.response.data);
     }
