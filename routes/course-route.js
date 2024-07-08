@@ -8,32 +8,49 @@ router.use((req, res, next) => {
   next();
 });
 
-// 獲得系統中所有的課程
+// 搜尋課程
 router.get("/", async (req, res) => {
   try {
-    // query object(thenable object)
-    let courseFound = await Course.find({})
-      .populate("instructor", ["username", "email"])
-      .exec();
-    return res.send(courseFound);
+    let { keyword } = req.query;
+
+    if (!keyword) {
+      let courseFound = await Course.find({})
+        .select("id title description price image")
+        .populate("instructor", "username")
+        .lean();
+      return res.send(courseFound);
+    }
+
+    const courses = await Course.find({
+      $or: [
+        { title: { $regex: keyword, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
+        { description: { $regex: keyword, $options: "i" } },
+        { "instructor.username": { $regex: keyword, $options: "i" } },
+      ],
+    })
+      .select("id title description price image")
+      .populate("instructor", "username")
+      .lean();
+
+    res.json(courses);
   } catch (e) {
     return res.status(500).send(e);
   }
 });
 
-// 用講師id來尋找課程
-router.get("/instructor/:_instructor_id", async (req, res) => {
-  let { _instructor_id } = req.params;
-  let coursesFound = await Course.find({ instructor: _instructor_id })
+// 透過講師id來尋找課程
+router.get("/instructor/:instructorId", async (req, res) => {
+  let { instructorId } = req.params;
+  let coursesFound = await Course.find({ instructor: instructorId })
     .populate("instructor", ["username", "email"])
     .exec();
   return res.send(coursesFound);
 });
 
-// 用學生ID來尋找註冊過的課程
-router.get("/student/:_student_id", async (req, res) => {
-  let { _student_id } = req.params;
-  let coursesFound = await Course.find({ students: _student_id })
+// 透過學生id來尋找註冊過的課程
+router.get("/student/:studentId", async (req, res) => {
+  let { studentId } = req.params;
+  let coursesFound = await Course.find({ students: studentId })
     .populate("instructor", ["username", "email"])
     .exec();
   return res.send(coursesFound);
@@ -51,21 +68,6 @@ router.get("/student/:_student_id", async (req, res) => {
 //     return res.status(500).send(e);
 //   }
 // });
-
-router.get("/search", async (req, res) => {
-  try {
-    const { name } = req.query;
-    const courses = await Course.find({
-      $or: [
-        { title: { $regex: name, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
-        { description: { $regex: name, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
-      ],
-    });
-    res.json(courses);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
 // 用課程id來尋找課程
 router.get("/:_id", async (req, res) => {
