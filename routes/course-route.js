@@ -25,7 +25,6 @@ router.get("/", async (req, res) => {
       $or: [
         { title: { $regex: keyword, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
         { description: { $regex: keyword, $options: "i" } },
-        { "instructor.username": { $regex: keyword, $options: "i" } },
       ],
     })
       .select("id title description price image")
