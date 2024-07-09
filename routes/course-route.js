@@ -31,7 +31,7 @@ router.get("/", async (req, res) => {
       .populate("instructor", "username")
       .lean();
 
-    res.json(courses);
+    return es.send(courses);
   } catch (e) {
     return res.status(500).send(e);
   }
