@@ -14,24 +14,18 @@ router.get("/", async (req, res) => {
     let { keyword } = req.query;
 
     if (!keyword) {
-      let courseFound = await Course.find({})
-        .select("id title description price image")
-        .populate("instructor", "username")
-        .lean();
-      return res.send(courseFound);
+      let courseFound = await Course.find({}).lean();
+      return res.json(courseFound);
     }
 
-    const courses = await Course.find({
+    let courses = await Course.find({
       $or: [
         { title: { $regex: keyword, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
         { description: { $regex: keyword, $options: "i" } },
       ],
-    })
-      .select("id title description price image")
-      .populate("instructor", "username")
-      .lean();
+    }).lean();
 
-    return es.send(courses);
+    return res.json(courses);
   } catch (e) {
     return res.status(500).send(e);
   }
