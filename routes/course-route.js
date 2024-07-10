@@ -14,7 +14,9 @@ router.get("/", async (req, res) => {
     let { keyword } = req.query;
 
     if (!keyword) {
-      let courseFound = await Course.find({}).lean();
+      let courseFound = await Course.find({})
+        .populate("instructor", ["username", "email"])
+        .lean();
       return res.json(courseFound);
     }
 
@@ -23,7 +25,9 @@ router.get("/", async (req, res) => {
         { title: { $regex: keyword, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
         { description: { $regex: keyword, $options: "i" } },
       ],
-    }).lean();
+    })
+      .populate("instructor", ["username", "email"])
+      .lean();
 
     return res.json(courses);
   } catch (e) {
