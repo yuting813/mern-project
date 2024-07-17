@@ -9,7 +9,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
 
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
-  let [searchResult, setSearchResult] = useState(null);
+  let [searchResult, setSearchResult] = useState([]);
 
   const handleTakeToLogin = () => {
     navigate("/login");
@@ -144,6 +144,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 <p style={{ margin: "0.5rem 0rem" }}>
                   講師:{course.instructor.username}
                 </p>
+                
                 <button
                   id={course._id}
                   onClick={handleEnroll}

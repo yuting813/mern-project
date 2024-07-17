@@ -18,9 +18,9 @@
 .banner-container .text-container {
   position: absolute;
   top: 50%;
-  left: 15%;
+  left: 7%;
   transform: translateY(-50%);
-  max-width: 30%;
+  max-width: 31%;
   background-color: var(--light-bg-color);
   padding: 1rem;
 }
@@ -40,4 +40,28 @@
     max-width: 100%;
     margin-top: 1rem;
   }
+}
+
+
+
+.banner-position {
+  position: relative;
+}
+
+.banner-img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+.banner-msg {
+  position: absolute;
+
+  left: 7.2rem;
+  top: 6.4rem;
+  max-width: 44rem;
+}
+
+.banner-btn {
+  margin-top: 1.6rem;
 }

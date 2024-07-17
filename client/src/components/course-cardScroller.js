@@ -2,18 +2,63 @@ import React, { useState, useEffect, useRef } from "react";
 import CourseService from "../services/course.service";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import CourseImage from "./course-image";
+import "../styles/components/_course-card.css";
+import { useNavigate } from "react-router-dom";
 
-const CourseCard = ({ course }) => (
-  <div className="card me-3" style={{ width: "16rem", flexShrink: 0 }}>
-    <CourseImage course={course} />
-    <div className="card-body">
-      <h5 className="card-title">{course.title}</h5>
-      <p className="card-text">{course.description}</p>
-      <p className="card-text">價格: ${course.price}</p>
-      <p className="card-text">講師: {course.instructor.username}</p>
+const CourseDetails = ({ course, isLastCard, showAlert }) => {
+  const navigate = useNavigate();
+
+  const handleEnroll = (e) => {
+    navigate("/course");
+  };
+
+  return (
+    <div
+      className={`card position-absolute top-0  ${
+        isLastCard ? "end-100 me-2" : "start-100 ms-2"
+      }`}
+      style={{ width: "20rem", zIndex: 1350 }}
+    >
+      <div className="card-body">
+        <h4 className="card-title mb-1">{course.title}</h4>
+        <p className="card-text">{course.description}</p>
+      </div>
+      <button
+        id={course._id}
+        onClick={handleEnroll}
+        className="card-text btn custom-button btn-primary  m-4"
+      >
+        註冊課程
+      </button>
     </div>
-  </div>
-);
+  );
+};
+
+const CourseCard = ({ course, isLastCard }) => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  return (
+    <div
+      className=" me-5 p-2 position-relative image-hover"
+      style={{ width: "16rem", flexShrink: 0 }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <div className="course-imager">
+        <CourseImage course={course} />
+      </div>
+      <div className="card-body">
+        <h4 className="card-title mb-2">{course.title}</h4>
+        <p className="card-text">講師: {course.instructor.username}</p>
+        <p className="card-text">價格: ${course.price}</p>
+      </div>
+
+      <div className={`course-details-wrapper ${isHovering ? "show" : ""}`}>
+        <CourseDetails course={course} isLastCard={isLastCard} />
+      </div>
+    </div>
+  );
+};
 
 const ScrollButton = ({ direction, onClick, isVisible }) => (
   <button
@@ -57,8 +102,8 @@ const CourseCardScroller = () => {
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
-      const cardWidth = container.querySelector(".card").offsetWidth;
-      const scrollDistance = cardWidth * 4 * (direction === "right" ? 1 : -1);
+      const scrollDistance =
+        container.clientWidth * 0.8 * (direction === "right" ? 1 : -1);
 
       container.scrollBy({
         left: scrollDistance,
@@ -104,10 +149,19 @@ const CourseCardScroller = () => {
       />
       <div
         ref={scrollContainerRef}
-        className="d-flex overflow-auto py-3 hide-scrollbar scroll-behavior"
+        className="d-flex overflow-auto py-3"
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          scrollBehavior: "smooth",
+        }}
       >
         {courseData.map((course, index) => (
-          <CourseCard key={index} course={course} />
+          <CourseCard
+            key={index}
+            course={course}
+            isLastCard={index === courseData.length - 1}
+          />
         ))}
       </div>
       <ScrollButton

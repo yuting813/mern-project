@@ -1,0 +1,29 @@
+/* import "../styles/components/_course-card.css"; */
+
+
+
+.image-hover:hover .course-imager {
+  opacity: 0.6;
+  transition: 0.3s ease;
+  
+}
+
+.course-details-wrapper {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.1s ease, visibility 0.3s ease;
+  transition-delay: 0.1s;
+}
+
+.course-details-wrapper.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.course-details {
+  position: relative;
+  left: 0;
+}

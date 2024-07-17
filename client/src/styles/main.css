@@ -15,10 +15,19 @@
   color: #5022c3;
 }
 
-.bg-image {
+/* .bg-image {
   background-image: url("../assets/bgimg.jpg");
   background-size: cover;
   background-position: center;
+} */
+
+.nav-position {
+  z-index: 1030;
+  position: relative;
+}
+
+.alert-color {
+  background-color: #eceb98;
 }
 
 .custom-login-link {
@@ -36,7 +45,7 @@
 }
 
 .custom-login-link:hover {
-  background-color: #edad68;
+  background-color: #eceb98;
 }
 
 .custom-register-link {
@@ -60,7 +69,7 @@
     color: inherit;
   }
   .custom-register-link:hover {
-    background-color: #edad68;
+    background-color: #eceb98;
   }
 }
 

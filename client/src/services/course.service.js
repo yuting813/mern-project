@@ -1,7 +1,5 @@
 import axios from "axios";
-// import { JSON } from "react-router-dom";
-const API_URL = "http://localhost:8080/api/courses";
-// const API_URL = "https://mern-project-p7hk.onrender.com/api/courses";
+const API_URL = `${process.env.REACT_APP_API_BASE_URL}/api/courses`;
 
 // 定義獲取token的函數
 function getToken() {
@@ -11,7 +9,7 @@ function getToken() {
 
 function handleError(error) {
   console.error("發生錯誤:", error);
-  // 你可以在這裡添加更多的錯誤處理邏輯
+  // 可以在這裡添加更多的錯誤處理邏輯
 }
 
 class CourseService {
@@ -19,114 +17,79 @@ class CourseService {
     const token = getToken();
     return axios.post(
       API_URL,
-      { title, description, price, image},
+      { title, description, price, image },
       {
-        headers: {
-          Authorization: token
-        },
+        headers: { Authorization: token },
       }
     );
   }
 
-  // post(title, description, price, image) {
-  //   const token = getToken();
-  //   const formData = new FormData();
-  //   formData.append("title", title);
-  //   formData.append("description", description);
-  //   formData.append("price", price);
-  //   formData.append("image", image);
-
-  //   return axios.post(API_URL, formData, {
-  //     headers: {
-  //       "Content-Type": "multipart/form-data",
-  //       Authorization: token,
-  //     },
-  //   });
-
-  // .then(function (response) {
-  //   console.log(response);
-  // })
-  // .catch(function (response) {
-  //   console.log(response);
-  // });
-
-  // 使用學生 id,來找到學生註冊的課程
-  async getEnrolledCourses(_id) {
+  async getEnrolledCourses(studentId) {
     const token = getToken();
     try {
-      const response = await axios.get(API_URL + "/student/" + _id, {
-        headers: {
-          Authorization: token,
-        },
+      const response = await axios.get(`${API_URL}/student/${studentId}`, {
+        headers: { Authorization: token },
       });
-
       return response.data;
     } catch (error) {
-      // console.error("獲取課程數據時發生錯誤:", error);
       handleError(error);
-      // 處理錯誤情況
       return [];
     }
   }
 
-  // 使用instructor id,來找到講師擁有的課程
-  async get(_id) {
+  async getInstructorCourses(instructorId) {
     const token = getToken();
-    const response = await axios.get(API_URL + "/instructor/" + _id, {
-      headers: {
-        Authorization: token,
-      },
-    });
     try {
-      console.log(response);
+      const response = await axios.get(
+        `${API_URL}/instructor/${instructorId}`,
+        {
+          headers: { Authorization: token },
+        }
+      );
       return response.data;
     } catch (error) {
-      // console.error("Error parsing JSON:", error);
       handleError(error);
-      // 處理錯誤的情況
       return [];
     }
   }
 
-  // 使用課程名稱搜尋課程
-  // getCourseByName(name) {
-  //   const token = getToken();
-  //   return axios.get(API_URL + "/findByName/" + name, {
-  //     headers: {
-  //       Authorization: token,
-  //     },
-  //   });
-  // }
-
-  // 使用课程名稱模糊搜索課程
-  getCourseByName(name) {
+  getCourseByName(keyword) {
     const token = getToken();
-    return axios.get(API_URL + /search/ + name, {
-      headers: {
-        Authorization: token,
-      },
+    return axios.get(`${API_URL}`, {
+      params: { keyword },
+      headers: { Authorization: token },
     });
   }
+
+
+  // async getCourseByName(keyword) {
+  //   const token = getToken();
+  //   try {
+  //     const response = await axios.get(`${API_URL}`, {
+  //       params: { keyword },
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('Error fetching courses:', error);
+  //     throw error;
+  //   }
+  // }
 
   getAllCourses() {
     const token = getToken();
     return axios.get(API_URL, {
-      headers: {
-        Authorization: token,
-      },
+      headers: { Authorization: token },
     });
   }
 
-  // 使用學生ID註冊
-  enroll(_id) {
+  enroll(courseId) {
     const token = getToken();
     return axios.post(
-      API_URL + "/enroll/" + _id,
+      `${API_URL}/enroll/${courseId}`,
       {},
       {
-        headers: {
-          Authorization: token,
-        },
+        headers: { Authorization: token },
       }
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/custom.css";
+import "../styles/main.css";
 import Banner from "./banner";
 import CourseCardScroller from "./course-cardScroller";
 
@@ -39,9 +39,10 @@ const HomeComponent = () => {
             可用於判斷網站訪客是用電腦還是行動裝置，再決定是否提供行動版網頁。正是幕後這一件件小事，讓使用
             JavaScript 建立動態網頁有了真正的價值。
           </p>
-          <a>探索JavaScript</a>
-
-          <CourseCardScroller />
+          <p>探索JavaScript</p>
+          <div className=" " style={{ zIndex: 1350 }}>
+            <CourseCardScroller />
+          </div>
         </div>
       </div>
 
@@ -76,7 +77,6 @@ const HomeComponent = () => {
             />
           </div>
         </div>
-
 
         <div className="row align-items-md-center">
           <div className="col-md-6">

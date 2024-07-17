@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import logoImage from "../assets/logo.png";
-import "../styles/custom.css";
+import "../styles/main.css";
 import { useState, useEffect } from "react";
 
 const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
@@ -37,10 +37,10 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
 
   return (
     <div>
-      <div className="shadow-sm">
+      <div className="shadow nav-position">
         {showBanner && !currentUser && (
           <div
-            className="shadow-bottom alert alert-warning alert-dismissible fade show mb-0 d-flex justify-content-center align-items-center"
+            className="shadow-bottom alert alert-color alert-dismissible fade show mb-0 d-flex justify-content-center align-items-center"
             role="alert"
           >
             <div className="text-center">
@@ -63,7 +63,7 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
           </div>
         )}
         <nav>
-          <nav className="shadow navbar navbar-expand-lg navbar-light bg-light p-1">
+          <nav className="shadow-sm navbar navbar-expand-lg navbar-white bg-light p-1">
             <div className="container-fluid">
               <a className="navbar-brand" href="/">
                 <img

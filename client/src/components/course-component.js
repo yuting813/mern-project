@@ -66,15 +66,39 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
         <div>
-          <div class="wp-block-image size-large"></div>
-          <div>
-            <p>您必須要先登入才能看到課程。</p>
-            <button
-              className="btn btn-primary btn-lg"
-              onClick={handleTakeToLogin}
-            >
-              回到登入頁面
-            </button>
+          
+
+          <div class="banner-container">
+            <div className="w-100">
+              <picture>
+                <source
+                  srcset="https://s.udemycdn.com/teaching/billboard-mobile-v3.jpg"
+                  width="650"
+                  height="416"
+                  media="(max-width: 768px)"
+                  loading="lazy"
+                ></source>
+
+                <img
+                  className="w-100 img-fluid"
+                  alt="Banner"
+                  src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
+                  s
+                  loading="lazy"
+                ></img>
+              </picture>
+            </div>
+
+            <div class="text-container bg-light p-4  mx-5 d-flex align-items-cente flex-column">
+              <h3 className="mb-3 ">必須要先登入才能看到課程。</h3>
+              {/* <p className="mb-4">點擊下方，建立課程</p> */}
+              <button
+                className="btn  btn-dark rounded-0 w-100 "
+                onClick={handleTakeToLogin}
+              >
+                回到登入頁面
+              </button>
+            </div>
           </div>
         </div>
       )}

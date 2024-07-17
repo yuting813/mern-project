@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles/components/_course-card.css";
 
 const CourseImage = ({ course }) => {
   const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
@@ -17,7 +18,7 @@ const CourseImage = ({ course }) => {
       onError={handleImageError}
       className="card-img-top"
       style={{
-        height: "11rem",
+        height: "auto",
         objectFit: "cover",
       }}
     />
