@@ -1,4 +1,7 @@
 import { FaUser, FaIdCard, FaEnvelope, FaUserTag } from "react-icons/fa";
+import profileImgV3 from "../assets/profile-v3.jpg";
+import profileImgV2 from "../assets/profile-v2.jpg";
+import profileImgV1 from "../assets/profile-v1.jpg";
 
 const ProfileComponent = ({ currentUser, setCurrentUser }) => {
   return (
@@ -8,18 +11,14 @@ const ProfileComponent = ({ currentUser, setCurrentUser }) => {
           <div class="container">
             <div class="row flex-md-row flex-column-reverse">
               <div class="col-md-6  d-flex align-items-center">
-                <h1>
+                <h1 className="m-2">
                   獲取您的個人資料前，
                   <br className="d-none d-md-block" />
                   請先登錄。
                 </h1>
               </div>
               <div class="col-md-6 mb-4 mb-md-0">
-                <img
-                  class="img-fluid"
-                  alt="Teaching"
-                  src="https://teach.udemy.com/wp-content/uploads/2021/07/teaching.jpg"
-                />
+                <img class="img-fluid" alt="profile" src={profileImgV3} />
               </div>
             </div>
           </div>
@@ -29,11 +28,7 @@ const ProfileComponent = ({ currentUser, setCurrentUser }) => {
         <div className="container">
           <div className=" row d-flex flex-md-row align-items-center  ">
             <div className="col-md-4 p-1">
-              <img
-                class="img-fluid"
-                alt="Teaching"
-                src="https://s.udemycdn.com/teaching/support-1-2x-v3.jpg"
-              />
+              <img class="img-fluid" alt="Teaching" src={profileImgV1} />
             </div>
             <div className=" col-md-4">
               <div className="text-center mb-4 mb-md-0">
@@ -82,11 +77,7 @@ const ProfileComponent = ({ currentUser, setCurrentUser }) => {
             </div>
 
             <div className="col-md-4 p-1">
-              <img
-                class="img-fluid"
-                alt="Teaching"
-                src="https://s.udemycdn.com/teaching/support-2-2x-v3.jpg"
-              />
+              <img class="img-fluid" alt="profile" src={profileImgV2} />
             </div>
           </div>
         </div>

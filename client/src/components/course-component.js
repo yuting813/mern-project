@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
+import postCourseDesktop from "../assets/postCourse-desktop-v1.jpg";
+import postCourseMmbile from "../assets/postCourse-mobile-v2.jpg";
 
 const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
   const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
@@ -28,9 +30,10 @@ const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
   );
 };
 
-const CourseComponent = ({ currentUser, setCurrentUser }) => {
+const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleTakeToLogin = () => {
     navigate("/login");
@@ -44,35 +47,82 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
     navigate("/enroll");
   };
 
+  const handleDelete = (e) => {
+    const courseId = e.target.id;
+    if (window.confirm("確定要刪除這個課程嗎？")) {
+      CourseService.delete(courseId)
+        .then(() => {
+          showAlert("已刪除課程", "課程已成功刪除。", "elegant", 1000);
+          setCourseData((prevData) =>
+            prevData.filter((course) => course._id !== courseId)
+          );
+        })
+        .catch((err) => {
+          console.error("刪除課程時發生錯誤:", err);
+          showAlert("課程擁有者才能刪除課程", "請稍後再試。", "error", 1000);
+        });
+    }
+  };
+
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     const _id = currentUser.user._id;
+  //     let fetchCourses;
+
+  //     if (currentUser.user.role === "instructor") {
+  //       fetchCourses = CourseService.getInstructorCourses;
+  //     } else {
+  //       fetchCourses = CourseService.getEnrolledCourses;
+  //     }
+
+  //     fetchCourses(_id)
+  //       .then((data) => {
+  //         setCourseData(data);
+  //       })
+  //       .catch((e) => {
+  //         console.log(e);
+  //       });
+  //   }
+  // }, [currentUser]);
+
   useEffect(() => {
     if (currentUser) {
       const _id = currentUser.user._id;
-      const serviceMethod =
-        currentUser.user.role === "instructor"
-          ? CourseService.get
-          : CourseService.getEnrolledCourses;
+      let fetchCourses;
 
-      serviceMethod(_id)
+      if (currentUser.user.role === "instructor") {
+        fetchCourses = CourseService.getInstructorCourses;
+      } else {
+        fetchCourses = CourseService.getEnrolledCourses;
+      }
+
+      fetchCourses(_id)
         .then((data) => {
           setCourseData(data);
+          setIsLoading(false);
         })
         .catch((e) => {
           console.log(e);
+          setIsLoading(false);
         });
+    } else {
+      setIsLoading(false);
     }
   }, [currentUser]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
         <div>
-          
-
           <div class="banner-container">
             <div className="w-100">
               <picture>
                 <source
-                  srcset="https://s.udemycdn.com/teaching/billboard-mobile-v3.jpg"
+                  srcSet={postCourseMmbile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"
@@ -82,8 +132,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
                 <img
                   className="w-100 img-fluid"
                   alt="Banner"
-                  src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
-                  s
+                  src={postCourseDesktop}
                   loading="lazy"
                 ></img>
               </picture>
@@ -119,7 +168,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
             <div className="w-100">
               <picture>
                 <source
-                  srcset="https://s.udemycdn.com/teaching/billboard-mobile-v3.jpg"
+                  srcSet={postCourseMmbile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"
@@ -129,7 +178,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
                 <img
                   className="w-100 img-fluid"
                   alt="Banner"
-                  src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
+                  src={postCourseDesktop}
                   s
                   loading="lazy"
                 ></img>
@@ -156,7 +205,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
             <div className="w-100">
               <picture>
                 <source
-                  srcset="https://s.udemycdn.com/teaching/billboard-mobile-v3.jpg"
+                  srcSet={postCourseMmbile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"
@@ -166,8 +215,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
                 <img
                   className="w-100 img-fluid"
                   alt="Banner"
-                  src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
-                  s
+                  src={postCourseDesktop}
                   loading="lazy"
                 ></img>
               </picture>
@@ -191,7 +239,7 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
           {courseData.map((course) => (
             <div
               className="card"
-              style={{ width: "18rem", margin: "1rem" }}
+              style={{ width: "18rem", margin: "0.5rem" }}
               key={course._id}
             >
               <div className="card-body">
@@ -203,10 +251,23 @@ const CourseComponent = ({ currentUser, setCurrentUser }) => {
                 <p style={{ margin: "0.5rem 0rem" }}>
                   學生人數:{course.students.length}
                 </p>
-                <p style={{ margin: "0.5rem 0rem" }}>課程價格:{course.price}</p>
+                <p style={{ margin: "0.5rem 0rem" }}>
+                  課程價格:${course.price}
+                </p>
                 <p style={{ margin: "0.5rem 0rem" }}>
                   講師:{course.instructor.username}
                 </p>
+              </div>
+              <div>
+                {currentUser.user.role === "instructor" && (
+                  <button
+                    id={course._id}
+                    onClick={handleDelete}
+                    className="btn  btn-light rounded-0  "
+                  >
+                    刪除課程
+                  </button>
+                )}
               </div>
             </div>
           ))}

@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 import CourseCardScroller from "./course-cardScroller";
 import CourseImage from "./course-image";
+import bannerImgS from "../assets/bannerimg2-s.jpg";
+import enrollImg from "../assets/enroll-img-v1.jpg";
+import enrollMobile from "../assets/enroll-mobile-v1.png";
+import enrollDesktop from "../assets/enroll-desktop-v1.png";
 
 const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
-  // let { currentUser, setCurrentUser } = props;
-
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState([]);
@@ -30,10 +32,8 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const handleEnroll = (e) => {
     CourseService.enroll(e.target.id)
       .then(() => {
-        showAlert("課程註冊成功!", "將導向到課程頁面。", "elegant", 2000);
-        setTimeout(() => {
-          navigate("/course");
-        }, 500);
+        showAlert("課程註冊成功!", "將導向到課程頁面。", "elegant", 500);
+        navigate("/course");
       })
       .catch((err) => {
         console.log(err);
@@ -43,37 +43,43 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   return (
     <div>
       {!currentUser && (
-        <div className="banner-container">
-          <div className="w-100">
-            <picture>
-              <source
-                srcset="https://img-c.udemycdn.com/notices/web_carousel_slide/image_responsive/940c09d8-5549-4207-8670-693e45b81afd.jpg"
-                width="1340"
-                height="400"
-                media="(max-width: 768px)"
-              ></source>
+        <div className="enroll-container">
+          <div className="d-flex align-items-center justify-content-center flex-column-reverse flex-md-row">
+            <div className=" col-md-5 p-4 mt-4">
+              <h2 className="mb-3">
+                讓職涯
+                <br />
+                邁向新高峰
+              </h2>
+              <p className="mb-4">
+                訂閱存取科技、商業等多個領域中最受好評的課程系列，
+                <br />
+                讓工作與生活都更上一層樓。
+              </p>
+              <button
+                className="btn btn-dark rounded-0 w-50"
+                onClick={handleTakeToLogin}
+              >
+                立即開始
+              </button>
+            </div>
+            <div className="col-md-6">
+              <picture>
+                <source
+                  srcSet={enrollMobile}
+                  width="1340"
+                  height="400"
+                  media="(max-width: 768px)"
+                ></source>
 
-              <img
-                className="img-fluid w-100"
-                alt="Banner"
-                src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/10ca89f6-811b-400e-983b-32c5cd76725a.jpg"
-                loading="lazy"
-              />
-            </picture>
-          </div>
-          <div className="text-container bg-light p-3 ">
-            <h2 className="mb-3">學習能夠讓您</h2>
-            <p className="mb-4">
-              為自己的現在和未來準備好必要技能。
-              <br />
-              和我們一起開始吧。
-            </p>
-            <button
-              className="btn btn-dark rounded-0 w-100"
-              onClick={handleTakeToLogin}
-            >
-              立即開始
-            </button>
+                <img
+                  className="img-fluid w-100"
+                  alt="Banner"
+                  src={enrollDesktop}
+                  loading="lazy"
+                />
+              </picture>
+            </div>
           </div>
         </div>
       )}
@@ -82,18 +88,25 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
         <div class="banner-container">
           <div className="w-100">
             <picture>
+              <source
+                srcSet={bannerImgS}
+                width="1340"
+                height="400"
+                media="(max-width: 768px)"
+              ></source>
+
               <img
+                className="img-fluid w-100"
                 alt="Banner"
-                class="img-fluid w-100"
-                src="https://img-c.udemycdn.com/notices/web_carousel_slide/image/e6cc1a30-2dec-4dc5-b0f2-c5b656909d5b.jpg"
-                // sizes="(max-width: 767px) 100vw, (max-width: 991px) 50vw, 33vw"
+                src={enrollImg}
+                loading="lazy"
               />
             </picture>
           </div>
 
           <div class="text-container bg-light p-4 ms-4">
             <h2 className="mb-3">立即開始學習</h2>
-            <p className="mb-4">學生帳號才能註冊課程 </p>
+            <p className="mb-4">擁有學生帳號，才能註冊課程 </p>
             <button
               className="btn btn-dark rounded-0 w-100 "
               onClick={handleTakeToLogin}
@@ -104,7 +117,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
         </div>
       )}
       {currentUser && currentUser.user.role === "student" && (
-        <div className="container mt-5">
+        <div className="px-5 pt-2 mt-5">
           <div className="search input-group mb-3">
             <input
               onChange={handleChangeInput}
@@ -120,21 +133,29 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
       )}
 
       {!(currentUser && searchResult && searchResult.length !== 0) && (
-        <div className="container">
+        <div className="px-5 py-4 mb-5">
           <h4 className="mt-5">為您推薦</h4>
-          <CourseCardScroller />
+          <CourseCardScroller showAlert={showAlert} currentUser={currentUser} />
         </div>
       )}
 
       {currentUser && searchResult && searchResult.length !== 0 && (
-        <div className="container row mx-auto">
+        <div className=" row mx-auto px-5">
           <p>我們從 API 返回的數據。</p>
           {searchResult.map((course) => (
-            <div key={course._id} className="card" style={{ width: "18rem" }}>
-              <div className="card-body">
+            <div
+              key={course._id}
+              className="card m-1"
+              style={{ width: "18rem" }}
+            >
+              <div className="card-body ">
                 <CourseImage course={course} />
-                <h5 className="card-title">課程名稱:{course.title}</h5>
-                <p className="card-text" style={{ margin: "0.5rem 0rem" }}>
+                <p className="card-title pt-2 text-muted">課程名稱:</p>
+                <h5 className="card-title">{course.title}</h5>
+                <p
+                  className="card-text py-1 text-muted"
+                  style={{ margin: "0.5rem 0rem" }}
+                >
                   {course.description}
                 </p>
                 <p style={{ margin: "0.5rem 0rem" }}>
@@ -144,15 +165,14 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 <p style={{ margin: "0.5rem 0rem" }}>
                   講師:{course.instructor.username}
                 </p>
-                
-                <button
-                  id={course._id}
-                  onClick={handleEnroll}
-                  className="card-text btn btn-primary"
-                >
-                  註冊課程
-                </button>
               </div>
+              <button
+                id={course._id}
+                onClick={handleEnroll}
+                className="btn custom-button btn-primary w-100 mb-3"
+              >
+                註冊課程
+              </button>
             </div>
           ))}
         </div>

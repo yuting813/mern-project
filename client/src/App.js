@@ -51,7 +51,12 @@ function App() {
             />
           }
         >
-          <Route index element={<HomeComponent />} />
+          <Route
+            index
+            element={
+              <HomeComponent showAlert={showAlert} currentUser={currentUser} />
+            }
+          />
           <Route
             path="/register"
             element={<RegisterComponent showAlert={showAlert} />}

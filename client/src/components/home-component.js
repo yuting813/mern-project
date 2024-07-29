@@ -4,7 +4,7 @@ import "../styles/main.css";
 import Banner from "./banner";
 import CourseCardScroller from "./course-cardScroller";
 
-const HomeComponent = () => {
+const HomeComponent = ({ showAlert, currentUser }) => {
   const navigate = useNavigate();
 
   const handleTakeToPostCourse = () => {
@@ -40,8 +40,11 @@ const HomeComponent = () => {
             JavaScript 建立動態網頁有了真正的價值。
           </p>
           <p>探索JavaScript</p>
-          <div className=" " style={{ zIndex: 1350 }}>
-            <CourseCardScroller />
+          <div style={{ zIndex: 1350 }}>
+            <CourseCardScroller
+              showAlert={showAlert}
+              currentUser={currentUser}
+            />
           </div>
         </div>
       </div>

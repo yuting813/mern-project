@@ -20,7 +20,7 @@
   top: 50%;
   left: 7%;
   transform: translateY(-50%);
-  max-width: 31%;
+  max-width: 34%;
   background-color: var(--light-bg-color);
   padding: 1rem;
 }
@@ -42,8 +42,6 @@
   }
 }
 
-
-
 .banner-position {
   position: relative;
 }
@@ -64,4 +62,15 @@
 
 .banner-btn {
   margin-top: 1.6rem;
+}
+
+@media (max-width: 768px) {
+  .enroll-container {
+    max-width: 100%;
+    max-width: 134rem;
+    margin-right: auto;
+    margin-left: auto;
+    flex-direction: row;
+    padding: 0;
+  }
 }

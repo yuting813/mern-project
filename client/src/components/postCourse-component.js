@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
+import postCourseDesktop from "../assets/postCourse-desktop-v1.jpg";
+import postCourseMmbile from "../assets/postCourse-mobile-v2.jpg";
+import planYourCurriculum from "../assets/plan-your-curriculum-v1.jpg";
 
-const PostCourseComponent = (props) => {
-  let { currentUser, setCurrentUser } = props;
+const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
   let [price, setPrice] = useState(0);
@@ -44,8 +46,17 @@ const PostCourseComponent = (props) => {
   const postCourse = () => {
     CourseService.post(title, description, price, image)
       .then(() => {
-        window.alert("新課程已創建成功");
-        navigate("/course");
+        // window.alert("新課程已創建成功");
+        showAlert(
+          "新課程已創建成功!",
+          "您將被導向至個人課程頁面。",
+          "elegant",
+          500
+        );
+
+        setTimeout(() => {
+          navigate("/course");
+        }, 500);
       })
       .catch((error) => {
         console.log(error.response);
@@ -60,7 +71,7 @@ const PostCourseComponent = (props) => {
           <div className="w-100">
             <picture>
               <source
-                srcset="https://s.udemycdn.com/teaching/billboard-mobile-v3.jpg"
+                srcSet={postCourseMmbile}
                 width="650"
                 height="416"
                 media="(max-width: 768px)"
@@ -70,7 +81,7 @@ const PostCourseComponent = (props) => {
               <img
                 className="w-100 img-fluid"
                 alt="Banner"
-                src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
+                src={postCourseDesktop}
                 loading="lazy"
               ></img>
             </picture>
@@ -93,7 +104,7 @@ const PostCourseComponent = (props) => {
           <div class="banner-container">
             <picture>
               <source
-                srcset="https://s.udemycdn.com/teaching/billboard-mobile-v3.jpg"
+                srcSet={postCourseMmbile}
                 width="650"
                 height="416"
                 media="(max-width: 768px)"
@@ -103,7 +114,7 @@ const PostCourseComponent = (props) => {
               <img
                 className="w-100 img-fluid"
                 alt="Banner"
-                src="https://s.udemycdn.com/teaching/billboard-desktop-v4.jpg"
+                src={postCourseDesktop}
                 s
                 loading="lazy"
               ></img>
@@ -127,11 +138,7 @@ const PostCourseComponent = (props) => {
         <div className="container">
           <div className=" row flex-md-row flex-column-reverse">
             <div className="col-md-6">
-              <img
-                src="https://s.udemycdn.com/teaching/plan-your-curriculum-2x-v3.jpg"
-                alt=""
-                className="img-fluid"
-              />
+              <img src={planYourCurriculum} alt="" className="img-fluid" />
             </div>
             <div className="form-group col-md-6 p-4">
               <h2 className="my-4 text-center">建立課程</h2>
@@ -173,7 +180,10 @@ const PostCourseComponent = (props) => {
                 {image && <img src={image} alt="uploaded" />}
               </div>
 
-              <button className="btn btn-primary my-4" onClick={postCourse}>
+              <button
+                className="btn btn-primary my-4 custom-button"
+                onClick={postCourse}
+              >
                 交出表單
               </button>
               <br />

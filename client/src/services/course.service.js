@@ -93,6 +93,13 @@ class CourseService {
       }
     );
   }
+
+  delete(courseId) {
+    const token = getToken();
+    return axios.delete(`${API_URL}/${courseId}`, {
+      headers: { Authorization: token },
+    });
+  }
 }
 
 export default new CourseService();
