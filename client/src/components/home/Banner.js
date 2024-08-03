@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import bgImg from "../assets/bgimg.jpg";
-import bgImgS from "../assets/bgimg-s.jpg";
-import bannerImgS from "../assets/bannerimg2-s.jpg";
-import bannerImg from "../assets/bannerimg2.jpg";
+import bgImg from "../../assets/bgimg.jpg";
+import bgImgS from "../../assets/bgimg-s.jpg";
+import bannerImgS from "../../assets/bannerimg2-s.jpg";
+import bannerImg from "../../assets/bannerimg2.jpg";
 
 const Banner = () => {
   const navigate = useNavigate();
@@ -41,12 +41,6 @@ const Banner = () => {
               <p>
                 我們的講師具備真實世界的知識，能協助您達成目標，課程最低只要$320，只到明天。
               </p>
-              {/* <button
-                className="btn btn-dark rounded-0 w-100"
-                onClick={handleTakeToLogin}
-              >
-                立即開始
-              </button> */}
             </div>
           </div>
 

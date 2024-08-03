@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/components/_course-card.css";
+import "../../styles/components/course-card.css";
 
 const CourseImage = ({ course }) => {
   const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";

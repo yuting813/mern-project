@@ -1,14 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
-import Banner from "./banner";
-import CourseCardScroller from "./course-cardScroller";
+import Banner from "../components/home/Banner.js";
+import CourseCardScroller from "../components/course/CourseCardScroller.js";
 
 const HomeComponent = ({ showAlert, currentUser }) => {
   const navigate = useNavigate();
 
-  const handleTakeToPostCourse = () => {
-    navigate("/postCourse");
+  const handleTakeToCreateCourse = () => {
+    navigate("/CreateCourse");
   };
 
   const handleTakeToEnroll = () => {
@@ -98,7 +98,7 @@ const HomeComponent = ({ showAlert, currentUser }) => {
                 在這,有來自世界各地的講師為各位學習者講授課程。我們為您準備各種工具與技能,助您教授您所熱愛的事物。
               </p>
               <button
-                onClick={handleTakeToPostCourse}
+                onClick={handleTakeToCreateCourse}
                 className="btn btn-lg btn-dark rounded-0"
                 type="button"
               >

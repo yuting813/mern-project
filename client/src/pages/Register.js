@@ -25,7 +25,7 @@ const RegisterComponent = ({ showAlert }) => {
   const handleRegister = async () => {
     try {
       AuthService.register(username, email, password, role);
-      showAlert("註冊成功!", "您將被導向至註冊頁面。", "elegant", 500);
+      showAlert("註冊成功!", "您將被導向至註冊頁面。", "elegant", 1500);
       setTimeout(() => {
         navigate("/login");
       }, 500);

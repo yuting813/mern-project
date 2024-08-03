@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
-import postCourseDesktop from "../assets/postCourse-desktop-v1.jpg";
-import postCourseMmbile from "../assets/postCourse-mobile-v2.jpg";
+import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
+import CreateCourseMmbile from "../assets/CreateCourse-mobile-v2.jpg";
 import planYourCurriculum from "../assets/plan-your-curriculum-v1.jpg";
 
-const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
   let [price, setPrice] = useState(0);
@@ -43,10 +43,9 @@ const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     }
   };
 
-  const postCourse = () => {
+  const CreateCourse = () => {
     CourseService.post(title, description, price, image)
       .then(() => {
-        // window.alert("新課程已創建成功");
         showAlert(
           "新課程已創建成功!",
           "您將被導向至個人課程頁面。",
@@ -71,7 +70,7 @@ const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
           <div className="w-100">
             <picture>
               <source
-                srcSet={postCourseMmbile}
+                srcSet={CreateCourseMmbile}
                 width="650"
                 height="416"
                 media="(max-width: 768px)"
@@ -81,7 +80,7 @@ const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               <img
                 className="w-100 img-fluid"
                 alt="Banner"
-                src={postCourseDesktop}
+                src={CreateCourseDesktop}
                 loading="lazy"
               ></img>
             </picture>
@@ -104,7 +103,7 @@ const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
           <div class="banner-container">
             <picture>
               <source
-                srcSet={postCourseMmbile}
+                srcSet={CreateCourseMmbile}
                 width="650"
                 height="416"
                 media="(max-width: 768px)"
@@ -114,7 +113,7 @@ const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               <img
                 className="w-100 img-fluid"
                 alt="Banner"
-                src={postCourseDesktop}
+                src={CreateCourseDesktop}
                 s
                 loading="lazy"
               ></img>
@@ -182,7 +181,7 @@ const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
 
               <button
                 className="btn btn-primary my-4 custom-button"
-                onClick={postCourse}
+                onClick={CreateCourse}
               >
                 交出表單
               </button>
@@ -201,4 +200,4 @@ const PostCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   );
 };
 
-export default PostCourseComponent;
+export default CreateCourseComponent;

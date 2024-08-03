@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
-import CourseCardScroller from "./course-cardScroller";
-import CourseImage from "./course-image";
+import CourseCardS from "../components/course/CourseCardScroller";
+import CourseImage from "../components/course/CourseImage";
 import bannerImgS from "../assets/bannerimg2-s.jpg";
 import enrollImg from "../assets/enroll-img-v1.jpg";
 import enrollMobile from "../assets/enroll-mobile-v1.png";
@@ -12,6 +12,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState([]);
+  let [message, setMessage] = useState("");
 
   const handleTakeToLogin = () => {
     navigate("/login");
@@ -85,7 +86,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
       )}
 
       {currentUser && currentUser.user.role === "instructor" && (
-        <div class="banner-container">
+        <div className="banner-container">
           <div className="w-100">
             <picture>
               <source
@@ -104,7 +105,7 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
             </picture>
           </div>
 
-          <div class="text-container bg-light p-4 ms-4">
+          <div className="text-container bg-light p-4 ms-4">
             <h2 className="mb-3">立即開始學習</h2>
             <p className="mb-4">擁有學生帳號，才能註冊課程 </p>
             <button
@@ -135,7 +136,11 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
       {!(currentUser && searchResult && searchResult.length !== 0) && (
         <div className="px-5 py-4 mb-5">
           <h4 className="mt-5">為您推薦</h4>
-          <CourseCardScroller showAlert={showAlert} currentUser={currentUser} />
+          <CourseCardS
+            croller
+            showAlert={showAlert}
+            currentUser={currentUser}
+          />
         </div>
       )}
 

@@ -1,15 +1,19 @@
 import React from "react";
+import logo from '../../assets/logo.png';
 
 const Footer = () => {
   return (
     <div className="bg-light py-3 px-5 mt-5">
       <div className="row align-items-center">
         <div className="col-md-6">
-          <img
-            src={require("../assets/logo.png")}
-            alt="Logo"
-            className="footer-logo"
-          />
+          <a className="navbar-brand" href="/">
+            <img
+              src={logo}
+              alt="Logo"
+              className="img-fluid"
+              style={{ maxHeight: "70px" }}
+            />
+          </a>
         </div>
         <div className="col-md-6 text-md-end">
           <p className="mb-0">

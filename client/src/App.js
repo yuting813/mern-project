@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useCallback } from "react";
 import AuthService from "./services/auth.service";
-import Layout from "./components/Layout";
-import HomeComponent from "./components/home-component";
-import RegisterComponent from "./components/register-component";
-import LoginComponent from "./components/login-component";
-import ProfileComponent from "./components/profile-component";
-import CourseComponent from "./components/course-component";
-import PostCourseComponent from "./components/postCourse-component";
-import EnrollComponent from "./components/enroll-component";
-import AlertDemo from "./components/Alert";
+import Layout from "./components/layout/Layout";
+import HomeComponent from "./pages/Home";
+import RegisterComponent from "./pages/Register";
+import LoginComponent from "./pages/Login";
+import ProfileComponent from "./pages/Profile";
+import CourseComponent from "./pages/Course";
+import CreateCourseComponent from "./pages/CreateCourse";
+import EnrollComponent from "./pages/Enroll";
+import Alert from "./components/common/Alert";
 
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
@@ -32,7 +32,7 @@ function App() {
   return (
     <BrowserRouter>
       {alert && (
-        <AlertDemo
+        <Alert
           title={alert.title}
           description={alert.message}
           variant={alert.variant}
@@ -93,9 +93,9 @@ function App() {
           />
 
           <Route
-            path="/postCourse"
+            path="/CreateCourse"
             element={
-              <PostCourseComponent
+              <CreateCourseComponent
                 currentUser={currentUser}
                 setCurrentUser={setCurrentUser}
                 showAlert={showAlert}

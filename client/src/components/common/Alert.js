@@ -1,6 +1,6 @@
 import React from "react";
 
-const AlertDemo = ({ title, description, variant = "default", onClose }) => {
+const Alert = ({ title, description, variant = "default", onClose }) => {
   const baseStyles = "alert alert-dismissible fade show shadow-sm d-flex ";
   const variantStyles = {
     default: "alert-primary bg-light text-primary border-primary",
@@ -47,12 +47,16 @@ const AlertDemo = ({ title, description, variant = "default", onClose }) => {
     }
   };
   const iconStyles = {
-    fontSize: "3rem", // 增加圖標大小
-    marginRight: "1rem", // 增加右側間距
+    fontSize: "3rem",
+    marginRight: "1rem",
     display: "flex",
     alignItems: "center",
     color: "inherit",
   };
+
+  const buttonStyles = getButtonStyles();
+  const isButtonStylesObject = typeof buttonStyles === "object";
+
   return (
     <div style={containerStyles}>
       <div className="row">
@@ -67,11 +71,9 @@ const AlertDemo = ({ title, description, variant = "default", onClose }) => {
             <button
               type="button"
               className={`btn btn-sm ms-2 border-0 ${
-                typeof getButtonStyles() === "string" ? getButtonStyles() : ""
-              } `}
-              style={
-                typeof getButtonStyles() === "object" ? getButtonStyles() : {}
-              }
+                !isButtonStylesObject ? buttonStyles : ""
+              }`}
+              style={isButtonStylesObject ? buttonStyles : {}}
               onClick={onClose}
               aria-label="Close"
             >
@@ -88,4 +90,4 @@ const AlertDemo = ({ title, description, variant = "default", onClose }) => {
   );
 };
 
-export default AlertDemo;
+export default Alert;

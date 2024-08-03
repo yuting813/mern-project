@@ -1,99 +1,13 @@
-@import "components/_banner.css";
-@import "components/_card-scroller.css";
+@import "components/banner.css";
+@import "components/card-scroller.css";
+@import "components/course-card.css";
+@import "components/nav.css";
+@import "components/login.css";
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-.hover-text-primary:hover {
-  color: #5022c3 !important;
-}
-
-.text-color {
-  color: #5022c3;
-}
-
-/* .bg-image {
-  background-image: url("../assets/bgimg.jpg");
-  background-size: cover;
-  background-position: center;
-} */
-
-.nav-position {
-  z-index: 1030;
-  position: relative;
-}
-
-.alert-color {
-  background-color: #eceb98;
-}
-
-.custom-login-link {
-  position: relative;
-  border: 1px solid black;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-}
-
-@media screen and (max-width: 992px) {
-  .custom-login-link {
-    border: none;
-    padding: 0;
-  }
-}
-
-.custom-login-link:hover {
-  background-color: #eceb98;
-}
-
-.custom-register-link {
-  position: relative;
-  border: 1px solid black;
-  background-color: black;
-  color: white;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-}
-
-.custom-register-link:hover {
-  background-color: #615d58;
-}
-
-@media screen and (max-width: 992px) {
-  .custom-register-link {
-    border: none;
-    padding: 0;
-    background-color: transparent;
-    color: inherit;
-  }
-  .custom-register-link:hover {
-    background-color: #eceb98;
-  }
-}
-
-.custom-register-link-sm {
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-}
-.btn-sm {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-  border-radius: 0.2rem;
-}
-
-.custom-image {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  max-width: 500px;
-  max-height: 500px;
-}
-
-.footer-logo {
-  max-width: 100px;
-  height: auto;
 }
 
 .img-small {
@@ -103,100 +17,6 @@
   margin: 0 auto;
 }
 
-/* Input欄位 */
-/* 
-.custom-input-group {
-  position: relative;
-}
-
-.custom-input {
-  padding-top: 20px;
-}
-
-.custom-label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  transition: all 0.2s ease;
-  pointer-events: none;
-}
-
-.custom-input:focus + .custom-label,
-.custom-input:not(:placeholder-shown) + .custom-label {
-  top: 0px;
-  left: 0px;
-  transform: translateY(0) scale(0.8);
-  background-color: white;
-  padding: 0 5px;
-} */
-
-.custom-input-group {
-  position: relative;
-}
-
-.custom-input {
-  padding-top: 20px;
-}
-
-.custom-label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  transition: all 0.2s ease;
-  pointer-events: none;
-}
-
-.custom-input:focus + .custom-label,
-.custom-input:not(:placeholder-shown) + .custom-label {
-  top: 0px;
-  left: 0px;
-  transform: translateY(0) scale(0.8);
-  background-color: none;
-  padding: 0 5px;
-}
-
-.custom-button {
-  background-color: #a435f0;
-  border: 1px solid #ad67f0;
-}
-
-.custom-button:hover {
-  background-color: #661cad;
-  border-color: #661cad;
-}
-
-.tn-text-a {
-  color: #5022c3;
-  font-weight: 700;
-}
-
-//page
-
-.page-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.content-wrap {
-  flex: 1;
-}
-
-.profile-image-container {
-  width: 150px;
-  height: 150px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-.profile-image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.bg-color {
-  background-color: #9169f5;
+.text-color {
+  color: #9169f5;
 }

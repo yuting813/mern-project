@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
-import postCourseDesktop from "../assets/postCourse-desktop-v1.jpg";
-import postCourseMmbile from "../assets/postCourse-mobile-v2.jpg";
+import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
+import CreateCourseMmbile from "../assets/CreateCourse-mobile-v2.jpg";
 
 const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
   const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
@@ -39,8 +39,8 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     navigate("/login");
   };
 
-  const handleTakeToPostCourse = () => {
-    navigate("/postCourse");
+  const handleTakeToCreateCourse = () => {
+    navigate("/CreateCourse");
   };
 
   const handleTakeToEnroll = () => {
@@ -122,7 +122,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
             <div className="w-100">
               <picture>
                 <source
-                  srcSet={postCourseMmbile}
+                  srcSet={CreateCourseMmbile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"
@@ -132,7 +132,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 <img
                   className="w-100 img-fluid"
                   alt="Banner"
-                  src={postCourseDesktop}
+                  src={CreateCourseDesktop}
                   loading="lazy"
                 ></img>
               </picture>
@@ -168,7 +168,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
             <div className="w-100">
               <picture>
                 <source
-                  srcSet={postCourseMmbile}
+                  srcSet={CreateCourseMmbile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"
@@ -178,7 +178,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 <img
                   className="w-100 img-fluid"
                   alt="Banner"
-                  src={postCourseDesktop}
+                  src={CreateCourseDesktop}
                   s
                   loading="lazy"
                 ></img>
@@ -190,7 +190,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               <p className="mb-4">點擊下方，建立課程</p>
               <button
                 className="btn  btn-dark rounded-0 w-100 "
-                onClick={handleTakeToPostCourse}
+                onClick={handleTakeToCreateCourse}
               >
                 立即開始
               </button>
@@ -205,7 +205,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
             <div className="w-100">
               <picture>
                 <source
-                  srcSet={postCourseMmbile}
+                  srcSet={CreateCourseMmbile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"
@@ -215,7 +215,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 <img
                   className="w-100 img-fluid"
                   alt="Banner"
-                  src={postCourseDesktop}
+                  src={CreateCourseDesktop}
                   loading="lazy"
                 ></img>
               </picture>
