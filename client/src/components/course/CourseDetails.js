@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../../services/course.service";
 
-const CourseDetails = ({ course, isLastTwoCards, showAlert, currentUser }) => {
+const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
   const navigate = useNavigate();
 
   const handleEnroll = (e) => {
@@ -35,9 +35,9 @@ const CourseDetails = ({ course, isLastTwoCards, showAlert, currentUser }) => {
       style={{
         width: "17rem",
         zIndex: 1000,
-        ...(isLastTwoCards
-          ? { right: "0", transform: "translateX(-92%)" }
-          : { left: "0", transform: "translateX(-2%)" }),
+        ...(isNearRightEdge
+          ? { right: "0", transform: "translateX(-3%)" }
+          : { left: "0", transform: "translateX(72%)" }),
       }}
     >
       <div className="card-body ">

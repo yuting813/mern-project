@@ -1,101 +1,113 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import CourseService from "../../services/course.service";
 import CourseCard from "./CourseCard";
 import ScrollButton from "./ScrollButton";
+import CourseSkeleton from "./CourseSkeleton";
 import "../../styles/components/course-card.css";
 
 const CourseCardScroller = ({ showAlert, currentUser }) => {
-  const [courseData, setCourseData] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
-  const [visibleCards, setVisibleCards] = useState(5);
+  const [nearRightEdge, setNearRightEdge] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const containerRef = useRef(null);
+  const cardsRef = useRef([]);
 
-  const cardWidth = 250;
+  const checkScrollState = useCallback(() => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const { scrollLeft, scrollWidth, clientWidth } = container;
+    const isAtStart = scrollLeft === 0;
+    const isAtEnd = scrollLeft >= scrollWidth - clientWidth - 1;
 
-  useEffect(() => {
-    CourseService.getAllCourses()
-      .then((response) => {
-        setCourseData(response.data);
+    setShowLeftArrow(!isAtStart);
+    setShowRightArrow(!isAtEnd);
+
+    const threshold = 20;
+    setNearRightEdge(
+      cardsRef.current.map((card) => {
+        if (!card) return false;
+        const cardRect = card.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        return (
+          cardRect.left < containerRect.right &&
+          containerRect.right - cardRect.right < threshold
+        );
       })
-      .catch((error) => {
-        console.error("獲取課程資料失敗:", error);
-      });
-  }, []);
-
-  const updateVisibleCards = () => {
-    const screenWidth = window.innerWidth;
-    if (screenWidth >= 1200) setVisibleCards(5);
-    else if (screenWidth >= 992) setVisibleCards(4);
-    else if (screenWidth >= 768) setVisibleCards(3);
-    else if (screenWidth >= 576) setVisibleCards(2);
-    else setVisibleCards(1);
-  };
-
-  useEffect(() => {
-    updateVisibleCards();
-    window.addEventListener("resize", updateVisibleCards);
-    return () => window.removeEventListener("resize", updateVisibleCards);
-  }, []);
-
-  const scroll = (direction) => {
-    if (!containerRef.current) return;
-    const container = containerRef.current;
-    const scrollDistance = cardWidth * visibleCards;
-    container.scrollBy({
-      left: direction === "right" ? scrollDistance : -scrollDistance,
-      behavior: "smooth",
-    });
-  };
-
-  const handleScroll = () => {
-    if (!containerRef.current) return;
-    const container = containerRef.current;
-    setShowLeftArrow(container.scrollLeft > 0);
-    setShowRightArrow(
-      container.scrollLeft < container.scrollWidth - container.clientWidth
     );
-  };
+  }, [setNearRightEdge]);
+
+  const scroll = useCallback(
+    (direction) => {
+      if (!containerRef.current) return;
+      const container = containerRef.current;
+      const scrollDistance = container.clientWidth;
+      container.scrollBy({
+        left: direction === "right" ? scrollDistance : -scrollDistance,
+        behavior: "smooth",
+      });
+      setTimeout(checkScrollState, 500); // 滾動完成後檢查狀態
+    },
+    [checkScrollState]
+  );
 
   useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await CourseService.getAllCourses();
+        setCourses(response.data);
+        setTimeout(checkScrollState, 0);
+      } catch (error) {
+        console.error("獲取課程資料失敗:", error);
+        setError("獲取課程資料失敗");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCourses();
+
     const container = containerRef.current;
     if (container) {
-      container.addEventListener("scroll", handleScroll);
-      return () => container.removeEventListener("scroll", handleScroll);
+      container.addEventListener("scroll", checkScrollState);
+      window.addEventListener("resize", checkScrollState);
+      return () => {
+        container.removeEventListener("scroll", checkScrollState);
+        window.removeEventListener("resize", checkScrollState);
+      };
     }
-  }, []);
+  }, [checkScrollState]);
+
+  if (isLoading) return <CourseSkeleton />;
+  if (error)
+    return (
+      <div>
+        錯誤: {error}
+        <CourseSkeleton />
+      </div>
+    );
+  if (courses.length === 0) return <div>目前沒有可用的課程</div>;
 
   return (
-    <div className="position-relative">
+    <div className="course-card-scroller">
       <ScrollButton
         direction="left"
         onClick={() => scroll("left")}
         isVisible={showLeftArrow}
       />
-      <div
-        ref={containerRef}
-        className="d-flex overflow-hidden"
-        style={{
-          width: `${cardWidth * visibleCards}px`,
-          scrollSnapType: "x mandatory",
-        }}
-      >
-        {courseData.map((course, index) => (
-          <div
+      <div ref={containerRef} className="course-card-grid">
+        {courses.map((course, index) => (
+          <CourseCard
             key={course._id}
-            style={{
-              scrollSnapAlign: "start",
-              width: `${cardWidth}px`,
-              flexShrink: 0,
-            }}
-          >
-            <CourseCard
-              course={course}
-              isLastTwoCards={index % visibleCards >= visibleCards - 2}
-              showAlert={showAlert}
-              currentUser={currentUser}
-            />
-          </div>
+            ref={(el) => (cardsRef.current[index] = el)}
+            course={course}
+            showAlert={showAlert}
+            currentUser={currentUser}
+            isNearRightEdge={nearRightEdge[index]}
+          />
         ))}
       </div>
       <ScrollButton

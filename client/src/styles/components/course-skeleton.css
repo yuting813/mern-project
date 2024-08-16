@@ -1,0 +1,36 @@
+.skeleton-course-card-scroller {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 2.1rem;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+/* 中等螢幕：2列 */
+@media screen and (min-width: 37.56rem) {
+  .skeleton-course-card-scroller {
+    grid-auto-columns: calc((100% - 1.6rem) / 2);
+  }
+}
+
+/* 大螢幕：3列 */
+@media screen and (min-width: 43.81rem) {
+  .skeleton-course-card-scroller {
+    grid-auto-columns: calc((100% - 3.2rem) / 3);
+  }
+}
+
+/* 特大螢幕：4列 */
+@media screen and (min-width: 61.31rem) {
+  .skeleton-course-card-scroller {
+    grid-auto-columns: calc((100% - 4.8rem) / 4);
+  }
+}
+
+/* 超大螢幕：5列 */
+@media screen and (min-width: 75.06rem) {
+  .skeleton-course-card-scroller {
+    grid-auto-columns: calc((100% - 10.5rem) / 5);
+  }
+}

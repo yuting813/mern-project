@@ -39,8 +39,8 @@ const HomeComponent = ({ showAlert, currentUser }) => {
             可用於判斷網站訪客是用電腦還是行動裝置，再決定是否提供行動版網頁。正是幕後這一件件小事，讓使用
             JavaScript 建立動態網頁有了真正的價值。
           </p>
-          <p>探索JavaScript</p>
-          <div style={{ zIndex: 1350 }}>
+
+          <div style={{ zIndex: 10 }}>
             <CourseCardScroller
               showAlert={showAlert}
               currentUser={currentUser}

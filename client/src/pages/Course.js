@@ -239,7 +239,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
           {courseData.map((course) => (
             <div
               className="card"
-              style={{ width: "18rem", margin: "0.5rem" }}
+              style={{ width: "16rem", margin: "0.5rem" }}
               key={course._id}
             >
               <div className="card-body">

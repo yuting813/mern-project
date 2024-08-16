@@ -1,19 +1,15 @@
-
-
 .image-hover:hover .course-imager {
   opacity: 0.6;
   transition: 0.3s ease;
-  
 }
 
 .course-details-wrapper {
   position: absolute;
   top: 0;
-  left: 100%;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.1s ease, visibility 0.3s ease;
-  transition-delay: 0.1s;
+  transition: opacity 0s ease, visibility 0s ease;
+  transition-delay: 0s;
 }
 
 .course-details-wrapper.show {
@@ -24,4 +20,61 @@
 .course-details {
   position: relative;
   left: 0;
+}
+
+.course-card-scroller {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.course-card-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 2.1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.course-card-grid::-webkit-scrollbar {
+  display: none; /* WebKit */
+}
+
+.course-card-grid > * {
+  scroll-snap-align: start;
+}
+
+/* 預設為小螢幕設置 */
+.course-card-grid {
+  grid-auto-columns: 100%;
+}
+
+/* 中等螢幕：2列 */
+@media screen and (min-width: 37.56rem) {
+  .course-card-grid {
+    grid-auto-columns: calc((100% - 1.6rem) / 2);
+  }
+}
+
+/* 大螢幕：3列 */
+@media screen and (min-width: 43.81rem) {
+  .course-card-grid {
+    grid-auto-columns: calc((100% - 3.2rem) / 3);
+  }
+}
+
+/* 特大螢幕：4列 */
+@media screen and (min-width: 61.31rem) {
+  .course-card-grid {
+    grid-auto-columns: calc((100% - 4.8rem) / 4);
+  }
+}
+
+/* 超大螢幕：5列 */
+@media screen and (min-width: 75.06rem) {
+  .course-card-grid {
+    grid-auto-columns: calc((100% - 10.5rem) / 5);
+  }
 }
