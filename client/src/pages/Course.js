@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
+import CourseSkeleton from "../components/course/CourseSkeleton";
 import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
 import CreateCourseMmbile from "../assets/CreateCourse-mobile-v2.jpg";
 
@@ -64,27 +65,6 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     const _id = currentUser.user._id;
-  //     let fetchCourses;
-
-  //     if (currentUser.user.role === "instructor") {
-  //       fetchCourses = CourseService.getInstructorCourses;
-  //     } else {
-  //       fetchCourses = CourseService.getEnrolledCourses;
-  //     }
-
-  //     fetchCourses(_id)
-  //       .then((data) => {
-  //         setCourseData(data);
-  //       })
-  //       .catch((e) => {
-  //         console.log(e);
-  //       });
-  //   }
-  // }, [currentUser]);
-
   useEffect(() => {
     if (currentUser) {
       const _id = currentUser.user._id;
@@ -111,7 +91,21 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   }, [currentUser]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        {currentUser && (
+          <div>
+            <h1>
+              歡迎來到{currentUser.user.role === "instructor" ? "講師" : "學生"}
+              的課程頁面
+            </h1>
+          </div>
+        )}
+        <div>
+          <CourseSkeleton />
+        </div>
+      </div>
+    );
   }
 
   return (

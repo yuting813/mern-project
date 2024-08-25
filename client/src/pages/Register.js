@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
-import "../styles/main.css";
 
 const RegisterComponent = ({ showAlert }) => {
   const navigate = useNavigate();
@@ -10,7 +9,7 @@ const RegisterComponent = ({ showAlert }) => {
     email: "",
     password: "",
     role: "",
-    terms: false
+    terms: false,
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -18,26 +17,30 @@ const RegisterComponent = ({ showAlert }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const validateForm = () => {
     let tempErrors = {};
     if (!formData.username) tempErrors.username = "用戶名稱為必填";
-    else if (formData.username.length < 3) tempErrors.username = "用戶名稱至少需要3個字符";
-    
+    else if (formData.username.length < 3)
+      tempErrors.username = "用戶名稱至少需要3個字符";
+
     if (!formData.email) tempErrors.email = "電子郵件為必填";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) tempErrors.email = "請輸入有效的電子郵件地址";
-    
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      tempErrors.email = "請輸入有效的電子郵件地址";
+
     if (!formData.password) tempErrors.password = "密碼為必填";
-    else if (formData.password.length < 8) tempErrors.password = "密碼至少需要8個字符";
-    else if (passwordStrength(formData.password) < 3) tempErrors.password = "密碼強度不足";
-    
+    else if (formData.password.length < 8)
+      tempErrors.password = "密碼至少需要8個字符";
+    else if (passwordStrength(formData.password) < 3)
+      tempErrors.password = "密碼強度不足";
+
     if (!formData.role) tempErrors.role = "請選擇身份";
-    
+
     if (!formData.terms) tempErrors.terms = "您必須同意條款才能註冊";
 
     setErrors(tempErrors);
@@ -60,7 +63,12 @@ const RegisterComponent = ({ showAlert }) => {
       setIsLoading(true);
       setServerError("");
       try {
-        await AuthService.register(formData.username, formData.email, formData.password, formData.role);
+        await AuthService.register(
+          formData.username,
+          formData.email,
+          formData.password,
+          formData.role
+        );
         showAlert("註冊成功!", "您將被導向至登入頁面。", "elegant", 1500);
         setTimeout(() => {
           navigate("/login");
@@ -94,13 +102,17 @@ const RegisterComponent = ({ showAlert }) => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className={`form-control custom-input ${errors.username ? "is-invalid" : ""}`}
+              className={`form-control custom-input ${
+                errors.username ? "is-invalid" : ""
+              }`}
               placeholder=" "
             />
             <label htmlFor="username" className="custom-label">
               <span>用戶名稱</span>
             </label>
-            {errors.username && <div className="invalid-feedback">{errors.username}</div>}
+            {errors.username && (
+              <div className="invalid-feedback">{errors.username}</div>
+            )}
           </div>
 
           <div className="form-group custom-input-group mb-3">
@@ -109,13 +121,17 @@ const RegisterComponent = ({ showAlert }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`form-control custom-input ${errors.email ? "is-invalid" : ""}`}
+              className={`form-control custom-input ${
+                errors.email ? "is-invalid" : ""
+              }`}
               placeholder=" "
             />
             <label htmlFor="email" className="custom-label">
               <span>電子郵件</span>
             </label>
-            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+            {errors.email && (
+              <div className="invalid-feedback">{errors.email}</div>
+            )}
           </div>
 
           <div className="form-group custom-input-group mb-3">
@@ -124,16 +140,25 @@ const RegisterComponent = ({ showAlert }) => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className={`form-control custom-input ${errors.password ? "is-invalid" : ""}`}
+              className={`form-control custom-input ${
+                errors.password ? "is-invalid" : ""
+              }`}
               placeholder=" "
             />
             <label htmlFor="password" className="custom-label">
               <span>密碼</span>
             </label>
-            {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+            {errors.password && (
+              <div className="invalid-feedback">{errors.password}</div>
+            )}
             {formData.password && (
               <div className="password-strength mt-2">
-                密碼強度: {["很弱", "弱", "中等", "強", "很強"][passwordStrength(formData.password) - 1]}
+                密碼強度:{" "}
+                {
+                  ["弱", "普通", "中等", "強", "很強"][
+                    passwordStrength(formData.password) - 1
+                  ]
+                }
               </div>
             )}
           </div>
@@ -152,7 +177,9 @@ const RegisterComponent = ({ showAlert }) => {
               <option value="student">學生</option>
               <option value="instructor">講師</option>
             </select>
-            {errors.role && <div className="invalid-feedback">{errors.role}</div>}
+            {errors.role && (
+              <div className="invalid-feedback">{errors.role}</div>
+            )}
           </div>
 
           <div className="form-check mb-3">
@@ -167,7 +194,9 @@ const RegisterComponent = ({ showAlert }) => {
             <label className="form-check-label small" htmlFor="termsCheck">
               我同意接收特別優惠、個人化建議與學習秘訣。
             </label>
-            {errors.terms && <div className="text-danger small">{errors.terms}</div>}
+            {errors.terms && (
+              <div className="text-danger small">{errors.terms}</div>
+            )}
           </div>
 
           <button

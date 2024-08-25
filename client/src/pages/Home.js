@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import Banner from "../components/home/Banner.js";
-import CourseCardScroller from "../components/course/CourseCardScroller.js";
+import CourseBanner from "../components/course/CourseBanner.js";
 
 const HomeComponent = ({ showAlert, currentUser }) => {
   const navigate = useNavigate();
@@ -17,36 +17,14 @@ const HomeComponent = ({ showAlert, currentUser }) => {
 
   return (
     <main>
-      <Banner />
-
-      <div className="p-4">
-        <div>
-          <h2>
-            {" "}
-            <strong>廣泛的課程選擇 </strong>
-          </h2>
-
-          <p>超過2100個線上影片課程與每個月發佈的新增內容，任您選擇</p>
-        </div>
-        <div className="p-3 " style={{ border: "1px solid #ccc" }}>
-          <h3>
-            <strong>讓 JavaScript 增強您的軟體開發技能</strong>
-          </h3>
-          <p>
-            JavaScript
-            是地球上數一數二常見的程式語言，絕大部分是因為它撐起了互動式網頁應用程序。不僅如此，JavaScript
-            也是很適合初學者的程式語言，因為所寫出的程式碼能讓他們看見視覺成果。對初出茅廬的程式設計師來說，這無非是令人振奮且助益良多的事。動態內容是當今網頁開發的熱門話題。動態內容指的是會盡可能因應特定使用者而不斷改變、調整的內容。舉例來說，JavaScript
-            可用於判斷網站訪客是用電腦還是行動裝置，再決定是否提供行動版網頁。正是幕後這一件件小事，讓使用
-            JavaScript 建立動態網頁有了真正的價值。
-          </p>
-
-          <div style={{ zIndex: 10 }}>
-            <CourseCardScroller
-              showAlert={showAlert}
-              currentUser={currentUser}
-            />
-          </div>
-        </div>
+      <div>
+        <Banner />
+      </div>
+      <div>
+        <CourseBanner 
+         showAlert={showAlert}
+         currentUser={currentUser}
+        />
       </div>
 
       <div className="container py-5">
@@ -63,13 +41,13 @@ const HomeComponent = ({ showAlert, currentUser }) => {
                 <li>本網站僅供練習之用</li>
               </ul>
 
-              <button
-                onClick={handleTakeToEnroll}
+              <a
+                href="/enroll"
                 className="btn btn-lg btn-dark rounded-0"
-                type="button"
+                onClick={handleTakeToEnroll}
               >
                 瞭解更多
-              </button>
+              </a>
             </div>
           </div>
           <div className="col-md-6">
@@ -97,13 +75,13 @@ const HomeComponent = ({ showAlert, currentUser }) => {
               <p>
                 在這,有來自世界各地的講師為各位學習者講授課程。我們為您準備各種工具與技能,助您教授您所熱愛的事物。
               </p>
-              <button
-                onClick={handleTakeToCreateCourse}
+              <a
+                href="/createcourse"
                 className="btn btn-lg btn-dark rounded-0"
-                type="button"
+                onClick={handleTakeToCreateCourse}
               >
                 立即開始教學
-              </button>
+              </a>
             </div>
           </div>
         </div>

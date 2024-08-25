@@ -17,10 +17,6 @@
   visibility: visible;
 }
 
-.course-details {
-  position: relative;
-  left: 0;
-}
 
 .course-card-scroller {
   position: relative;
@@ -43,12 +39,20 @@
 }
 
 .course-card-grid > * {
-  scroll-snap-align: start;
+  scroll-snap-align: center;
 }
 
 /* 預設為小螢幕設置 */
 .course-card-grid {
-  grid-auto-columns: 100%;
+}
+
+@media screen and (max-width: 36rem) {
+  .course-card-grid > * {
+    /* scroll-snap-align: center; */
+    grid-auto-columns: 100%;
+    scroll-snap-align: center;
+    margin: 3.8 rem;
+  }
 }
 
 /* 中等螢幕：2列 */

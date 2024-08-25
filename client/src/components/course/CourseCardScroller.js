@@ -3,7 +3,6 @@ import CourseService from "../../services/course.service";
 import CourseCard from "./CourseCard";
 import ScrollButton from "./ScrollButton";
 import CourseSkeleton from "./CourseSkeleton";
-import "../../styles/components/course-card.css";
 
 const CourseCardScroller = ({ showAlert, currentUser }) => {
   const [courses, setCourses] = useState([]);
@@ -39,6 +38,7 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
       })
     );
   }, [setNearRightEdge]);
+  
 
   const scroll = useCallback(
     (direction) => {
@@ -69,7 +69,7 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
     };
 
     fetchCourses();
-
+ 
     const container = containerRef.current;
     if (container) {
       container.addEventListener("scroll", checkScrollState);

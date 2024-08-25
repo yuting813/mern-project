@@ -169,7 +169,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               />
               <br />
 
-              <div>
+              <div className="mb-2">
                 <p>課程封面:</p>
                 <input
                   type="file"
@@ -179,19 +179,19 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 {image && <img src={image} alt="uploaded" />}
               </div>
 
+              {message && (
+                <div className="alert alert-warning mt-4" role="alert">
+                  {message}
+                </div>
+              )}
+
+              <br />
               <button
-                className="btn btn-primary my-4 custom-button"
+                className="btn btn-primary custom-button"
                 onClick={CreateCourse}
               >
                 交出表單
               </button>
-              <br />
-              <br />
-              {message && (
-                <div className="alert alert-warning" role="alert">
-                  {message}
-                </div>
-              )}
             </div>
           </div>
         </div>

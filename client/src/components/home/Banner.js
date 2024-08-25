@@ -67,12 +67,13 @@ const Banner = () => {
                 <p>
                   科技與工作型態與時俱進，但有了我們幫助，您的進步將是突飛猛進。取得所需技能，實現您的目標並保持競爭力。
                 </p>
-                <button
+                <a
                   className="btn btn-dark rounded-0 w-100"
                   onClick={handleTakeToLogin}
+                  href="/login"
                 >
                   立即開始
-                </button>
+                </a>
               </div>
             </div>
           </div>

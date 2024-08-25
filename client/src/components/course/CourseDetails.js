@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../../services/course.service";
 
+
 const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
   const navigate = useNavigate();
 
@@ -31,15 +32,16 @@ const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
 
   return (
     <div
-      className="card position-absolute"
+      className="card position-absolute "
       style={{
         width: "17rem",
-        zIndex: 1000,
+        zIndex: 1500,
         ...(isNearRightEdge
           ? { right: "0", transform: "translateX(-3%)" }
-          : { left: "0", transform: "translateX(72%)" }),
+          : { left: "0", transform: "translateX(73%)" }),
       }}
     >
+     
       <div className="card-body ">
         <h6 className="card-title fw-bold">{course.title}</h6>
         <p className="card-text text-muted">{course.description}</p>
