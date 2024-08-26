@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
-import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
-import CreateCourseMmbile from "../assets/CreateCourse-mobile-v2.jpg";
+import createCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
+import createCourseMobile from "../assets/CreateCourse-mobile-v2.jpg";
 import planYourCurriculum from "../assets/plan-your-curriculum-v1.jpg";
 
 const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
@@ -22,7 +22,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
   };
-  const handleChangeDesciption = (e) => {
+  const handleChangeDescription = (e) => {
     setDescription(e.target.value);
   };
   const handleChangePrice = (e) => {
@@ -43,7 +43,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     }
   };
 
-  const CreateCourse = () => {
+  const createCourse = () => {
     CourseService.post(title, description, price, image)
       .then(() => {
         showAlert(
@@ -66,11 +66,11 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   return (
     <div>
       {!currentUser && (
-        <div class="banner-container">
+        <div className="banner-container">
           <div className="w-100">
             <picture>
               <source
-                srcSet={CreateCourseMmbile}
+                srcSet={createCourseMobile}
                 width="650"
                 height="416"
                 media="(max-width: 768px)"
@@ -80,13 +80,13 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               <img
                 className="w-100 img-fluid"
                 alt="Banner"
-                src={CreateCourseDesktop}
+                src={createCourseDesktop}
                 loading="lazy"
               ></img>
             </picture>
           </div>
 
-          <div class="text-container bg-light p-4 mx-5">
+          <div className="text-container bg-light p-4 mx-5">
             <h2 className="mb-3 ">與我們一起教學</h2>
             <p className="mb-4">成為講師，改變您與他人的人生</p>
             <button
@@ -100,10 +100,10 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
       )}
       {currentUser && currentUser.user.role !== "instructor" && (
         <div>
-          <div class="banner-container">
+          <div className="banner-container">
             <picture>
               <source
-                srcSet={CreateCourseMmbile}
+                srcSet={createCourseMobile}
                 width="650"
                 height="416"
                 media="(max-width: 768px)"
@@ -113,13 +113,12 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               <img
                 className="w-100 img-fluid"
                 alt="Banner"
-                src={CreateCourseDesktop}
-                s
+                src={createCourseDesktop}
                 loading="lazy"
               ></img>
             </picture>
 
-            <div class="text-container bg-light">
+            <div className="text-container bg-light">
               <h2 className="mb-3 ">只有講師能發布新課程</h2>
               <p className="mb-4 ">成為講師，改變您與他人的人生</p>
               <button
@@ -133,7 +132,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
         </div>
       )}
 
-      {currentUser && currentUser.user.role == "instructor" && (
+      {currentUser && currentUser.user.role === "instructor" && (
         <div className="container">
           <div className=" row flex-md-row flex-column-reverse">
             <div className="col-md-6">
@@ -156,7 +155,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 id="exampleforContent"
                 aria-describedby="emailHelp"
                 name="content"
-                onChange={handleChangeDesciption}
+                onChange={handleChangeDescription}
               />
               <br />
               <label for="exampleforPrice">價格：</label>
@@ -188,7 +187,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               <br />
               <button
                 className="btn btn-primary custom-button"
-                onClick={CreateCourse}
+                onClick={createCourse}
               >
                 交出表單
               </button>

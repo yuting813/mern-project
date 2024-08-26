@@ -16,11 +16,7 @@ const CourseImage = ({ course }) => {
       src={imgSrc}
       alt="課程圖片"
       onError={handleImageError}
-      className="card-img-top"
-      style={{
-        height: "auto",
-        objectFit: "cover",
-      }}
+      className="card-img-top card-img-size img-fluid mb-2"
     />
   );
 };

@@ -10,7 +10,6 @@ const CourseCard = forwardRef(
       <div
         ref={ref}
         className="me-3 p-2 position-relative image-hover mb-4"
-        style={{ width: "13.5rem", flexShrink: 0 }}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
