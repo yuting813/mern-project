@@ -10,6 +10,7 @@ import CourseComponent from "./pages/Course";
 import CreateCourseComponent from "./pages/CreateCourse";
 import EnrollComponent from "./pages/Enroll";
 import Alert from "./components/common/Alert";
+import ErrorBoundary from "./components/common/ErrorBoundary";
 
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <ErrorBoundary>
       {alert && (
         <Alert
           title={alert.title}
@@ -59,7 +61,11 @@ function App() {
           />
           <Route
             path="/register"
-            element={<RegisterComponent showAlert={showAlert} />}
+            element={
+              <ErrorBoundary>
+                <RegisterComponent showAlert={showAlert} />
+              </ErrorBoundary>
+            }
           />
           <Route
             path="/login"
@@ -115,6 +121,7 @@ function App() {
           />
         </Route>
       </Routes>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 }

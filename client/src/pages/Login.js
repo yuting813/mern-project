@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
+import Login from "../assets/login.webp";
 
 const LoginComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
@@ -63,11 +64,7 @@ const LoginComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   return (
     <div className="container d-flex  flex-column-reverse flex-md-row mt-md-5">
       <div className="col-md-6 mb-4 mb-md-0">
-        <img
-          src={require("../assets/login.webp")}
-          alt="loginImg"
-          className="img-fluid"
-        />
+        <img src={Login} alt="loginImg" className="img-fluid" />
       </div>
 
       <div className="col-md-5 col-sm-8 offset-md-1 mt-md-4 ">

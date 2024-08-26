@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import Banner from "../components/home/Banner.js";
 import CourseBanner from "../components/course/CourseBanner.js";
+import Instructor from "../assets/instructor.jpg"
+import Student from "../assets/student.jpg"
+
 
 const HomeComponent = ({ showAlert, currentUser }) => {
   const navigate = useNavigate();
@@ -52,7 +55,7 @@ const HomeComponent = ({ showAlert, currentUser }) => {
           </div>
           <div className="col-md-6">
             <img
-              src={require("../assets/student.jpg")}
+              src={Student}
               alt="學習示意圖"
               className="img-fluid img-small"
             />
@@ -62,7 +65,7 @@ const HomeComponent = ({ showAlert, currentUser }) => {
         <div className="row align-items-md-center">
           <div className="col-md-6">
             <img
-              src={require("../assets/instructor.jpg")}
+              src={Instructor}
               alt="instructor"
               className="img-fluid img-small"
             />
