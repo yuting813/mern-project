@@ -27,7 +27,7 @@ const Alert = ({ title, description, variant = "default", onClose }) => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    zIndex: 1050,
+    zIndex: 2050,
     maxWidth: "90%",
     width: "400px",
   };
