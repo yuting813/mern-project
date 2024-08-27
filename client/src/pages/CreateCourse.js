@@ -140,7 +140,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
             </div>
             <div className="form-group col-md-6 p-4">
               <h2 className="my-4 text-center">建立課程</h2>
-              <label for="exampleforTitle">課程標題：</label>
+              <label htmlFor="exampleforTitle">課程標題：</label>
               <input
                 name="title"
                 type="text"
@@ -149,7 +149,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 onChange={handleChangeTitle}
               />
               <br />
-              <label for="exampleforContent">內容：</label>
+              <label htmlFor="exampleforContent">內容：</label>
               <textarea
                 className="form-control"
                 id="exampleforContent"
@@ -158,7 +158,7 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 onChange={handleChangeDescription}
               />
               <br />
-              <label for="exampleforPrice">價格：</label>
+              <label htmlFor="exampleforPrice">價格：</label>
               <input
                 name="price"
                 type="number"
