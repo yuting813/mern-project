@@ -15,8 +15,6 @@ const port = process.env.PORT || 8080;
 
 // 連結MongoDB
 mongoose
-  // .connect("mongodb://localhost:27017/mernDB")
-  // .connect("mongodb://127.0.0.1:27017/mernDB")
   .connect(process.env.MONGODB_CONNECTION)
   .then(() => {
     console.log("連結到mongodb...");
@@ -29,7 +27,6 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(express.static(path.join(__dirname, "/client/build")));
 // 提供靜態檔案服務
 app.use(express.static(path.join(__dirname, "build")));
 
@@ -43,12 +40,17 @@ app.use("/api/courses", courseRoute);
 
 if (process.env.NODE_ENV === "production") {
   //*Set static folder up in production
-  app.use(express.static("client/build"));
+  console.log("Running in production mode");
+  app.use(express.static(path.join(__dirname, "client", "build")));
 
-  // app.get('*', (req,res) => res.sendFile(path.resolve(__dirname, 'client', 'build','index.html')));
-  app.get("*", (req, res) =>
-    res.sendFile(path.join(__dirname, "build", "index.html"))
-  );
+  app.use((req, res, next) => {
+    console.log(`Received request for: ${req.method} ${req.url}`);
+    next();
+  });
+  app.get("*", (req, res) => {
+    console.log(`Received request for: ${req.url}`);
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
 }
 
 app.listen(port, () => {

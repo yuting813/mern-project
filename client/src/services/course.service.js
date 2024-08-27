@@ -9,7 +9,6 @@ function getToken() {
 
 function handleError(error) {
   console.error("發生錯誤:", error);
-  // 可以在這裡添加更多的錯誤處理邏輯
 }
 
 class CourseService {
@@ -61,21 +60,6 @@ class CourseService {
     });
   }
 
-
-  // async getCourseByName(keyword) {
-  //   const token = getToken();
-  //   try {
-  //     const response = await axios.get(`${API_URL}`, {
-  //       params: { keyword },
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     });
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Error fetching courses:', error);
-  //     throw error;
-  //   }
-  // }
-
   getAllCourses() {
     const token = getToken();
     return axios.get(API_URL, {
@@ -102,4 +86,5 @@ class CourseService {
   }
 }
 
-export default new CourseService();
+const courseService = new CourseService();
+export default courseService;

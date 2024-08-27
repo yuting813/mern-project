@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 import CourseCardS from "../components/course/CourseCardScroller";
@@ -12,7 +12,6 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState([]);
-  let [message, setMessage] = useState("");
 
   const handleTakeToLogin = () => {
     navigate("/login");

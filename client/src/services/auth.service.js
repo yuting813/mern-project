@@ -1,11 +1,6 @@
 import axios from "axios";
 
-
-const API_URL =`${process.env.REACT_APP_API_BASE_URL}/api/user`;
-
-
-// 跟登入有關的服務物件
-
+const API_URL = `${process.env.REACT_APP_API_BASE_URL}/api/user`;
 class AuthService {
   login(email, password) {
     return axios.post(`${API_URL}/login`, {
@@ -30,4 +25,5 @@ class AuthService {
   }
 }
 
-export default new AuthService();
+const authService = new AuthService();
+export default authService;
