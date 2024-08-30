@@ -112,7 +112,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     <div style={{ padding: "3rem" }}>
       {!currentUser && (
         <div>
-          <div class="banner-container">
+          <div className="banner-container">
             <div className="w-100">
               <picture>
                 <source
@@ -132,7 +132,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               </picture>
             </div>
 
-            <div class="text-container bg-light p-4  mx-5 d-flex align-items-cente flex-column">
+            <div className="text-container bg-light p-4  mx-5 d-flex align-items-cente flex-column">
               <h3 className="mb-3 ">必須要先登入才能看到課程。</h3>
               {/* <p className="mb-4">點擊下方，建立課程</p> */}
               <button
@@ -158,7 +158,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
       {currentUser &&
         currentUser.user.role === "instructor" &&
         courseData.length === 0 && (
-          <div class="banner-container">
+          <div className="banner-container">
             <div className="w-100">
               <picture>
                 <source
@@ -179,7 +179,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               </picture>
             </div>
 
-            <div class="text-container bg-light p-4 mx-5">
+            <div className="text-container bg-light p-4 mx-5">
               <h2 className="mb-3 ">尚未上傳課程</h2>
               <p className="mb-4">點擊下方，建立課程</p>
               <button
@@ -195,7 +195,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
       {currentUser &&
         currentUser.user.role === "student" &&
         courseData.length === 0 && (
-          <div class="banner-container">
+          <div className="banner-container">
             <div className="w-100">
               <picture>
                 <source
@@ -215,7 +215,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               </picture>
             </div>
 
-            <div class="text-container bg-light p-4 mx-5">
+            <div className="text-container bg-light p-4 mx-5">
               <h2 className="mb-3 ">尚未註冊課程</h2>
               <p className="mb-4">點擊下方，開始學習</p>
               <button

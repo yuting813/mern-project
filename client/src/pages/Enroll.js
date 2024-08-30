@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 import CourseCardS from "../components/course/CourseCardScroller";
@@ -12,23 +12,39 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState([]);
+  let [searchError, setSearchError] = useState("");
 
   const handleTakeToLogin = () => {
     navigate("/login");
   };
   const handleChangeInput = (e) => {
     setSearchInput(e.target.value);
+    setSearchError("");
   };
+
   const handleSearch = () => {
+    if (!searchInput.trim()) {
+      setSearchError("請輸入搜索關鍵字");
+      return;
+    }
+
     CourseService.getCourseByName(searchInput)
       .then((data) => {
         console.log(data);
-        setSearchResult(data.data);
+        if (data.data && data.data.length > 0) {
+          setSearchResult(data.data);
+          setSearchError("");
+        } else {
+          setSearchResult([]);
+          setSearchError("未搜尋到此課程");
+        }
       })
       .catch((err) => {
         console.log(err);
+        setSearchError("搜索過程中出現錯誤，請稍後再試");
       });
   };
+
   const handleEnroll = (e) => {
     CourseService.enroll(e.target.id)
       .then(() => {
@@ -117,18 +133,22 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
         </div>
       )}
       {currentUser && currentUser.user.role === "student" && (
-        <div className="px-5 pt-2 mt-5">
-          <div className="search input-group mb-3">
+        <div className="px-5 pt-2 mt-5   d-flex flex-column  justify-content-center align-items-center ">
+          <div className="search input-group mb-3 w-50 border">
             <input
               onChange={handleChangeInput}
               type="text"
               className="form-control"
-              placeholder="搜尋任何事物"
+              placeholder="搜尋課程"
             />
-            <button onClick={handleSearch} className="btn btn-primary">
+            <button
+              onClick={handleSearch}
+              className="btn btn-primary custom-button"
+            >
               Search
             </button>
           </div>
+          {searchError && <span className="text-danger">{searchError}</span>}
         </div>
       )}
 
@@ -145,12 +165,12 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
 
       {currentUser && searchResult && searchResult.length !== 0 && (
         <div className=" row mx-auto px-5">
-          <p>我們從 API 返回的數據。</p>
+          <h5 className="m-2">搜尋到以下課程 :</h5>
           {searchResult.map((course) => (
             <div
               key={course._id}
               className="card m-1"
-              style={{ width: "18rem" }}
+              style={{ width: "16.5rem" }}
             >
               <div className="card-body ">
                 <CourseImage course={course} />
