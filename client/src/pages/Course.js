@@ -65,6 +65,28 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     }
   };
 
+  const handleDrop = (e) => {
+    const courseId = e.target.id;
+    if (window.confirm("確定要退選這個課程嗎？")) {
+      CourseService.dropCourse(courseId)
+        .then(() => {
+          showAlert(
+            "已退選課程",
+            "課程已成功從您的列表中移除。",
+            "elegant",
+            1000
+          );
+          setCourseData((prevData) =>
+            prevData.filter((course) => course._id !== courseId)
+          );
+        })
+        .catch((err) => {
+          console.error("退選課程時發生錯誤:", err);
+          showAlert("退選課程失敗", "請稍後再試。", "error", 1000);
+        });
+    }
+  };
+
   useEffect(() => {
     if (currentUser) {
       const _id = currentUser.user._id;
@@ -253,13 +275,21 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 </p>
               </div>
               <div>
-                {currentUser.user.role === "instructor" && (
+                {currentUser.user.role === "instructor" ? (
                   <button
                     id={course._id}
                     onClick={handleDelete}
                     className="btn  btn-light rounded-0  "
                   >
                     刪除課程
+                  </button>
+                ) : (
+                  <button
+                    id={course._id}
+                    onClick={handleDrop}
+                    className="btn btn-light rounded-0"
+                  >
+                    退選課程
                   </button>
                 )}
               </div>

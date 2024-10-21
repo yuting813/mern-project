@@ -1,31 +1,35 @@
-// import mongoose, { Schema as _Schema, model } from "mongoose";
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const courseSchema = new Schema({
-  id: { type: String },
   title: {
     type: String,
     required: true,
   },
   description: {
     type: String,
+    required: true,
   },
   price: {
     type: Number,
     required: true,
   },
   instructor: {
-    type: Schema.Types.ObjectId, //primary key
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
-  students: {
-    type: [String],
-    default: [],
-  },
+  students: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }],
   image: {
-    type: String,
-    required: false,
+    type: String,  // URL to the image
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  }
 });
+
 module.exports = mongoose.model("Course", courseSchema);

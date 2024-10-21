@@ -5,58 +5,63 @@ const bcrypt = require("bcrypt");
 const userSchema = new Schema({
   username: {
     type: String,
-    require: true,
+    required: true,
     minlength: 3,
     maxlength: 50,
   },
   email: {
     type: String,
-    require: true,
+    required: true,
     minlength: 6,
     maxlength: 50,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
   role: {
     type: String,
     enum: ["student", "instructor"],
-    require: true,
+    required: true,
   },
-  data: {
+  date: {
     type: Date,
     default: Date.now,
   },
+  courses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+    },
+  ],
 });
 
-// instance method
+// instance methods
 userSchema.methods.isStudent = function () {
-  return this.role == "student";
+  return this.role === "student";
 };
 
 userSchema.methods.isInstructor = function () {
-  return this.role == "instructor";
+  return this.role === "instructor";
 };
 
-userSchema.methods.comparePasssword = async function (password, cb) {
-  let result;
+userSchema.methods.comparePassword = async function (password) {
   try {
-    result = await bcrypt.compare(password, this.password);
-    return cb(null, result);
+    return await bcrypt.compare(password, this.password);
   } catch (e) {
-    return cb(e, result);
+    throw new Error("比對密碼時發生錯誤: " + e.message);
   }
 };
 
-// mongoose middlewares
-// 若使用者為新用戶或正在更改密碼，則將密碼進行雜湊處理
+// mongoose middleware
 userSchema.pre("save", async function (next) {
-  // this 代表mongoDB內的document
   if (this.isNew || this.isModified("password")) {
-    // 將密碼進行雜湊處理
-    const hashValue = await bcrypt.hash(this.password, 10);
-    this.password = hashValue;
+    try {
+      const hashValue = await bcrypt.hash(this.password, 10);
+      this.password = hashValue;
+    } catch (e) {
+      return next(new Error("密碼加密時發生錯誤: " + e.message));
+    }
   }
   next();
 });

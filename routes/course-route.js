@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const Course = require("../models").course;
+const User = require("../models").user;
 const courseValidation = require("../validation").courseValidation;
 
 router.use((req, res, next) => {
@@ -223,6 +224,52 @@ router.delete(
       }
     } catch (e) {
       return res.status(500).send(e);
+    }
+  }
+);
+
+// 新增：學生退選課程
+router.post(
+  "/drop/:_id",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    let { _id } = req.params;
+    try {
+      let course = await Course.findById(_id);
+      if (!course) {
+        return res.status(404).json({ message: "找不到課程" });
+      }
+
+      let student = await User.findById(req.user._id);
+      if (!student) {
+        return res.status(404).json({ message: "找不到學生資料" });
+      }
+
+      // 檢查學生是否已經註冊這門課程~
+      const studentIndex = course.students.indexOf(req.user._id);
+      if (studentIndex === -1) {
+        return res.status(400).json({ message: "您尚未註冊這門課程" });
+      }
+
+      // 從課程的學生列表中移除該學生
+      // course.students.pull(req.user._id);
+      course.students = course.students.filter(
+        (id) => !id.equals(req.user._id)
+      );
+      await course.save();
+
+      // 從學生的課程列表中移除該課程
+      // student.courses.pull(_id);
+      student.courses = student.courses.filter((id) => !id.equals(course._id));
+
+      await student.save();
+
+      return res.status(200).json({ message: "成功退選課程" });
+    } catch (e) {
+      console.error("退選課程時發生錯誤:", e);
+      return res
+        .status(500)
+        .json({ message: "退選課程時發生錯誤", error: e.message });
     }
   }
 );

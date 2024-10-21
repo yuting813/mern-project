@@ -84,6 +84,31 @@ class CourseService {
       headers: { Authorization: token },
     });
   }
+
+  async dropCourse(courseId) {
+    const token = getToken();
+    try {
+      const response = await axios.post(
+        `${API_URL}/drop/${courseId}`,
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        // 服務器回應了錯誤狀態碼
+        throw new Error(error.response.data.message || "退選課程失敗");
+      } else if (error.request) {
+        // 請求已發出，但沒有收到回應
+        throw new Error("無法連接到服務器");
+      } else {
+        // 在設置請求時發生了錯誤
+        throw new Error("發生錯誤: " + error.message);
+      }
+    }
+  }
 }
 
 const courseService = new CourseService();
