@@ -109,6 +109,24 @@ class CourseService {
       }
     }
   }
+
+  // 更新課程方法
+  update(courseId, updatedData) {
+    const token = getToken();
+    return axios
+      .patch(`${API_URL}/${courseId}`, updatedData, {
+        headers: { Authorization: token },
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        if (error.response) {
+          throw new Error(error.response.data);
+        }
+        throw new Error("更新課程時發生錯誤");
+      });
+  }
 }
 
 const courseService = new CourseService();

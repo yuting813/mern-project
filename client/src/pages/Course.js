@@ -4,6 +4,7 @@ import CourseService from "../services/course.service";
 import CourseSkeleton from "../components/course/CourseSkeleton";
 import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
 import CreateCourseMmbile from "../assets/CreateCourse-mobile-v2.jpg";
+import EditCourseModal from "../components/EditCourseModal";
 
 const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
   const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
@@ -35,6 +36,7 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [editingCourse, setEditingCourse] = useState(null);
 
   const handleTakeToLogin = () => {
     navigate("/login");
@@ -85,6 +87,71 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
           showAlert("退選課程失敗", "請稍後再試。", "error", 1000);
         });
     }
+  };
+
+  const handleEdit = (course) => {
+    // 確保只有課程的講師才能編輯
+    if (course.instructor._id !== currentUser.user._id) {
+      showAlert("權限錯誤", "只有課程講師才能編輯課程", "error", 1500);
+      return;
+    }
+    setEditingCourse(course);
+  };
+
+  const handleUpdate = async (courseId, updatedData) => {
+    try {
+      const response = await CourseService.update(courseId, updatedData);
+      // 更新本地課程數據
+      setCourseData((prevData) =>
+        prevData.map((course) =>
+          course._id === courseId
+            ? { ...course, ...updatedData, instructor: course.instructor }
+            : course
+        )
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  // 修改課程卡片中的編輯按鈕渲染邏輯
+  const renderCourseActions = (course) => {
+    if (
+      currentUser.user.role === "instructor" &&
+      course.instructor._id === currentUser.user._id
+    ) {
+      return (
+        <div className="d-flex gap-2 justify-content-center">
+          <button
+            onClick={() => handleEdit(course)}
+            className="btn btn-outline-primary rounded-0"
+          >
+            編輯課程
+          </button>
+          <button
+            id={course._id}
+            onClick={handleDelete}
+            className="btn btn-outline-danger rounded-0"
+          >
+            刪除課程
+          </button>
+        </div>
+      );
+    } else if (currentUser.user.role === "student") {
+      return (
+        <div className="d-flex justify-content-center">
+          <button
+            id={course._id}
+            onClick={handleDrop}
+            className="btn btn-outline-danger rounded-0"
+          >
+            退選課程
+          </button>
+        </div>
+      );
+    }
+    return null;
   };
 
   useEffect(() => {
@@ -274,28 +341,19 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                   講師:{course.instructor.username}
                 </p>
               </div>
-              <div>
-                {currentUser.user.role === "instructor" ? (
-                  <button
-                    id={course._id}
-                    onClick={handleDelete}
-                    className="btn  btn-light rounded-0  "
-                  >
-                    刪除課程
-                  </button>
-                ) : (
-                  <button
-                    id={course._id}
-                    onClick={handleDrop}
-                    className="btn btn-light rounded-0"
-                  >
-                    退選課程
-                  </button>
-                )}
-              </div>
+              <div className="card-footer">{renderCourseActions(course)}</div>
             </div>
           ))}
         </div>
+      )}
+
+      {editingCourse && (
+        <EditCourseModal
+          course={editingCourse}
+          onClose={() => setEditingCourse(null)}
+          onUpdate={handleUpdate}
+          showAlert={showAlert}
+        />
       )}
     </div>
   );

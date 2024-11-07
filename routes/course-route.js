@@ -186,7 +186,7 @@ router.patch(
           new: true,
           runValidators: true,
         });
-        return res.send({
+        return res.status(200).json({
           message: "課程已經被更新成功",
           updatedCourse,
         });
@@ -194,7 +194,8 @@ router.patch(
         return res.status(403).send("只有此課程的講師才能編輯課程。");
       }
     } catch (e) {
-      return res.status(500).send(e);
+      console.error("更新課程時發生錯誤:", e);
+      return res.status(500).send("更新課程時發生錯誤");
     }
   }
 );

@@ -8,7 +8,7 @@ import bannerImg from "../../assets/bannerimg2.jpg";
 const Banner = () => {
   const navigate = useNavigate();
   const handleTakeToLogin = () => {
-    navigate("/enroll");
+    navigate("/profile");
   };
 
   return (
@@ -70,7 +70,7 @@ const Banner = () => {
                 <a
                   className="btn btn-dark rounded-0 w-100"
                   onClick={handleTakeToLogin}
-                  href="/login"
+                  href="/enroll"
                 >
                   立即開始
                 </a>
