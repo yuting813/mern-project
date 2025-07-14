@@ -3,7 +3,7 @@ import profileImgV3 from "../assets/profile-v3.jpg";
 import profileImgV2 from "../assets/profile-v2.jpg";
 import profileImgV1 from "../assets/profile-v1.jpg";
 
-const ProfileComponent = ({ currentUser, setCurrentUser }) => {
+const ProfilePage = ({ currentUser, setCurrentUser }) => {
   return (
     <div className="page-container  content-wrap p-5 ">
       {!currentUser && (
@@ -86,4 +86,4 @@ const ProfileComponent = ({ currentUser, setCurrentUser }) => {
   );
 };
 
-export default ProfileComponent;
+export default ProfilePage;

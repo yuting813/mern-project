@@ -2,15 +2,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useCallback } from "react";
 import AuthService from "./services/auth.service";
 import Layout from "./components/layout/Layout";
-import HomeComponent from "./pages/Home";
-import RegisterComponent from "./pages/Register";
-import LoginComponent from "./pages/Login";
-import ProfileComponent from "./pages/Profile";
-import CourseComponent from "./pages/Course";
-import CreateCourseComponent from "./pages/CreateCourse";
-import EnrollComponent from "./pages/Enroll";
 import Alert from "./components/common/Alert";
 import ErrorBoundary from "./components/common/ErrorBoundary";
+
+
+import HomePage from "./pages/HomePage";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
+import CoursePage from "./pages/CoursePage";
+import CreateCoursePage from "./pages/CreateCoursePage";
+import EnrollPage from "./pages/EnrollPage";
+
 
 function App() {
   let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
@@ -41,89 +44,87 @@ function App() {
             onClose={closeAlert}
           />
         )}
-
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Layout
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-                showAlert={showAlert}
+       
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Layout
+                  currentUser={currentUser}
+                  setCurrentUser={setCurrentUser}
+                  showAlert={showAlert}
+                />
+              }
+            >
+              <Route
+                index
+                element={
+                  <HomePage showAlert={showAlert} currentUser={currentUser} />
+                }
               />
-            }
-          >
-            <Route
-              index
-              element={
-                <HomeComponent
-                  showAlert={showAlert}
-                  currentUser={currentUser}
-                />
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <ErrorBoundary>
-                  <RegisterComponent showAlert={showAlert} />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <LoginComponent
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  showAlert={showAlert}
-                />
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProfileComponent
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  showAlert={showAlert}
-                />
-              }
-            />
-            <Route
-              path="/course"
-              element={
-                <CourseComponent
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  showAlert={showAlert}
-                />
-              }
-            />
+              <Route
+                path="/register"
+                element={
+                  <ErrorBoundary>
+                    <RegisterPage showAlert={showAlert} />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <LoginPage
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                    showAlert={showAlert}
+                  />
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProfilePage
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                    showAlert={showAlert}
+                  />
+                }
+              />
+              <Route
+                path="/course"
+                element={
+                  <CoursePage
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                    showAlert={showAlert}
+                  />
+                }
+              />
 
-            <Route
-              path="/createcourse"
-              element={
-                <CreateCourseComponent
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  showAlert={showAlert}
-                />
-              }
-            />
+              <Route
+                path="/createcourse"
+                element={
+                  <CreateCoursePage
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                    showAlert={showAlert}
+                  />
+                }
+              />
 
-            <Route
-              path="/enroll"
-              element={
-                <EnrollComponent
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  showAlert={showAlert}
-                />
-              }
-            />
-          </Route>
-        </Routes>
+              <Route
+                path="/enroll"
+                element={
+                  <EnrollPage
+                    currentUser={currentUser}
+                    setCurrentUser={setCurrentUser}
+                    showAlert={showAlert}
+                  />
+                }
+              />
+            </Route>
+          </Routes>
+     
       </ErrorBoundary>
     </BrowserRouter>
   );

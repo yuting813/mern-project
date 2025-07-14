@@ -7,7 +7,7 @@ import Instructor from "../assets/instructor.jpg"
 import Student from "../assets/student.jpg"
 
 
-const HomeComponent = ({ showAlert, currentUser }) => {
+const HomePage = ({ showAlert, currentUser }) => {
   const navigate = useNavigate();
 
   const handleTakeToCreateCourse = () => {
@@ -93,4 +93,4 @@ const HomeComponent = ({ showAlert, currentUser }) => {
   );
 };
 
-export default HomeComponent;
+export default HomePage;

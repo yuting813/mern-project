@@ -4,7 +4,7 @@ import CourseService from "../services/course.service";
 import CourseSkeleton from "../components/course/CourseSkeleton";
 import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
 import CreateCourseMmbile from "../assets/CreateCourse-mobile-v2.jpg";
-import EditCourseModal from "../components/EditCourseModal";
+import EditCourseModal from "../components/course/EditCourseModal.jsx";
 
 const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
   const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
@@ -32,7 +32,7 @@ const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
   );
 };
 
-const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -358,4 +358,4 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     </div>
   );
 };
-export default CourseComponent;
+export default CoursePage;
