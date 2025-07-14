@@ -1,9 +1,26 @@
+import React, { useState, useCallback, lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState, useCallback } from "react";
 import AuthService from "./services/auth.service";
 import Layout from "./components/layout/Layout";
 import Alert from "./components/common/Alert";
 import ErrorBoundary from "./components/common/ErrorBoundary";
+import ErrorFallback from "./components/common/ErrorFallback";
+import PageLoader from "./components/common/PageLoader";
+
+// Dev-only pages
+import DevOnlyPage from "./pages/DevOnlyPage";
+import ErrorListPage from "./pages/ErrorListPage";
+
+// 首頁同步載入
+import HomePage from "./pages/HomePage";
+
+// lazy 非首頁頁面
+const CoursePage = lazy(() => import("./pages/CoursePage"));
+const EnrollPage = lazy(() => import("./pages/EnrollPage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage"));
+const CreateCoursePage = lazy(() => import("./pages/CreateCoursePage"));
 
 
 import HomePage from "./pages/HomePage";
@@ -16,18 +33,13 @@ import EnrollPage from "./pages/EnrollPage";
 
 
 function App() {
-  let [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
-  let [alert, setAlert] = useState(null);
+  const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
+  const [alert, setAlert] = useState(null);
 
-  const closeAlert = useCallback(() => {
-    setAlert(null);
-  }, []);
-
+  const closeAlert = useCallback(() => setAlert(null), []);
   const showAlert = useCallback(
     (title, message, variant = "default", duration = 1000) => {
       setAlert({ title, message, variant });
-
-      // Set a timer to automatically close the alert
       setTimeout(closeAlert, duration);
     },
     [closeAlert]
@@ -44,87 +56,84 @@ function App() {
             onClose={closeAlert}
           />
         )}
-       
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Layout
-                  currentUser={currentUser}
-                  setCurrentUser={setCurrentUser}
-                  showAlert={showAlert}
-                />
-              }
-            >
-              <Route
-                index
-                element={
-                  <HomePage showAlert={showAlert} currentUser={currentUser} />
-                }
+
+        <Routes>
+          {/* DevOnly 區 */}
+          <Route
+            path="/dev-only"
+            element={
+              <ErrorBoundary fallback={<ErrorFallback />}>
+                <DevOnlyPage />
+              </ErrorBoundary>
+            }
+          />
+          <Route
+            path="/error-list"
+            element={
+              <ErrorBoundary fallback={<ErrorFallback />}>
+                <ErrorListPage />
+              </ErrorBoundary>
+            }
+          />
+
+          <Route
+            path="/"
+            element={
+              <Layout
+                currentUser={currentUser}
+                setCurrentUser={setCurrentUser}
+                showAlert={showAlert}
               />
+            }
+          >
+            <Route
+              index
+              element={
+                <HomePage showAlert={showAlert} currentUser={currentUser} />
+              }
+            />
+            {[
+              { path: "register", Page: RegisterPage, props: { showAlert } },
+              {
+                path: "login",
+                Page: LoginPage,
+                props: { currentUser, setCurrentUser, showAlert },
+              },
+              {
+                path: "profile",
+                Page: ProfilePage,
+                props: { currentUser, setCurrentUser, showAlert },
+              },
+              {
+                path: "course",
+                Page: CoursePage,
+                props: { currentUser, setCurrentUser, showAlert },
+              },
+              {
+                path: "createcourse",
+                Page: CreateCoursePage,
+                props: { currentUser, setCurrentUser, showAlert },
+              },
+              {
+                path: "enroll",
+                Page: EnrollPage,
+                props: { currentUser, setCurrentUser, showAlert },
+              },
+            ].map(({ path, Page, props }) => (
               <Route
-                path="/register"
+                key={path}
+                path={path}
                 element={
-                  <ErrorBoundary>
-                    <RegisterPage showAlert={showAlert} />
+                  <ErrorBoundary fallback={<ErrorFallback />}>
+                    <Suspense fallback={<PageLoader />}>
+                      <Page {...props} />
+                    </Suspense>
                   </ErrorBoundary>
                 }
               />
-              <Route
-                path="/login"
-                element={
-                  <LoginPage
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    showAlert={showAlert}
-                  />
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProfilePage
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    showAlert={showAlert}
-                  />
-                }
-              />
-              <Route
-                path="/course"
-                element={
-                  <CoursePage
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    showAlert={showAlert}
-                  />
-                }
-              />
-
-              <Route
-                path="/createcourse"
-                element={
-                  <CreateCoursePage
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    showAlert={showAlert}
-                  />
-                }
-              />
-
-              <Route
-                path="/enroll"
-                element={
-                  <EnrollPage
-                    currentUser={currentUser}
-                    setCurrentUser={setCurrentUser}
-                    showAlert={showAlert}
-                  />
-                }
-              />
-            </Route>
-          </Routes>
-     
+            ))}
+          </Route>
+        </Routes>
       </ErrorBoundary>
     </BrowserRouter>
   );
