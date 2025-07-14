@@ -8,7 +8,7 @@ import enrollImg from "../assets/enroll-img-v1.jpg";
 import enrollMobile from "../assets/enroll-mobile-v1.png";
 import enrollDesktop from "../assets/enroll-desktop-v1.png";
 
-const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+const EnrollPage = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   let [searchInput, setSearchInput] = useState("");
   let [searchResult, setSearchResult] = useState([]);
@@ -205,4 +205,4 @@ const EnrollComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   );
 };
 
-export default EnrollComponent;
+export default EnrollPage;

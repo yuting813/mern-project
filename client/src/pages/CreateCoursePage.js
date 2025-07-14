@@ -5,7 +5,7 @@ import createCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
 import createCourseMobile from "../assets/CreateCourse-mobile-v2.jpg";
 import planYourCurriculum from "../assets/plan-your-curriculum-v1.jpg";
 
-const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+const CreateCoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
   let [price, setPrice] = useState(0);
@@ -199,4 +199,4 @@ const CreateCourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   );
 };
 
-export default CreateCourseComponent;
+export default CreateCoursePage;

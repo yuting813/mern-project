@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import Login from "../assets/login.webp";
 
-const LoginComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   let [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
@@ -140,4 +140,4 @@ const LoginComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   );
 };
 
-export default LoginComponent;
+export default LoginPage;

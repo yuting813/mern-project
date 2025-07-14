@@ -32,7 +32,7 @@ const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
   );
 };
 
-const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -358,4 +358,4 @@ const CourseComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     </div>
   );
 };
-export default CourseComponent;
+export default CoursePage;

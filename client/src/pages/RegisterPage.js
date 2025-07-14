@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import Register from "../assets/register.webp";
 
-const RegisterComponent = ({ showAlert }) => {
+const RegisterPage = ({ showAlert }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -229,4 +229,4 @@ const RegisterComponent = ({ showAlert }) => {
   );
 };
 
-export default RegisterComponent;
+export default RegisterPage;
