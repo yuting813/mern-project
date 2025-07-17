@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
 import CourseSkeleton from "../components/course/CourseSkeleton";
 import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
-import CreateCourseMmbile from "../assets/CreateCourse-mobile-v2.jpg";
+import CreateCourseMobile from "../assets/CreateCourse-mobile-v2.jpg";
 import EditCourseModal from "../components/course/EditCourseModal.jsx";
 
 const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
@@ -61,7 +61,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
           );
         })
         .catch((err) => {
-          console.error("刪除課程時發生錯誤:", err);
+          console.error("刪除課程失敗:", err.message);
           showAlert("課程擁有者才能刪除課程", "請稍後再試。", "error", 1000);
         });
     }
@@ -69,7 +69,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
 
   const handleDrop = (e) => {
     const courseId = e.target.id;
-    if (window.confirm("確定要退選這個課程嗎？")) {
+     if (window.confirm("確定要退選這個課程嗎？")) {
       CourseService.dropCourse(courseId)
         .then(() => {
           showAlert(
@@ -83,15 +83,18 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
           );
         })
         .catch((err) => {
-          console.error("退選課程時發生錯誤:", err);
+          console.error("退選課程時發生錯誤:", err.message);
           showAlert("退選課程失敗", "請稍後再試。", "error", 1000);
         });
     }
   };
 
   const handleEdit = (course) => {
-    // 確保只有課程的講師才能編輯
-    if (course.instructor._id !== currentUser.user._id) {
+    // 防止資料不完整時發生錯誤
+    if (
+      !course.instructor ||
+      course.instructor._id !== currentUser?.user?._id
+    ) {
       showAlert("權限錯誤", "只有課程講師才能編輯課程", "error", 1500);
       return;
     }
@@ -205,7 +208,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
             <div className="w-100">
               <picture>
                 <source
-                  srcSet={CreateCourseMmbile}
+                  srcSet={CreateCourseMobile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"
@@ -251,7 +254,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
             <div className="w-100">
               <picture>
                 <source
-                  srcSet={CreateCourseMmbile}
+                  srcSet={CreateCourseMobile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"
@@ -262,7 +265,6 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
                   className="w-100 img-fluid"
                   alt="Banner"
                   src={CreateCourseDesktop}
-                  s
                   loading="lazy"
                 ></img>
               </picture>
@@ -288,7 +290,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
             <div className="w-100">
               <picture>
                 <source
-                  srcSet={CreateCourseMmbile}
+                  srcSet={CreateCourseMobile}
                   width="650"
                   height="416"
                   media="(max-width: 768px)"

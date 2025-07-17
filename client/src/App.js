@@ -22,16 +22,6 @@ const LoginPage = lazy(() => import("./pages/LoginPage"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const CreateCoursePage = lazy(() => import("./pages/CreateCoursePage"));
 
-
-import HomePage from "./pages/HomePage";
-import RegisterPage from "./pages/RegisterPage";
-import LoginPage from "./pages/LoginPage";
-import ProfilePage from "./pages/ProfilePage";
-import CoursePage from "./pages/CoursePage";
-import CreateCoursePage from "./pages/CreateCoursePage";
-import EnrollPage from "./pages/EnrollPage";
-
-
 function App() {
   const [currentUser, setCurrentUser] = useState(AuthService.getCurrentUser());
   const [alert, setAlert] = useState(null);
