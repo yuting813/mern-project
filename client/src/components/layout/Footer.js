@@ -19,7 +19,7 @@ const Footer = () => {
           <p className="mb-0">
             本網站僅供練習之用,請勿提供任何個人資料,例如信用卡號碼。
           </p>
-          <p className="mb-0">&copy; 2024 Tina Hu</p>
+          <p className="mb-0">&copy; 2025 Tina Hu</p>
         </div>
       </div>
     </div>
