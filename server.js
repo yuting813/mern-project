@@ -1,58 +1,78 @@
+require("dotenv").config();
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-dotenv.config();
+const passport = require("passport");
+const cors = require("cors");
+const path = require("path");
+
 const authRoute = require("./routes").auth;
 const courseRoute = require("./routes").course;
-const passport = require("passport");
 require("./config/passport")(passport);
-const cors = require("cors");
-app.use(cors());
 
-const path = require("path");
+const app = express();
 const port = process.env.PORT || 8080;
 
-// 連結MongoDB
-mongoose
-  .connect(process.env.MONGODB_CONNECTION)
-  .then(() => {
-    console.log("連結到mongodb...");
-  })
-  .catch((e) => {
-    console.log("e");
-  });
-
-// middlewares
+// ======================
+// Middleware 設定
+// ======================
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 提供靜態檔案服務
-app.use(express.static(path.join(__dirname, "build")));
+// ===========================
+//  MongoDB 資料庫連線
+// ===========================
+mongoose
+  .connect(process.env.MONGODB_CONNECTION, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("成功連接到 MongoDB");
 
+    // 連線成功後啟動伺服器
+    app.listen(port, () => {
+      console.log(` Server is running on port ${port}`);
+    });
+  })
+  .catch((e) => {
+    console.error("無法連接 MongoDB：", e);
+  });
+
+// ======================
+//  API 路由註冊
+// ======================
 app.use("/api/user", authRoute);
-
 app.use("/api/courses", courseRoute);
 
-// 為Node.js 伺服器應用程式中設定一個萬用路由處理器。
-// 確保在生產環境(production)或暫存環境(staging)中,
-// 所有不符合路由規則的 URL都被對應到React應用程式建置後的index.html檔案。
-
+// ==========================
+// 前端靜態檔案處理（Production）
+// ==========================
 if (process.env.NODE_ENV === "production") {
-  //*Set static folder up in production
   console.log("Running in production mode");
-  app.use(express.static(path.join(__dirname, "client", "build")));
+  const staticPath = path.join(__dirname, "client", "build");
+  app.use(express.static(staticPath));
 
-  app.use((req, res, next) => {
-    console.log(`Received request for: ${req.method} ${req.url}`);
-    next();
-  });
+  // fallback route：支援 React Router client-side routing
   app.get("*", (req, res) => {
-    console.log(`Received request for: ${req.url}`);
-    // res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.join(staticPath, "index.html"));
   });
 }
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// ===========================
+// 全域錯誤處理 middleware（未來可擴充）
+// ===========================
+app.use((err, req, res, next) => {
+  console.error("錯誤處理中：", err.stack);
+  res.status(500).json({ message: "伺服器內部錯誤" });
 });
+
+// 找不到路由時回應 404）
+app.use((req, res) => {
+  res.status(404).json({ message: "找不到該路由" });
+});
+
+// debug用
+if (process.env.NODE_ENV !== "production") {
+  console.log("✅ MongoDB URI 使用中：", process.env.MONGODB_CONNECTION);
+}
