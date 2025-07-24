@@ -10,7 +10,9 @@
     "client": "npm start --prefix client",
     "clientinstall": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-     "render-postbuild": "npm install --prefix client && npm run build --prefix client && mkdir -p build && cp -r client/build/* build/"
+    "server:debug": "nodemon --inspect server.js",
+    "dev:debug": "concurrently \"npm run server:debug\" \"npm run client\"",
+    "render-postbuild": "npm install --prefix client && npm run build --prefix client && mkdir -p build && cp -r client/build/* build/"
   },
   "author": "",
   "license": "ISC",
@@ -39,6 +41,6 @@
     "url": "^0.11.3"
   },
   "engines": {
-     "node": ">=18.12.0"
+    "node": ">=18.12.0"
   }
 }

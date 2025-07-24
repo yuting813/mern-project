@@ -1,27 +1,44 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Launch via NPM",
-            "request": "launch",
-            "runtimeArgs": [
-                "run",
-                "dev"
-            ],
-            "runtimeExecutable": "npm",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "node"
-        }
-       
-    ],
-    "debug.javascript.terminalOptions": {
-        "skipFiles": [
-          "<node_internals>/**"
-        ]
-      },
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // 後端除錯
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Backend (Node)",
+      "program": "${workspaceFolder}/server.js",
+      "runtimeExecutable": "nodemon",
+      "runtimeArgs": ["--inspect"],
+      "skipFiles": ["<node_internals>/**"],
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    {
+      // CRA 前端啟動
+      "type": "node",
+      "request": "launch",
+      "name": "Start Frontend (CRA)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start"],
+      "cwd": "${workspaceFolder}/client",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      // CLI 模式（npm run dev）
+      "type": "node",
+      "request": "launch",
+      "name": "Full Stack via npm run dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack (Backend + CRA)",
+      "configurations": ["Debug Backend (Node)", "Start Frontend (CRA)"]
+    }
+  ]
 }
