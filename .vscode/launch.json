@@ -33,6 +33,16 @@
       "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}",
       "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      // 整合 debug 模式
+      "type": "node",
+      "request": "launch",
+      "name": "Full Stack Debug Mode",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:debug"],
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**"]
     }
   ],
   "compounds": [
