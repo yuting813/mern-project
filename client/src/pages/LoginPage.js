@@ -54,7 +54,13 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
           navigate("/profile");
         }, 500);
       } catch (e) {
-        setMessage(e.response.data);
+        const fallbackMsg = "登入失敗，請稍後再試";
+        if (e.response && e.response.data) {
+          const serverMsg = e.response.data.message || e.response.data;
+          setMessage(typeof serverMsg === "string" ? serverMsg : fallbackMsg);
+        } else {
+          setMessage(fallbackMsg);
+        }
       } finally {
         setIsLoading(false);
       }

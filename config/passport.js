@@ -12,8 +12,12 @@ module.exports = (passport) => {
     new JwtStrategy(opts, async function (jwt_payload, done) {
       console.log(jwt_payload);
       try {
-        let foundUser = await User.findOne({ _id: jwt_payload._id }).exec();
+        let foundUser = await User.findOne({ _id: jwt_payload._id })
+          .select("-password") // 不回傳密碼欄位
+          .exec();
         if (foundUser) {
+          // 從 payload 補上 role，避免再次查詢
+          foundUser.role = jwt_payload.role;
           return done(null, foundUser); //req,user <= foundUser
         } else {
           return done(null, false);
@@ -24,5 +28,3 @@ module.exports = (passport) => {
     })
   );
 };
-
-// passport被執行後會自動套入passport套件
