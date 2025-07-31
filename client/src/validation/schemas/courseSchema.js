@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const courseSchema = Joi.object({
   title: Joi.string().min(6).max(50).required(),
@@ -7,4 +7,4 @@ const courseSchema = Joi.object({
   image: Joi.string().allow("", null),
 });
 
-module.exports = courseSchema;
+export default courseSchema;

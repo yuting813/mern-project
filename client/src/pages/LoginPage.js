@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import Login from "../assets/login.webp";
+import loginSchema from "../validation/schemas/loginSchema";
+import { validateWithSchema } from "../utils/validationUtils";
 
 const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
@@ -22,18 +24,24 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
     }));
   };
 
+  // const validateForm = () => {
+  //   let tempErrors = {};
+  //   if (!formData.email) tempErrors.email = "電子郵件為必填";
+  //   else if (!/\S+@\S+\.\S+/.test(formData.email))
+  //     tempErrors.email = "請輸入有效的電子郵件地址";
+  //   if (!formData.password) tempErrors.password = "密碼為必填";
+  //   else if (formData.password.length < 8)
+  //     tempErrors.password = "密碼長度至少為8個字符";
+
+  //   setErrors(tempErrors);
+
+  //   return Object.keys(tempErrors).length === 0;
+  // };
+
   const validateForm = () => {
-    let tempErrors = {};
-    if (!formData.email) tempErrors.email = "電子郵件為必填";
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
-      tempErrors.email = "請輸入有效的電子郵件地址";
-    if (!formData.password) tempErrors.password = "密碼為必填";
-    else if (formData.password.length < 8)
-      tempErrors.password = "密碼長度至少為8個字符";
-
-    setErrors(tempErrors);
-
-    return Object.keys(tempErrors).length === 0;
+    const { isValid, errors } = validateWithSchema(loginSchema, formData);
+    setErrors(errors);
+    return isValid;
   };
 
   const handleLogin = async (e) => {

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import Register from "../assets/register.webp";
+import  registerSchema  from "../validation/schemas/registerSchema";
+import { validateWithSchema } from "../utils/validationUtils";
 
 const RegisterPage = ({ showAlert }) => {
   const navigate = useNavigate();
@@ -24,28 +26,24 @@ const RegisterPage = ({ showAlert }) => {
     }));
   };
 
+  // const validateForm = () => {
+  //   const { error } = registerSchema.validate(formData, { abortEarly: false });
+  //   if (!error) {
+  //     setErrors({});
+  //     return true;
+  //   }
+
+  //   const formattedErrors = {};
+  //   error.details.forEach((detail) => {
+  //     formattedErrors[detail.path[0]] = detail.message;
+  //   });
+  //   setErrors(formattedErrors);
+  //   return false;
+  // };
   const validateForm = () => {
-    let tempErrors = {};
-    if (!formData.username) tempErrors.username = "用戶名稱為必填";
-    else if (formData.username.length < 3)
-      tempErrors.username = "用戶名稱至少需要3個字符";
-
-    if (!formData.email) tempErrors.email = "電子郵件為必填";
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
-      tempErrors.email = "請輸入有效的電子郵件地址";
-
-    if (!formData.password) tempErrors.password = "密碼為必填";
-    else if (formData.password.length < 8)
-      tempErrors.password = "密碼至少需要8個字符";
-    else if (passwordStrength(formData.password) < 3)
-      tempErrors.password = "密碼強度不足";
-
-    if (!formData.role) tempErrors.role = "請選擇身份";
-
-    if (!formData.terms) tempErrors.terms = "您必須同意條款才能註冊";
-
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
+    const { isValid, errors } = validateWithSchema(registerSchema, formData);
+    setErrors(errors);
+    return isValid;
   };
 
   const passwordStrength = (password) => {
@@ -64,18 +62,16 @@ const RegisterPage = ({ showAlert }) => {
       setIsLoading(true);
       setServerError("");
       try {
-        await AuthService.register(
-          formData.username,
-          formData.email,
-          formData.password,
-          formData.role
-        );
+        await AuthService.register(formData);
         showAlert("註冊成功!", "您將被導向至登入頁面。", "elegant", 1500);
         setTimeout(() => {
           navigate("/login");
         }, 1500);
       } catch (e) {
-        setServerError(e.response?.data || "註冊時發生錯誤，請稍後再試。");
+        const fallbackMsg = "註冊時發生錯誤，請稍後再試。";
+        const serverMsg =
+          e.response?.data?.message || e.response?.data || fallbackMsg;
+        setServerError(typeof serverMsg === "string" ? serverMsg : fallbackMsg);
       } finally {
         setIsLoading(false);
       }
@@ -89,7 +85,14 @@ const RegisterPage = ({ showAlert }) => {
       </div>
 
       <div className="col-md-5 col-sm-8 offset-md-1 mt-md-4">
-        {serverError && <div className="alert alert-danger">{serverError}</div>}
+        {serverError && (
+          <div className="alert alert-danger">
+            {typeof serverError === "string"
+              ? serverError
+              : serverError.message || "發生未知錯誤"}
+          </div>
+        )}
+
         <h2 className="my-4 text-center">註冊並開始學習</h2>
 
         <form onSubmit={handleSubmit}>
@@ -111,7 +114,6 @@ const RegisterPage = ({ showAlert }) => {
               <div className="invalid-feedback">{errors.username}</div>
             )}
           </div>
-
           <div className="form-group custom-input-group mb-3">
             <input
               type="email"
@@ -130,7 +132,6 @@ const RegisterPage = ({ showAlert }) => {
               <div className="invalid-feedback">{errors.email}</div>
             )}
           </div>
-
           <div className="form-group custom-input-group mb-3">
             <input
               type="password"
@@ -159,7 +160,6 @@ const RegisterPage = ({ showAlert }) => {
               </div>
             )}
           </div>
-
           <div className="form-group mb-2">
             <label htmlFor="role" className="form-label">
               <span>請選擇身份</span>
@@ -170,7 +170,9 @@ const RegisterPage = ({ showAlert }) => {
               onChange={handleChange}
               className={`form-control ${errors.role ? "is-invalid" : ""}`}
             >
-              <option value="">請選擇身份</option>
+              <option value="" disabled>
+                請選擇身份
+              </option>
               <option value="student">學生</option>
               <option value="instructor">講師</option>
             </select>
@@ -195,7 +197,6 @@ const RegisterPage = ({ showAlert }) => {
               <div className="text-danger small">{errors.terms}</div>
             )}
           </div>
-
           <button
             type="submit"
             className="btn btn-primary rounded-0 w-100 p-2 mt-4 mb-3 custom-button"

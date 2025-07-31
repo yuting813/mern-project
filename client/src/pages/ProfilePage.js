@@ -43,8 +43,8 @@ const ProfilePage = ({ currentUser, setCurrentUser }) => {
                 <p className="text-muted">{currentUser.user.role}</p>
               </div>
 
-              <div>
-                <table className="table" responsive borderless>
+              <div className="table-responsive bg-light shadow-sm rounded p-3">
+                <table className="table table-borderless mb-0">
                   <tbody>
                     <tr>
                       <td>
@@ -55,19 +55,22 @@ const ProfilePage = ({ currentUser, setCurrentUser }) => {
                     </tr>
                     <tr>
                       <td>
-                        <FaIdCard className="me-2  text-color" /> 用戶ID
+                        <FaIdCard className="me-2 text-color" />
+                        用戶ID
                       </td>
                       <td>{currentUser.user._id}</td>
                     </tr>
                     <tr>
                       <td>
-                        <FaEnvelope className="me-2  text-color" /> 電子郵件
+                        <FaEnvelope className="me-2 text-color" />
+                        電子郵件
                       </td>
                       <td>{currentUser.user.email}</td>
                     </tr>
                     <tr>
                       <td>
-                        <FaUserTag className="me-2  text-color" /> 身份
+                        <FaUserTag className="me-2 text-color" />
+                        身份
                       </td>
                       <td>{currentUser.user.role}</td>
                     </tr>
