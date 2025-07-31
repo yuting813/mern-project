@@ -1,5 +1,5 @@
-// Node.js 後端使用
-const Joi = require("joi");
+// React 前端使用
+import Joi from "joi";
 
 const registerSchema = Joi.object({
   username: Joi.string().min(3).required().messages({
@@ -34,4 +34,4 @@ const registerSchema = Joi.object({
   }),
 });
 
-module.exports = registerSchema;
+export default registerSchema;
