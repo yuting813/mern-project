@@ -24,19 +24,6 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
     }));
   };
 
-  // const validateForm = () => {
-  //   let tempErrors = {};
-  //   if (!formData.email) tempErrors.email = "電子郵件為必填";
-  //   else if (!/\S+@\S+\.\S+/.test(formData.email))
-  //     tempErrors.email = "請輸入有效的電子郵件地址";
-  //   if (!formData.password) tempErrors.password = "密碼為必填";
-  //   else if (formData.password.length < 8)
-  //     tempErrors.password = "密碼長度至少為8個字符";
-
-  //   setErrors(tempErrors);
-
-  //   return Object.keys(tempErrors).length === 0;
-  // };
 
   const validateForm = () => {
     const { isValid, errors } = validateWithSchema(loginSchema, formData);
@@ -85,6 +72,7 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
         {message && <div className="alert alert-danger">{message}</div>}
         <h2 className="my-4 text-center">登入您的帳戶</h2>
 
+        <form onSubmit={handleLogin} >
         <div className="form-group custom-input-group mb-3">
           <input
             type="text"
@@ -126,7 +114,7 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
 
         <div className="form-group">
           <button
-            onClick={handleLogin}
+          type="submit"
             disabled={isLoading}
             className="btn btn-primary rounded-0 custom-button w-100 py-2 mb-3"
           >
@@ -140,6 +128,7 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
             )}
           </button>
         </div>
+        </form>
 
         <div className="text-center my-3">
           <p className="bg-light p-3 mt-4 mb-3 ">
