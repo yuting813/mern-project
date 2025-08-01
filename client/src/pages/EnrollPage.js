@@ -17,11 +17,15 @@ const EnrollPage = ({ currentUser, setCurrentUser, showAlert }) => {
   const handleTakeToLogin = () => {
     navigate("/login");
   };
+
   const handleChangeInput = (e) => {
     setSearchInput(e.target.value);
     setSearchError("");
   };
-
+  const handleSubmitSearch = (e) => {
+    e.preventDefault();
+    handleSearch();
+  };
   const handleSearch = () => {
     if (!searchInput.trim()) {
       setSearchError("請輸入搜索關鍵字");
@@ -132,22 +136,23 @@ const EnrollPage = ({ currentUser, setCurrentUser, showAlert }) => {
           </div>
         </div>
       )}
+
       {currentUser && currentUser.user.role === "student" && (
         <div className="px-5 pt-2 mt-5   d-flex flex-column  justify-content-center align-items-center ">
-          <div className="search input-group mb-3 w-50 border">
+          <form
+            onSubmit={handleSubmitSearch}
+            className="search input-group mb-3 w-50 border"
+          >
             <input
               onChange={handleChangeInput}
               type="text"
               className="form-control"
               placeholder="搜尋課程"
             />
-            <button
-              onClick={handleSearch}
-              className="btn btn-primary custom-button"
-            >
+            <button type="submit" className="btn btn-primary custom-button">
               Search
             </button>
-          </div>
+          </form>
           {searchError && <span className="text-danger">{searchError}</span>}
         </div>
       )}
