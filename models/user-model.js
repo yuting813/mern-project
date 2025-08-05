@@ -66,4 +66,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// 添加到 userSchema 中
+userSchema.methods.toJSON = function() {
+  const user = this.toObject();
+  delete user.password; // 永遠不返回密碼
+  return user;
+};
+
 module.exports = mongoose.model("User", userSchema);
