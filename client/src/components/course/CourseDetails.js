@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../../services/course.service";
 
-
 const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
   const navigate = useNavigate();
 
@@ -32,24 +31,34 @@ const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
 
   return (
     <div
-      className="card position-absolute "
+      className="card position-absolute course-details-card"
       style={{
-        width: "17rem",
+        width: "16.5rem",
         zIndex: 1500,
+       
         ...(isNearRightEdge
-          ? { right: "0", transform: "translateX(-3%)" }
+          ? { right: "0", transform: "translateX(-5%)" }
           : { left: "0", transform: "translateX(73%)" }),
       }}
     >
-     
-      <div className="card-body ">
+      <div className="card-body p-3">
         <h6 className="card-title fw-bold">{course.title}</h6>
-        <p className="card-text text-muted">{course.description}</p>
-        <p className="">課程價格:${course.price}</p>
+        <p
+          className="card-text text-muted small mb-2"
+          style={{ minHeight: "3rem" }}
+        >
+          {course.description}
+        </p>
+        <ul className="list-unstyled text-muted small mt-auto mb-3">
+          <li>講師：{course.instructor.username}</li>
+          <li>4.8 ★★★★★ ({course.students.length})</li>
+          <li>課程價格：${course.price}</li>
+        </ul>
+
         <button
           id={course._id}
           onClick={handleEnroll}
-          className="card-text btn custom-button btn-primary w-100"
+          className=" btn btn-sm custom-button btn-primary w-100 "
         >
           註冊課程
         </button>
