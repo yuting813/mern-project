@@ -9,7 +9,9 @@ const PageLoader = () => (
     >
       <span className="visually-hidden">Loading...</span>
     </div>
-    <p className="mt-3 text-muted fs-5">頁面載入中... 請稍等一下(╥﹏╥)</p>
+    <p className="mt-3 text-muted fs-5">
+      頁面載入中... 請稍等一下 (´• ω •`)ﾉﾞ 🐢
+    </p>
   </div>
 );
 

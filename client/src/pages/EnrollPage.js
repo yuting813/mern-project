@@ -169,41 +169,54 @@ const EnrollPage = ({ currentUser, setCurrentUser, showAlert }) => {
       )}
 
       {currentUser && searchResult && searchResult.length !== 0 && (
-        <div className=" row mx-auto px-5">
+        <div className=" container">
           <h5 className="m-2">搜尋到以下課程 :</h5>
-          {searchResult.map((course) => (
-            <div
-              key={course._id}
-              className="card m-1"
-              style={{ width: "16.5rem" }}
-            >
-              <div className="card-body ">
-                <CourseImage course={course} />
-                <p className="card-title pt-2 text-muted">課程名稱:</p>
-                <h5 className="card-title">{course.title}</h5>
-                <p
-                  className="card-text py-1 text-muted"
-                  style={{ margin: "0.5rem 0rem" }}
-                >
-                  {course.description}
-                </p>
-                <p style={{ margin: "0.5rem 0rem" }}>
-                  學生人數:{course.students.length}
-                </p>
-                <p style={{ margin: "0.5rem 0rem" }}>課程價格:{course.price}</p>
-                <p style={{ margin: "0.5rem 0rem" }}>
-                  講師:{course.instructor.username}
-                </p>
-              </div>
-              <button
-                id={course._id}
-                onClick={handleEnroll}
-                className="btn custom-button btn-primary w-100 mb-3"
+          <div className="row">
+            {searchResult.map((course) => (
+              <div
+                key={course._id}
+                className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
               >
-                註冊課程
-              </button>
-            </div>
-          ))}
+                <div
+                  className="card h-100 border-0 shadow-sm "
+                  style={{
+                    transition: "all 0.3s ease-in-out",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow =
+                      "0 8px 16px rgba(0,0,0,0.15)";
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow =
+                      "0 2px 4px rgba(0,0,0,0.05)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  }}
+                >
+                  <CourseImage course={course} height="180px" width="100%" />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title fw-bold mt-3">{course.title}</h5>
+                    <p className="card-text small text-muted">
+                      {course.description}
+                    </p>
+                    <ul className="list-unstyled text-muted small mt-auto mb-2">
+                      <li>學生人數：{course.students.length}</li>
+                      <li>價格：${course.price}</li>
+                      <li>講師：{course.instructor.username}</li>
+                    </ul>
+                  </div>
+                  <button
+                    id={course._id}
+                    onClick={handleEnroll}
+                    className=" btn btn-sm custom-button btn-primary m-3"
+                  >
+                    註冊課程
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

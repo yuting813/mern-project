@@ -340,11 +340,11 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
           <div className="row">
             {courseData.map((course) => (
               <div
+              key={course._id}
                 className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
-                key={course._id}
               >
                 <div
-                  className="card h-100 border-0 shadow-sm"
+                  className="card h-100 border-0 shadow-sm "
                   style={{
                     transition: "all 0.3s ease-in-out",
                     cursor: "pointer",

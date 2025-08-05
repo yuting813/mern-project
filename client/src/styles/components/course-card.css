@@ -1,24 +1,33 @@
-.image-hover {
-  width: 14.5rem;
-}
-
 .card-img-size {
-  width: 15.5rem;
-  height: 8.5rem;
+  width: 100%;
+  height: auto; 
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
-.image-hover:hover .course-imager {
-  opacity: 0.6;
+
+.card-img-size:hover .course-imager {
+  opacity: 0.8;
   transition: 0.3s ease;
+}
+
+.course-details-card {
+  top: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
 .course-details-wrapper {
   position: absolute;
+  border-radius: 12px;
   top: 0;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0s ease, visibility 0s ease;
   transition-delay: 0s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
 }
 
 .course-details-wrapper.show {
@@ -35,7 +44,7 @@
 .course-card-grid {
   display: grid;
   grid-auto-flow: column;
-  grid-gap: 2.1rem;
+  grid-gap: 1.2rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none; /* Firefox */
@@ -89,4 +98,14 @@
   .course-card-grid {
     grid-auto-columns: calc((100% - 10.5rem) / 5);
   }
+}
+
+.badge-tag {
+  display: inline-block;
+  background-color: #e6f0ff; /* 淺藍或可換成 #f3e8ff 淡紫 */
+  color: #1c3faa; /* 深藍文字 */
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1px;
 }

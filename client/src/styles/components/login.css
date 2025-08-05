@@ -23,11 +23,6 @@
   padding: 0 5px;
 }
 
-/* .custom-button {
-  background-color: #a435f0;
-  border: 1px solid #ad67f0;
-} */
-
 .btn.btn-primary.custom-button {
   background-color: #a435f0;
   border: 1px solid #ad67f0;
@@ -39,9 +34,11 @@
   opacity: 0.65; /* 為禁用狀態添加透明度 */
 }
 
-.custom-button:hover {
-  background-color: #661cad;
-  border: 1px solid #661cad;
+.custom-button.btn-primary:hover,
+.custom-button.btn-primary:focus {
+  background-color: #b35ef7; /* 亮一階紫色 */
+  border-color: #b35ef7;
+  box-shadow: 0 0 0 0.05rem rgba(179, 94, 249, 0.95);
 }
 
 .tn-text-a {
