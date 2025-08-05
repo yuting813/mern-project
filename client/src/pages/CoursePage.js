@@ -69,7 +69,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
 
   const handleDrop = (e) => {
     const courseId = e.target.id;
-     if (window.confirm("確定要退選這個課程嗎？")) {
+    if (window.confirm("確定要退選這個課程嗎？")) {
       CourseService.dropCourse(courseId)
         .then(() => {
           showAlert(
@@ -125,17 +125,32 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
       course.instructor._id === currentUser.user._id
     ) {
       return (
-        <div className="d-flex gap-2 justify-content-center">
+        // <div className="d-flex gap-2 justify-content-center">
+        //   <button
+        //     onClick={() => handleEdit(course)}
+        //     className="btn btn-outline-primary rounded-0"
+        //   >
+        //     編輯課程
+        //   </button>
+        //   <button
+        //     id={course._id}
+        //     onClick={handleDelete}
+        //     className="btn btn-outline-danger rounded-0"
+        //   >
+        //     刪除課程
+        //   </button>
+        // </div>
+        <div className="d-flex justify-content-between align-items-center">
           <button
             onClick={() => handleEdit(course)}
-            className="btn btn-outline-primary rounded-0"
+            className="btn btn-outline-secondary btn-sm px-3"
           >
             編輯課程
           </button>
           <button
             id={course._id}
             onClick={handleDelete}
-            className="btn btn-outline-danger rounded-0"
+            className="btn btn-outline-danger btn-sm px-3"
           >
             刪除課程
           </button>
@@ -186,7 +201,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
     return (
       <div>
         {currentUser && (
-          <div>
+          <div className="mb-3">
             <h1>
               歡迎來到{currentUser.user.role === "instructor" ? "講師" : "學生"}
               的課程頁面
@@ -239,11 +254,12 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
       )}
 
       {currentUser && (
-        <div>
-          <h1>
+        <div className="container mb-4">
+          <h1 className="mb-2 text-start">
             歡迎來到{currentUser.user.role === "instructor" ? "講師" : "學生"}
             的課程頁面
           </h1>
+          <h5 className="text-muted bg-gray-100 py-3">以下是您目前的課程清單:</h5>
         </div>
       )}
 
@@ -320,32 +336,49 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
         )}
 
       {currentUser && courseData.length > 0 && (
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {courseData.map((course) => (
-            <div
-              className="card"
-              style={{ width: "16rem", margin: "0.5rem" }}
-              key={course._id}
-            >
-              <div className="card-body">
-                <CourseImage course={course} />
-                <h5 className="card-title py-3">{course.title}</h5>
-                <p className="card-text" style={{ margin: "0.5rem 0rem" }}>
-                  {course.description}
-                </p>
-                <p style={{ margin: "0.5rem 0rem" }}>
-                  學生人數:{course.students.length}
-                </p>
-                <p style={{ margin: "0.5rem 0rem" }}>
-                  課程價格:${course.price}
-                </p>
-                <p style={{ margin: "0.5rem 0rem" }}>
-                  講師:{course.instructor.username}
-                </p>
+        <div className="container">
+          <div className="row">
+            {courseData.map((course) => (
+              <div
+                className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+                key={course._id}
+              >
+                <div
+                  className="card h-100 border-0 shadow-sm"
+                  style={{
+                    transition: "all 0.3s ease-in-out",
+                    cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow =
+                      "0 8px 16px rgba(0,0,0,0.15)";
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow =
+                      "0 2px 4px rgba(0,0,0,0.05)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                  }}
+                >
+                  <CourseImage course={course} height="180px" />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title fw-bold mt-3">{course.title}</h5>
+                    <p className="card-text small text-muted">
+                      {course.description}
+                    </p>
+                    <ul className="list-unstyled text-muted small mt-auto mb-2">
+                      <li>學生人數：{course.students.length}</li>
+                      <li>價格：${course.price}</li>
+                      <li>講師：{course.instructor.username}</li>
+                    </ul>
+                  </div>
+                  <div className="card-footer border-white bg-white">
+                    {renderCourseActions(course)}
+                  </div>
+                </div>
               </div>
-              <div className="card-footer">{renderCourseActions(course)}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 

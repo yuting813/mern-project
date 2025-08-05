@@ -36,10 +36,10 @@ const Banner = () => {
 
             <div className="text-container bg-white  p-4  border m-4 banner-msg">
               <h1>
-                <strong>汲取他人經驗來學習</strong>
+                <strong>彈指之間，即可獲得知識</strong>
               </h1>
               <p>
-                我們的講師具備真實世界的知識，能協助您達成目標，課程最低只要$320，只到明天。
+                向現實世界中全球各地的專家學習，購買$320起的課程，還剩一天!
               </p>
             </div>
           </div>
