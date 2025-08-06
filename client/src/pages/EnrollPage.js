@@ -40,7 +40,9 @@ const EnrollPage = ({ currentUser, setCurrentUser, showAlert }) => {
           setSearchError("");
         } else {
           setSearchResult([]);
-          setSearchError("未搜尋到此課程");
+          setSearchError(
+            `找不到與 ${searchInput} 相關的課程。請嘗試其他關鍵詞，或瀏覽我們的全部課程。`
+          );
         }
       })
       .catch((err) => {
@@ -148,12 +150,17 @@ const EnrollPage = ({ currentUser, setCurrentUser, showAlert }) => {
               type="text"
               className="form-control"
               placeholder="搜尋課程"
+              value={searchInput}
             />
             <button type="submit" className="btn btn-primary custom-button">
               Search
             </button>
           </form>
-          {searchError && <span className="text-danger">{searchError}</span>}
+          {searchError && (
+            <div className="alert alert-info mt-3 w-50 text-center">
+              {searchError}
+            </div>
+          )}
         </div>
       )}
 
