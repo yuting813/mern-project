@@ -25,7 +25,7 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
     setShowLeftArrow(!isAtStart);
     setShowRightArrow(!isAtEnd);
 
-    const threshold = 20;
+    const threshold = 100;
     setNearRightEdge(
       cardsRef.current.map((card) => {
         if (!card) return false;
@@ -80,6 +80,43 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
       };
     }
   }, [checkScrollState]);
+
+  // 添加觸摸滑動支持
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    
+    let startX, isDragging = false;
+    
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    };
+    
+    const handleTouchMove = (e) => {
+      if (!isDragging) return;
+      const currentX = e.touches[0].clientX;
+      const diff = startX - currentX;
+      if (Math.abs(diff) > 5) {
+        container.scrollLeft += diff;
+        startX = currentX;
+      }
+    };
+    
+    const handleTouchEnd = () => {
+      isDragging = false;
+    };
+    
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchmove', handleTouchMove);
+    container.addEventListener('touchend', handleTouchEnd);
+    
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
 
   if (isLoading) return <CourseSkeleton />;
   if (error)

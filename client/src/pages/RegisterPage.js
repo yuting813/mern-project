@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import Register from "../assets/register.webp";
-import  registerSchema  from "../validation/schemas/registerSchema";
+import registerSchema from "../validation/schemas/registerSchema";
 import { validateWithSchema } from "../utils/validationUtils";
+import { useEffect } from "react";
 
 const RegisterPage = ({ showAlert }) => {
   const navigate = useNavigate();
@@ -26,6 +27,9 @@ const RegisterPage = ({ showAlert }) => {
     }));
   };
 
+  useEffect(() => {
+    document.getElementById("username-input")?.focus();
+  }, []);
   // const validateForm = () => {
   //   const { error } = registerSchema.validate(formData, { abortEarly: false });
   //   if (!error) {
@@ -98,6 +102,7 @@ const RegisterPage = ({ showAlert }) => {
         <form onSubmit={handleSubmit}>
           <div className="form-group custom-input-group mb-3">
             <input
+              id="username-input"
               type="text"
               name="username"
               value={formData.username}

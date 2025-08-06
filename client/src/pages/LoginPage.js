@@ -4,6 +4,7 @@ import AuthService from "../services/auth.service";
 import Login from "../assets/login.webp";
 import loginSchema from "../validation/schemas/loginSchema";
 import { validateWithSchema } from "../utils/validationUtils";
+import { useEffect } from "react";
 
 const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
@@ -16,6 +17,10 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
     password: "",
   });
 
+  useEffect(() => {
+    document.getElementById("email-input")?.focus();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -23,7 +28,6 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
       [name]: value,
     }));
   };
-
 
   const validateForm = () => {
     const { isValid, errors } = validateWithSchema(loginSchema, formData);
@@ -72,62 +76,63 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
         {message && <div className="alert alert-danger">{message}</div>}
         <h2 className="my-4 text-center">登入您的帳戶</h2>
 
-        <form onSubmit={handleLogin} >
-        <div className="form-group custom-input-group mb-3">
-          <input
-            type="text"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className={`form-control custom-input 
+        <form onSubmit={handleLogin}>
+          <div className="form-group custom-input-group mb-3">
+            <input
+              id="email-input"
+              type="text"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={`form-control custom-input 
               ${errors.email ? "is-invalid" : " "}`}
-            placeholder=" "
-            required
-          />
-          <label htmlFor="email" className="custom-label">
-            <span>電子郵件</span>
-          </label>
-          {errors.email && (
-            <div className="invalid-feedback ps-1">{errors.email}</div>
-          )}
-        </div>
-
-        <div className="form-group  custom-input-group mb-3">
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className={`form-control custom-input ${
-              errors.password ? "is-invalid" : ""
-            }`}
-            placeholder=""
-            required
-          />
-          <label htmlFor="password" className="custom-label">
-            密碼
-          </label>
-          {errors.password && (
-            <div className="invalid-feedback  ps-1">{errors.password}</div>
-          )}
-        </div>
-
-        <div className="form-group">
-          <button
-          type="submit"
-            disabled={isLoading}
-            className="btn btn-primary rounded-0 custom-button w-100 py-2 mb-3"
-          >
-            {isLoading ? (
-              <>
-                <span className="loading-spinner "></span>
-                登入中...
-              </>
-            ) : (
-              "登入"
+              placeholder=" "
+              required
+            />
+            <label htmlFor="email" className="custom-label">
+              <span>電子郵件</span>
+            </label>
+            {errors.email && (
+              <div className="invalid-feedback ps-1">{errors.email}</div>
             )}
-          </button>
-        </div>
+          </div>
+
+          <div className="form-group  custom-input-group mb-3">
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className={`form-control custom-input ${
+                errors.password ? "is-invalid" : ""
+              }`}
+              placeholder=""
+              required
+            />
+            <label htmlFor="password" className="custom-label">
+              密碼
+            </label>
+            {errors.password && (
+              <div className="invalid-feedback  ps-1">{errors.password}</div>
+            )}
+          </div>
+
+          <div className="form-group">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="btn btn-primary rounded-0 custom-button w-100 py-2 mb-3"
+            >
+              {isLoading ? (
+                <>
+                  <span className="loading-spinner "></span>
+                  登入中...
+                </>
+              ) : (
+                "登入"
+              )}
+            </button>
+          </div>
         </form>
 
         <div className="text-center my-3">
