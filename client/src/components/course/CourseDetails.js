@@ -37,8 +37,8 @@ const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
         zIndex: 1500,
        
         ...(isNearRightEdge
-          ? { right: "0", transform: "translateX(-5%)" }
-          : { left: "0", transform: "translateX(73%)" }),
+          ? { right: "0", transform: "translateX(-3%)" }
+          : { left: "0", transform: "translateX(108%)" }),
       }}
     >
       <div className="card-body p-3">
