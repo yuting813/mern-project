@@ -66,3 +66,44 @@
   font-size: 0.875rem;
   border-radius: 0.2rem;
 }
+
+@media (max-width: 768px) {
+  .navbar form {
+    max-width: 100%;
+  }
+}
+/* 假設搜尋框最外層 class 叫 .nav-search */
+.nav-search input.form-control {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-search input.form-control:focus {
+  border-color: #521e9f !important; /* 边框换色 */
+  box-shadow: 0 0 0 0.1rem rgba(82, 30, 159, 0.55); /* 同色淡阴影 */
+}
+
+/* 搜尋框共用樣式 */
+.search-input {
+  height: 56px; 
+  border: 1px solid #ced4da;
+  border-radius: 2.5rem; /* 仍保持 pill */
+  font-size: 1rem;
+  padding: 0 1rem 0 2.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 0;
+}
+
+/* 聚焦時換品牌紫色 */
+.search-input:focus {
+  border-color: #521e9f !important;
+  box-shadow: 0 0 0 0.15rem rgba(82, 30, 159, 0.25);
+  outline: none;
+}
+
+/* 桌面寬度(≥992px)：讓表單佔滿剩餘空間 */
+@media (min-width: 992px) {
+  .nav-search {
+    flex-grow: 1; 
+    max-width: 100%;
+  }
+}

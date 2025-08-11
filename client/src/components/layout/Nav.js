@@ -77,22 +77,34 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               style={{ maxHeight: "70px" }}
             />
           </Link>
+
           <form
-            className="d-flex ms-3"
-            role="search"
+            className="nav-search d-flex flex-grow-1 me-4"
             onSubmit={submitSearchFromNav}
+            role="search"
           >
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="搜尋課程"
-              aria-label="Search"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-            <button className="btn btn-outline-primary" type="submit">
-              Search
-            </button>
+            {/* 相對定位容器 */}
+            <div className=" position-relative w-100">
+              {/* 放大鏡：absolute；貼在輸入框左側 */}
+
+              <button
+                type="submit"
+                className="btn p-0 border-0 bg-transparent position-absolute top-50"
+                aria-label="搜尋"
+              >
+                <i className="bi bi-search text-secondary position-absolute top-50 start-0 translate-middle-y ms-3" />
+              </button>
+
+              {/* 圓角輸入框：ps-5 讓文字不壓到 icon */}
+              <input
+                // className="form-control rounded-pill border-light shadow-none ps-5"
+                className="form-control search-input ps-5"
+                type="search"
+                placeholder="搜尋課程、講師或關鍵字"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+            </div>
           </form>
 
           <button

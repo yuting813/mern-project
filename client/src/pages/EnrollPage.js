@@ -73,7 +73,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
   return (
     <div>
       {searchError && (
-        <div className="alert alert-info text-center mx-auto mt-4 w-50">
+        <div className="alert alert-info text-center mx-auto mt-5 w-50">
           {searchError}
         </div>
       )}
