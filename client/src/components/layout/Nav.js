@@ -44,19 +44,21 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   return (
     <div className="shadow nav-position">
       {showBanner && !currentUser && (
-        <div
+        <section
+          aria-label="alert"
           className="shadow-bottom alert nav-alert-color alert-dismissible fade show mb-0 d-flex justify-content-center align-items-center"
           role="alert"
         >
           <div className="text-center">
-            <strong className="fs-5">新學習者優惠| </strong>
-            <span className="fs-5">
-              課程最低$590起,這是您學習合適技能的絕佳時機。
+            <strong className="fs-6">只有 48 小時 | </strong>
+            <span className="fs-6">
+              個人方案享有首年 20% 的優惠價格，讓自己的職涯更上一層樓。
             </span>
             <br />
-            <span className="fs-5">
+            <strong className="fs-5">還剩一天! </strong>
+            {/* <span className="fs-5">
               優惠剩餘時間: {formatCountdown(countdownTime)}
-            </span>
+            </span> */}
           </div>
           <button
             type="button"
@@ -64,7 +66,7 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
             aria-label="Close"
             onClick={() => setShowBanner(false)}
           ></button>
-        </div>
+        </section>
       )}
 
       <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-light p-1">

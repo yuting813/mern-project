@@ -88,7 +88,7 @@ const RegisterPage = ({ showAlert }) => {
         <img src={Register} alt="註冊圖片" className="img-fluid" />
       </div>
 
-      <div className="col-md-5 col-sm-8 offset-md-1 mt-md-4">
+      <div className="col-md-4 col-sm-8 offset-md-1 mt-md-4">
         {serverError && (
           <div className="alert alert-danger">
             {typeof serverError === "string"

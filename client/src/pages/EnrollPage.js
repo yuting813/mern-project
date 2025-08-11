@@ -80,7 +80,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
 
       {searchResult.length === 0 ? (
         <div className="px-5 py-4 mb-5">
-          <h4 className="mt-5">為您推薦</h4>
+          <h3 className="mt-5 ms-2">學習者正在檢視</h3>
           <CourseCardS
             scroller
             showAlert={showAlert}

@@ -72,12 +72,12 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
         <img src={Login} alt="loginImg" className="img-fluid" />
       </div>
 
-      <div className="col-md-5 col-sm-8 offset-md-1 mt-md-4 ">
+      <div className="col-md-4 col-sm-8 offset-md-1 mt-md-4  ">
         {message && <div className="alert alert-danger">{message}</div>}
-        <h2 className="my-4 text-center">登入您的帳戶</h2>
+        <h2 className="my-4 text-center">登入以繼續您的學習旅程</h2>
 
         <form onSubmit={handleLogin}>
-          <div className="form-group custom-input-group mb-3">
+          <div className="form-group custom-input-group mb-3 mt-5">
             <input
               id="email-input"
               type="text"
