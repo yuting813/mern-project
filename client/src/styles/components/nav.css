@@ -4,44 +4,81 @@
 }
 
 .nav-alert-color {
-  background-color: #eceb98;
+  background-color: #c2e9eb;
 }
 
 .hover-text-primary:hover {
   color: #e91e63 !important;
-  /* background-color:#6138c9  ;
-  color:white; */
 }
 
+/* 登入按鈕 - 預設 */
 .nav-login-link {
   position: relative;
-  border: 1px solid black;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
+  border: 1.2px solid #6d28d2;
+  color: #6d28d2;
+  background-color: white;
+  padding: 0.72rem 1.5rem;
+  border-radius: 0.25rem;
+  font-weight: 800;
+  font-size: 1rem;
+  transition: all 0.1s ease;
 }
 
+/* 登入 hover + focus */
+.nav-login-link:hover,
+.nav-login-link:focus {
+  background-color: rgba(109, 40, 210, 0.1);
+  color: #6d28d2;
+  border-color: #6d28d2;
+  outline: none;
+  box-shadow: 0 0 0 0.15rem rgba(109, 40, 210, 0.25);
+}
+
+/* 註冊按鈕 - 預設 */
+.nav-register-link {
+  position: relative;
+  border: 2px solid #6d28d2;
+  background-color: #6d28d2;
+  color: white;
+  padding: 0.65rem 1.5rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.1s ease;
+}
+
+/* 註冊 hover + focus */
+.nav-register-link:hover,
+.nav-register-link:focus {
+  background-color: rgba(109, 40, 210, 0.85);
+  color: white;
+  border-color: #6d28d2;
+  outline: none;
+  box-shadow: 0 0 0 0.15rem rgba(109, 40, 210, 0.25);
+}
+
+/* 註冊 hover + focus */
+.nav-register-link:hover,
+.nav-register-link:focus {
+  background-color: rgba(109, 40, 210, 0.85);
+  color: white;
+  border-color: #6d28d2;
+  outline: none;
+  box-shadow: 0 0 0 0.15rem rgba(109, 40, 210, 0.25);
+}
+
+/* 桌面寬度(≥992px)：讓表單佔滿剩餘空間 */
+@media (min-width: 992px) {
+  .nav-search {
+    flex-grow: 1;
+    max-width: 100%;
+  }
+}
 @media screen and (max-width: 992px) {
   .nav-login-link {
     border: none;
     padding: 0;
   }
-}
-
-.nav-login-link:hover {
-  background-color: #eceb98;
-}
-
-.nav-register-link {
-  position: relative;
-  border: 1px solid black;
-  background-color: black;
-  color: white;
-  padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
-}
-
-.nav-register-link:hover {
-  background-color: #615d58;
 }
 
 @media screen and (max-width: 992px) {
@@ -65,4 +102,45 @@
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
   border-radius: 0.2rem;
+}
+
+@media (max-width: 768px) {
+  .navbar form {
+    max-width: 100%;
+  }
+}
+/* 假設搜尋框最外層 class 叫 .nav-search */
+.nav-search input.form-control {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-search input.form-control:focus {
+  border-color: #521e9f !important;
+  box-shadow: 0 0 0 0.1rem rgba(82, 30, 159, 0.55);
+}
+
+/* 搜尋框共用樣式 */
+.search-input {
+  height: 56px;
+  border: 1px solid #ced4da;
+  border-radius: 2.5rem;
+  font-size: 1rem;
+  padding: 0 1rem 0 2.5rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 0;
+}
+
+/* 聚焦時換品牌紫色 */
+.search-input:focus {
+  border-color: #521e9f !important;
+  box-shadow: 0 0 0 0.15rem rgba(82, 30, 159, 0.25);
+  outline: none;
+}
+
+/* 桌面寬度(≥992px)：讓表單佔滿剩餘空間 */
+@media (min-width: 992px) {
+  .nav-search {
+    flex-grow: 1;
+    max-width: 100%;
+  }
 }

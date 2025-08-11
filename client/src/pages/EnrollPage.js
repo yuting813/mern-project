@@ -73,14 +73,14 @@ const EnrollPage = ({ currentUser, showAlert }) => {
   return (
     <div>
       {searchError && (
-        <div className="alert alert-info text-center mx-auto mt-4 w-50">
+        <div className="alert alert-info text-center mx-auto mt-5 w-50">
           {searchError}
         </div>
       )}
 
       {searchResult.length === 0 ? (
         <div className="px-5 py-4 mb-5">
-          <h4 className="mt-5">為您推薦</h4>
+          <h3 className="mt-5 ms-2">學習者正在檢視</h3>
           <CourseCardS
             scroller
             showAlert={showAlert}

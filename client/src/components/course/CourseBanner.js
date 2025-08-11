@@ -5,14 +5,15 @@ import "../../styles/components/course-card.css";
 const CourseBanner = ({ showAlert, currentUser }) => {
   return (
     <div>
-      <div className="p-4">
+      <div className="p-4 mt-3">
         <div>
           <h2>
             {" "}
-            <strong>廣泛的課程選擇 </strong>
+            <strong>您所有需要的技能皆整合於一處 </strong>
           </h2>
 
-          <p>超過2100個線上影片課程與每個月發佈的新增內容，任您選擇</p>
+          <p className="fs-6 mb-5">從關鍵技能到技術主題，Udemy 支援您的專業發展。</p>
+
         </div>
         <div className="p-3 " style={{ border: "1px solid #ccc" }}>
           <h3>
