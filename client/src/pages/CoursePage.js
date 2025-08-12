@@ -121,25 +121,11 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
   // 修改課程卡片中的編輯按鈕渲染邏輯
   const renderCourseActions = (course) => {
     if (
-      currentUser.user.role === "instructor" &&
-      course.instructor._id === currentUser.user._id
+      currentUser?.user?.role === "instructor" &&
+      course?.instructor?._id === currentUser?.user?._id
     ) {
       return (
-        // <div className="d-flex gap-2 justify-content-center">
-        //   <button
-        //     onClick={() => handleEdit(course)}
-        //     className="btn btn-outline-primary rounded-0"
-        //   >
-        //     編輯課程
-        //   </button>
-        //   <button
-        //     id={course._id}
-        //     onClick={handleDelete}
-        //     className="btn btn-outline-danger rounded-0"
-        //   >
-        //     刪除課程
-        //   </button>
-        // </div>
+       
         <div className="d-flex justify-content-between align-items-center">
           <button
             onClick={() => handleEdit(course)}
@@ -259,7 +245,9 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
             歡迎來到{currentUser.user.role === "instructor" ? "講師" : "學生"}
             的課程頁面
           </h1>
-          <h5 className="text-muted bg-gray-100 py-3">以下是您目前的課程清單:</h5>
+          <h5 className="text-muted bg-gray-100 py-3">
+            以下是您目前的課程清單:
+          </h5>
         </div>
       )}
 
@@ -340,7 +328,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
           <div className="row">
             {courseData.map((course) => (
               <div
-              key={course._id}
+                key={course._id}
                 className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
               >
                 <div
@@ -368,8 +356,10 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
                     </p>
                     <ul className="list-unstyled text-muted small mt-auto mb-2">
                       <li>學生人數：{course.students.length}</li>
-                      <li>價格：${course.price}</li>
-                      <li>講師：{course.instructor.username}</li>
+                      <li>
+                        課程價格：${Number(course.price).toLocaleString()}
+                      </li>
+                      <li>講師：{course.instructor?.username || "未指定"}</li>
                     </ul>
                   </div>
                   <div className="card-footer border-white bg-white">
