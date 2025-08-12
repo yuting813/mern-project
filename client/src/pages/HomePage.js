@@ -3,16 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
 import Banner from "../components/home/Banner.js";
 import CourseBanner from "../components/course/CourseBanner.js";
-import Instructor from "../assets/instructor.jpg"
-import Student from "../assets/student.jpg"
-
+import AI from "../assets/ai.png";
 
 const HomePage = ({ showAlert, currentUser }) => {
   const navigate = useNavigate();
-
-  const handleTakeToCreateCourse = () => {
-    navigate("/CreateCourse");
-  };
 
   const handleTakeToEnroll = () => {
     navigate("/enroll");
@@ -24,68 +18,37 @@ const HomePage = ({ showAlert, currentUser }) => {
         <Banner />
       </div>
       <div>
-        <CourseBanner 
-         showAlert={showAlert}
-         currentUser={currentUser}
-        />
+        <CourseBanner showAlert={showAlert} currentUser={currentUser} />
       </div>
 
       <div className="container py-5">
-        <div className="row align-items-md-center">
-          <div className="col-md-6">
-            <div className="p-4 m-4">
-              <h2 className="py-3">
-                <strong>透過課程升級,為您的團隊提升技能</strong>
-              </h2>
-              <ul>
-                <li>隨時隨地皆能無限制地存取260門以上的頂尖課程</li>
-
-                <li>科技及商業的頂尖證書</li>
-                <li>本網站僅供練習之用</li>
-              </ul>
-
-              <a
-                href="/enroll"
-                className="btn btn-lg btn-dark rounded-0"
-                onClick={handleTakeToEnroll}
-              >
-                瞭解更多
-              </a>
-            </div>
+        <div className="row align-items-center py-1">
+          {/* 左側文字區 */}
+          <div className="col-md-3">
+            <h2 className="fw-bold mb-3">
+              面向企業領導者的 <span className="text-dark">AI</span>
+            </h2>
+            <p className="text-muted mb-4">
+              為您和團隊培養 AI 實踐習慣，透過實操訓練掌握高效領導力技能。
+            </p>
+            <a
+              href="/enroll"
+              className="btn btn-outline-purple d-inline-flex align-items-center"
+              onClick={handleTakeToEnroll}
+            >
+              開始探索
+              <span className="ms-2">&rarr;</span>
+            </a>
           </div>
-          <div className="col-md-6">
+
+          {/* 右側圖片區 */}
+          <div className="col-md-8 text-center">
             <img
-              src={Student}
-              alt="學習示意圖"
-              className="img-fluid img-small"
+              src={AI}
+              alt="AI Learning"
+              className="img-fluid"
+              style={{ maxHeight: "100vh", objectFit: "contain" }}
             />
-          </div>
-        </div>
-
-        <div className="row align-items-md-center">
-          <div className="col-md-6">
-            <img
-              src={Instructor}
-              alt="instructor"
-              className="img-fluid img-small"
-            />
-          </div>
-          <div className="col-md-6">
-            <div className=" p-4 m-4">
-              <h2 className="py-3">
-                <strong>成為講師</strong>
-              </h2>
-              <p>
-                在這,有來自世界各地的講師為各位學習者講授課程。我們為您準備各種工具與技能,助您教授您所熱愛的事物。
-              </p>
-              <a
-                href="/createcourse"
-                className="btn btn-lg btn-dark rounded-0"
-                onClick={handleTakeToCreateCourse}
-              >
-                立即開始教學
-              </a>
-            </div>
           </div>
         </div>
       </div>

@@ -4,7 +4,6 @@
 @import "components/nav.css";
 @import "components/login.css";
 
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -20,4 +19,17 @@
 
 .text-color {
   color: #9169f5;
+}
+.btn-outline-purple {
+  color: #6d28d2;
+  border: 2px solid #6d28d2;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-purple:hover {
+  background-color: #6d28d2;
+  color: #fff;
 }
