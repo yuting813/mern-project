@@ -107,7 +107,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
                     <ul className="list-unstyled text-muted small mt-auto mb-2">
                       <li>學生人數：{course.students.length}</li>
                       <li>價格：${course.price}</li>
-                      <li>講師：{course.instructor.username}</li>
+                      <li>講師：{course.instructor?.username || "未指定"}</li>
                     </ul>
                   </div>
 
