@@ -27,11 +27,9 @@
   .banner-container .image-container {
     height: 300px;
   }
-
   .banner-container .image-container img {
     object-position: center 30%;
   }
-
   .banner-container .text-container {
     position: static;
     transform: none;
@@ -52,7 +50,6 @@
 
 .banner-msg {
   position: absolute;
-
   left: 7.2rem;
   top: 6.4rem;
   max-width: 44rem;
@@ -70,4 +67,36 @@
     flex-direction: row;
     padding: 0;
   }
+}
+
+.banner-btn-purple {
+  display: inline-block;
+  background-color: #6d28d2;
+  color: white;
+  border: 2px solid #6d28d2;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  padding: 0.65rem 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.banner-btn-purple:hover,
+.banner-btn-purple:focus {
+  background-color: rgba(109, 40, 210, 0.85);
+  color: white;
+  outline: none;
+  box-shadow: 0 0 0 0.15rem rgba(109, 40, 210, 0.25);
+}
+
+/* 縮小左右控制箭頭點擊範圍 */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 3rem; /* 原本是 15%，現在縮成固定寬度 */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 1.5rem 1.5rem; /* 縮小圖示（可選） */
 }

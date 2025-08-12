@@ -18,9 +18,9 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
   const handleTakeToLogin = () => {
     navigate("/login");
   };
-  const handleTakeToRegister = () => {
-    navigate("/register");
-  };
+  // const handleTakeToRegister = () => {
+  //   navigate("/register");
+  // };
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
   };
@@ -137,13 +137,7 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
 
             <div className="text-container bg-light">
               <h2 className="mb-3 ">只有講師能發布新課程</h2>
-              <p className="mb-4 ">成為講師，改變您與他人的人生</p>
-              <button
-                className="btn btn-lg btn-dark rounded-0 w-100 "
-                onClick={handleTakeToRegister}
-              >
-                立即開始
-              </button>
+              <p className="mb-2 ">成為講師，改變您與他人的人生</p>
             </div>
           </div>
         </div>

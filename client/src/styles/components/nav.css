@@ -17,7 +17,7 @@
   border: 1.2px solid #6d28d2;
   color: #6d28d2;
   background-color: white;
-  padding: 0.72rem 1.5rem;
+  padding: 0.65rem 1.5rem;
   border-radius: 0.25rem;
   font-weight: 800;
   font-size: 1rem;
@@ -37,7 +37,7 @@
 /* 註冊按鈕 - 預設 */
 .nav-register-link {
   position: relative;
-  border: 2px solid #6d28d2;
+  border: 1.2px solid #6d28d2;
   background-color: #6d28d2;
   color: white;
   padding: 0.65rem 1.5rem;

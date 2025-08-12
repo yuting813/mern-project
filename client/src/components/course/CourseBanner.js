@@ -12,7 +12,7 @@ const CourseBanner = ({ showAlert, currentUser }) => {
             <strong>您所有需要的技能皆整合於一處 </strong>
           </h2>
 
-          <p className="fs-6 mb-5">從關鍵技能到技術主題，Udemy 支援您的專業發展。</p>
+          <p className="fs-6 mb-5">從關鍵技能到技術主題，支援您的專業發展。</p>
 
         </div>
         <div className="p-3 " style={{ border: "1px solid #ccc" }}>

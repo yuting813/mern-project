@@ -35,10 +35,10 @@ const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
       style={{
         width: "16.5rem",
         zIndex: 1500,
-       
+
         ...(isNearRightEdge
           ? { right: "0", transform: "translateX(-3%)" }
-          : { left: "0", transform: "translateX(108%)" }),
+          : { left: "0", transform: "translateX(93%)" }),
       }}
     >
       <div className="card-body p-3">
