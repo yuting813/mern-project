@@ -113,7 +113,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
 
                   <button
                     onClick={() => handleEnrollClick(course._id)}
-                    className="btn btn-sm btn-primary m-3"
+                    className="btn btn-sm btn-purple m-3"
                   >
                     註冊課程
                   </button>
