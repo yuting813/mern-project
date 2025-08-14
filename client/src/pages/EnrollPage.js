@@ -1,4 +1,3 @@
-// src/pages/EnrollPage.js
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CourseService from "../services/course.service";
@@ -79,7 +78,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
       )}
 
       {searchResult.length === 0 ? (
-        <div className="px-5 py-4 mb-5">
+        <div className="px-5 py-4">
           <h3 className="mt-5 ms-2">學習者正在檢視</h3>
           <CourseCardS
             scroller
@@ -113,7 +112,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
 
                   <button
                     onClick={() => handleEnrollClick(course._id)}
-                    className="btn btn-sm btn-primary m-3"
+                    className="btn btn-sm btn-purple m-3"
                   >
                     註冊課程
                   </button>

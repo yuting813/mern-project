@@ -33,3 +33,18 @@
   background-color: #6d28d2;
   color: #fff;
 }
+
+.btn-purple {
+  --bs-btn-bg: #a435f0;
+  --bs-btn-border-color: #a435f0;
+  color: #fff;
+  border-radius: 0.25rem;
+}
+
+.btn-purple:hover {
+  background-color: rgba(164, 53, 240, 0.85);
+  color: white;
+  border-color: #a435f0;
+  outline: none;
+  box-shadow: 0 0 0 0.15rem rgba(164, 53, 240, 0.25);
+}

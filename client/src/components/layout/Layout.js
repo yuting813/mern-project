@@ -6,13 +6,13 @@ const Footer = lazy(() => import("./Footer"));
 
 const Layout = ({ currentUser, setCurrentUser, showAlert }) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="d-flex flex-column min-vh-100">
       <Nav
         currentUser={currentUser}
         setCurrentUser={setCurrentUser}
         showAlert={showAlert}
       />
-      <main className="flex-grow">
+      <main className="flex-grow-1">
         <Outlet />
       </main>
       <Suspense fallback={<div className="h-16"></div>}>
