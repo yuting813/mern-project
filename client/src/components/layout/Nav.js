@@ -30,7 +30,7 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
 
     // 導向 /enroll 並攜帶 keyword
     navigate("/enroll", { state: { keyword } });
-    showAlert("搜尋中…", "", "elegant", 1500);
+    showAlert("搜尋中…", "", "elegant", 600);
   };
 
   useEffect(() => {
