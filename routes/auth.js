@@ -18,17 +18,34 @@ router.post("/register", async (req, res) => {
     if (emailExist) return returnError(res, 400, "此信箱已註冊過");
 
     // 創立新帳號
-    let { username, email, password, role } = req.body;
+    let { username, email, password, role, inviteCode } = req.body;
+
+    // 只有講師需要驗證邀請碼
+    if (role === "instructor") {
+      const inviteFromClient = (inviteCode || "").trim();
+      const expected = process.env.INSTRUCTOR_INVITE_CODE;
+      if (!expected) {
+        // 安全預設：若環境沒設定邀請碼，禁止建立講師
+        return res
+          .status(500)
+          .json({ success: false, message: "發生未設定錯誤，請聯繫管理員" });
+      }
+      if (inviteFromClient !== expected) {
+        return res
+          .status(403)
+          .json({ success: false, message: "講師邀請碼錯誤或已失效" });
+      }
+    }
+
     let newUser = new User({ username, email, password, role });
     let savedUser = await newUser.save();
-    // return res.send({ msg: "成功新增使用者", savedUser });
+
     return res.status(201).json({
       success: true,
       message: "成功註冊",
       data: { _id: savedUser._id, username, email, role },
     });
   } catch (e) {
-    // return res.status(500).send("新增使用者失敗: " + e.message);
     return returnError(res, 500, "新增使用者失敗: " + e.message);
   }
 });

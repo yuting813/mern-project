@@ -5,28 +5,26 @@ import profileImgV1 from "../assets/profile-v1.jpg";
 
 const ProfilePage = ({ currentUser, setCurrentUser }) => {
   return (
-    <div className="page-container  content-wrap p-5 ">
+    <div className="content-wrap pt-5 ">
       {!currentUser && (
-        <section className=" bg-gray-100">
-          <div className="container">
-            <div className="row flex-md-row flex-column-reverse">
-              <div className="col-md-6  d-flex align-items-center">
-                <h1 className="m-2">
-                  獲取您的個人資料前，
-                  <br className="d-none d-md-block" />
-                  請先登錄。
-                </h1>
-              </div>
-              <div className="col-md-6 mb-4 mb-md-0">
-                <img className="img-fluid" alt="profile" src={profileImgV3} />
-              </div>
+        <section className=" container bg-gray-100">
+          <div className="row flex-md-row flex-column-reverse">
+            <div className="col-md-6  d-flex align-items-center">
+              <h1 className="m-2">
+                獲取您的個人資料前，
+                <br className="d-none d-md-block" />
+                請先登錄。
+              </h1>
+            </div>
+            <div className="col-md-6 mb-4 mb-md-0">
+              <img className="img-fluid" alt="profile" src={profileImgV3} />
             </div>
           </div>
         </section>
       )}
       {currentUser && (
-        <div className="container">
-          <div className=" row d-flex flex-md-row align-items-center  ">
+        <div>
+          <div className=" row d-flex flex-md-row align-items-center vw-100">
             <div className="col-md-4 p-1">
               <img className="img-fluid" alt="Teaching" src={profileImgV1} />
             </div>

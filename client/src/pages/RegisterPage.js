@@ -13,7 +13,8 @@ const RegisterPage = ({ showAlert }) => {
     email: "",
     password: "",
     role: "",
-    terms: false,
+    terms: true,
+    inviteCode: "",
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -30,20 +31,7 @@ const RegisterPage = ({ showAlert }) => {
   useEffect(() => {
     document.getElementById("username-input")?.focus();
   }, []);
-  // const validateForm = () => {
-  //   const { error } = registerSchema.validate(formData, { abortEarly: false });
-  //   if (!error) {
-  //     setErrors({});
-  //     return true;
-  //   }
 
-  //   const formattedErrors = {};
-  //   error.details.forEach((detail) => {
-  //     formattedErrors[detail.path[0]] = detail.message;
-  //   });
-  //   setErrors(formattedErrors);
-  //   return false;
-  // };
   const validateForm = () => {
     const { isValid, errors } = validateWithSchema(registerSchema, formData);
     setErrors(errors);
@@ -62,23 +50,24 @@ const RegisterPage = ({ showAlert }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      setIsLoading(true);
-      setServerError("");
-      try {
-        await AuthService.register(formData);
-        showAlert("註冊成功!", "您將被導向至登入頁面。", "elegant", 1500);
-        setTimeout(() => {
-          navigate("/login");
-        }, 1500);
-      } catch (e) {
-        const fallbackMsg = "註冊時發生錯誤，請稍後再試。";
-        const serverMsg =
-          e.response?.data?.message || e.response?.data || fallbackMsg;
-        setServerError(typeof serverMsg === "string" ? serverMsg : fallbackMsg);
-      } finally {
-        setIsLoading(false);
-      }
+    // 用 schema 驗證
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    setServerError("");
+
+    try {
+      await AuthService.register(formData);
+
+      showAlert("註冊成功!", "您將被導向至登入頁面。", "elegant", 1500);
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (e) {
+      const fallbackMsg = "註冊時發生錯誤，請稍後再試。";
+      const serverMsg =
+        e.response?.data?.message || e.response?.data || fallbackMsg;
+      setServerError(typeof serverMsg === "string" ? serverMsg : fallbackMsg);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,15 +78,14 @@ const RegisterPage = ({ showAlert }) => {
       </div>
 
       <div className="col-md-4 col-sm-8 offset-md-1 mt-md-4">
+        <h2 className="my-4 text-center">註冊並開始學習</h2>
         {serverError && (
-          <div className="alert alert-danger">
+          <div className="alert alert-danger ">
             {typeof serverError === "string"
               ? serverError
               : serverError.message || "發生未知錯誤"}
           </div>
         )}
-
-        <h2 className="my-4 text-center">註冊並開始學習</h2>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group custom-input-group mb-3">
@@ -165,6 +153,7 @@ const RegisterPage = ({ showAlert }) => {
               </div>
             )}
           </div>
+
           <div className="form-group mb-2">
             <label htmlFor="role" className="form-label">
               <span>請選擇身份</span>
@@ -181,8 +170,32 @@ const RegisterPage = ({ showAlert }) => {
               <option value="student">學生</option>
               <option value="instructor">講師</option>
             </select>
+
             {errors.role && (
               <div className="invalid-feedback">{errors.role}</div>
+            )}
+          </div>
+          <div className="form-group mb-2">
+            {/* 僅當選講師時顯示授權碼欄位 */}
+            {formData.role === "instructor" && (
+              <div className="mt-3">
+                <label className="form-label">講師授權碼</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="請輸入授權碼"
+                  autoComplete="off"
+                  name="inviteCode"
+                  value={formData.inviteCode}
+                  onChange={handleChange}
+                />
+                <div className="form-text mb-3 text-danger">
+                  僅授權人員可成為講師
+                </div>
+              </div>
+            )}
+            {errors.inviteCode && (
+              <div className="invalid-feedback">{errors.inviteCode}</div>
             )}
           </div>
 

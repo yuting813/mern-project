@@ -18,9 +18,6 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
   const handleTakeToLogin = () => {
     navigate("/login");
   };
-  // const handleTakeToRegister = () => {
-  //   navigate("/register");
-  // };
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
   };
@@ -144,7 +141,7 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
       )}
 
       {currentUser && currentUser.user.role === "instructor" && (
-        <div className="container">
+        <div className="container pt-5">
           <div className=" row flex-md-row flex-column-reverse">
             <div className="col-md-6">
               <img src={planYourCurriculum} alt="" className="img-fluid" />
