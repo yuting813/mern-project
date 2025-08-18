@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import CourseService from "../services/course.service";
+import CourseService from "../services/course.service.js";
 import CourseSkeleton from "../components/course/CourseSkeleton";
 import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
 import CreateCourseMobile from "../assets/CreateCourse-mobile-v2.jpg";
 import EditCourseModal from "../components/course/EditCourseModal.jsx";
+import AuthService from "../services/auth.service";
 
 const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
   const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
@@ -120,36 +121,21 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
 
   // 修改課程卡片中的編輯按鈕渲染邏輯
   const renderCourseActions = (course) => {
-    if (
-      currentUser?.user?.role === "instructor" &&
-      course?.instructor?._id === currentUser?.user?._id
-    ) {
+    if (AuthService.canEditCourse(currentUser, course)) {
       return (
-       
         <div className="d-flex justify-content-between align-items-center">
-          <button
-            onClick={() => handleEdit(course)}
-            className="btn btn-outline-secondary btn-sm px-3"
-          >
+          <button onClick={() => handleEdit(course)} className="btn btn-outline-secondary btn-sm px-3">
             編輯課程
           </button>
-          <button
-            id={course._id}
-            onClick={handleDelete}
-            className="btn btn-outline-danger btn-sm px-3"
-          >
+          <button id={course._id} onClick={handleDelete} className="btn btn-outline-danger btn-sm px-3">
             刪除課程
           </button>
         </div>
       );
-    } else if (currentUser.user.role === "student") {
+    } else if (AuthService.canDropCourse(currentUser)) {
       return (
         <div className="d-flex justify-content-center">
-          <button
-            id={course._id}
-            onClick={handleDrop}
-            className="btn btn-outline-danger rounded-0"
-          >
+          <button id={course._id} onClick={handleDrop} className="btn btn-outline-danger rounded-0">
             退選課程
           </button>
         </div>
@@ -161,14 +147,8 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
   useEffect(() => {
     if (currentUser) {
       const _id = currentUser.user._id;
-      let fetchCourses;
-
-      if (currentUser.user.role === "instructor") {
-        fetchCourses = CourseService.getInstructorCourses;
-      } else {
-        fetchCourses = CourseService.getEnrolledCourses;
-      }
-
+      const fetchCourses = AuthService.getCoursesFetcher(currentUser);
+      
       fetchCourses(_id)
         .then((data) => {
           setCourseData(data);
