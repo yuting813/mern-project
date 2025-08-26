@@ -31,8 +31,10 @@ const registerSchema = Joi.object({
 
   inviteCode: Joi.when("role", {
     is: "instructor",
-    then: Joi.string().min(4).required().messages({
-      "any.required": "講師邀請碼為必填",
+    then: Joi.string().min(4).required().label("講師授權碼").messages({
+      "string.empty": "{{#label}}為必填",
+      "any.required": "{{#label}}為必填",
+      "string.min": "{{#label}}至少 {{#limit}} 碼",
     }),
     otherwise: Joi.any().strip(), // 學生時自動移除欄位
   }),

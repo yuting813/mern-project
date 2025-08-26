@@ -22,8 +22,8 @@ const registerSchema = Joi.object({
     .required()
     .messages({
       "string.empty": "密碼為必填",
-     // 與 regex 對齊：英文字母 + 數字，長度至少 6
-     "string.pattern.base": "密碼需包含英文字母與數字，且長度至少 6 個字元",
+      // 與 regex 對齊：英文字母 + 數字，長度至少 6
+      "string.pattern.base": "密碼需包含英文字母與數字，且長度至少 6 個字元",
     }),
 
   role: Joi.string().valid("student", "instructor").required().messages({
@@ -32,11 +32,12 @@ const registerSchema = Joi.object({
   }),
   inviteCode: Joi.when("role", {
     is: "instructor",
-    then: Joi.string()
-      .min(4)
-      .required()
-      .messages({ "any.required": "講師邀請碼為必填" }),
-    otherwise: Joi.any().strip(),
+    then: Joi.string().min(4).required().label("講師授權碼").messages({
+      "string.empty": "{{#label}}為必填",
+      "any.required": "{{#label}}為必填",
+      "string.min": "{{#label}}至少 {{#limit}} 碼",
+    }),
+    otherwise: Joi.any().strip(), // 學生時自動移除欄位
   }),
 
   terms: Joi.valid(true).required().messages({

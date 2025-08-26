@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthService from "../../services/auth.service";
-import { formatCountdown } from "../../utils/timeUtils";
 import logo from "../../assets/logo.png";
 import "../../styles/main.css";
+// import { formatCountdown } from "../../utils/timeUtils";
 
 const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   const [showBanner, setShowBanner] = useState(true);
-  const [countdownTime, setCountdownTime] = useState(10800);
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
   const location = useLocation();
+  // const [countdownTime, setCountdownTime] = useState(10800);
 
   // 若離開 /enroll，就重設 Nav 的輸入框，避免殘留文字
   useEffect(() => {
@@ -33,13 +33,13 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     showAlert("搜尋中…", "", "elegant", 600);
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdownTime((prevTime) => prevTime - 1);
-    }, 1000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCountdownTime((prevTime) => prevTime - 1);
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div className="shadow nav-position">
