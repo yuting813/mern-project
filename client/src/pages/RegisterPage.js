@@ -32,12 +32,6 @@ const RegisterPage = ({ showAlert }) => {
     document.getElementById("username-input")?.focus();
   }, []);
 
-  const validateForm = () => {
-    const { isValid, errors } = validateWithSchema(registerSchema, formData);
-    setErrors(errors);
-    return isValid;
-  };
-
   const passwordStrength = (password) => {
     let strength = 0;
     if (password.length >= 8) strength++;
@@ -51,13 +45,18 @@ const RegisterPage = ({ showAlert }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // 用 schema 驗證
-    if (!validateForm()) return;
+    const { isValid, errors, value } = validateWithSchema(
+      registerSchema,
+      formData
+    );
+    setErrors(errors);
+    if (!isValid) return;
 
     setIsLoading(true);
     setServerError("");
 
     try {
-      await AuthService.register(formData);
+      await AuthService.register(value);
 
       showAlert("註冊成功!", "您將被導向至登入頁面。", "elegant", 1500);
       setTimeout(() => navigate("/login"), 1500);
@@ -100,7 +99,7 @@ const RegisterPage = ({ showAlert }) => {
               }`}
               placeholder=" "
             />
-            <label htmlFor="username" className="custom-label">
+            <label htmlFor="username-input" className="custom-label">
               <span>用戶名稱</span>
             </label>
             {errors.username && (
@@ -182,13 +181,18 @@ const RegisterPage = ({ showAlert }) => {
                 <label className="form-label">講師授權碼</label>
                 <input
                   type="password"
-                  className="form-control"
+                  className={`form-control ${
+                    errors.inviteCode ? "is-invalid" : ""
+                  }`}
                   placeholder="請輸入授權碼"
                   autoComplete="off"
                   name="inviteCode"
                   value={formData.inviteCode}
                   onChange={handleChange}
                 />
+                {errors.inviteCode && (
+                  <div className="invalid-feedback">{errors.inviteCode}</div>
+                )}
                 <div className="form-text mb-3 text-danger">
                   僅授權人員可成為講師
                 </div>

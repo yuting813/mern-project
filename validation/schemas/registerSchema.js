@@ -9,6 +9,8 @@ const registerSchema = Joi.object({
 
   email: Joi.string()
     .email({ tlds: { allow: false } })
+    .trim()
+    .lowercase()
     .required()
     .messages({
       "string.empty": "電子郵件為必填",
@@ -20,8 +22,8 @@ const registerSchema = Joi.object({
     .required()
     .messages({
       "string.empty": "密碼為必填",
-      "string.pattern.base":
-        "密碼需包含大小寫、數字與特殊符號，且長度至少6字元",
+     // 與 regex 對齊：英文字母 + 數字，長度至少 6
+     "string.pattern.base": "密碼需包含英文字母與數字，且長度至少 6 個字元",
     }),
 
   role: Joi.string().valid("student", "instructor").required().messages({
@@ -34,12 +36,13 @@ const registerSchema = Joi.object({
       .min(4)
       .required()
       .messages({ "any.required": "講師邀請碼為必填" }),
-    otherwise: Joi.forbidden(),
+    otherwise: Joi.any().strip(),
   }),
 
   terms: Joi.valid(true).required().messages({
     "any.only": "您必須同意條款才能註冊",
   }),
+  // 若後續後端不打算用 terms，可註銷，配合 stripUnknown:true 會自動丟掉
 });
 
 module.exports = registerSchema;

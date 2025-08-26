@@ -126,10 +126,16 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 <>
                   <NavItem to="/" text="首頁" />
                   <NavItem to="/course" text="課程頁面" />
-                  {currentUser.user.role === "instructor" && (
+                   {/* 重構前：直接檢查角色
+                   {currentUser.user.role === "instructor" && (<NavItem to="/CreateCourse" text="新增課程" />)}
+                  
+                   重構後：使用AuthService */}
+                  {/* 講師才能新增課程 */}
+                  {AuthService.canCreateCourse(currentUser) && (
                     <NavItem to="/CreateCourse" text="新增課程" />
                   )}
-                  {currentUser.user.role === "student" && (
+                  {/* 學生才能註冊課程 */}
+                  {AuthService.canEnrollCourse(currentUser) && (
                     <NavItem to="/enroll" text="註冊課程" />
                   )}
                   <NavItem to="/profile" text="個人頁面" />

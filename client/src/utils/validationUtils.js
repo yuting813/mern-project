@@ -1,7 +1,7 @@
 export const validateWithSchema = (schema, data) => {
-  const { error } = schema.validate(data, { abortEarly: false });
 
-  if (!error) return { isValid: true, errors: {} };
+  const { error, value } = schema.validate(data, { abortEarly: false });
+  if (!error) return { isValid: true, errors: {}, value };
 
   const formattedErrors = {};
   error.details.forEach((detail) => {
@@ -12,5 +12,5 @@ export const validateWithSchema = (schema, data) => {
     }
   });
 
-  return { isValid: false, errors: formattedErrors };
+  return { isValid: false, errors: formattedErrors ,value};
 };

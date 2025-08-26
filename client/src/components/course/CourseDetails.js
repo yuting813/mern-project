@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../../services/course.service";
+import AuthService from "../../services/auth.service";
 
 const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
   const navigate = useNavigate();
@@ -21,8 +22,12 @@ const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
       showAlert("請先登入", "註冊課程前，請先登入學生帳號。", "elegant", 1000);
       return;
     }
-    // 身分限制
-    if (currentUser.user?.role === "instructor") {
+
+    // 重構前：直接檢查角色
+    // if (currentUser.user?.role === "instructor")
+
+    // 重構後：使用AuthService
+    if (!AuthService.canEnrollCourse(currentUser)) {
       showAlert("無法註冊", "註冊請轉換至學生身分", "elegant", 2000);
       return;
     }

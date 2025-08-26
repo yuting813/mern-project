@@ -34,7 +34,7 @@ const registerSchema = Joi.object({
     then: Joi.string().min(4).required().messages({
       "any.required": "講師邀請碼為必填",
     }),
-    otherwise: Joi.forbidden(), 
+    otherwise: Joi.any().strip(), // 學生時自動移除欄位
   }),
   terms: Joi.valid(true).required().messages({
     "any.only": "您必須同意條款才能註冊",
