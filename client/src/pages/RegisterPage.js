@@ -32,6 +32,17 @@ const RegisterPage = ({ showAlert }) => {
     document.getElementById("username-input")?.focus();
   }, []);
 
+  // 角色切換時的清理
+  useEffect(() => {
+    if (formData.role !== "instructor") {
+      setFormData((p) => ({ ...p, inviteCode: "" }));
+      setErrors((p) => {
+        const { inviteCode, ...rest } = p || {};
+        return rest;
+      });
+    }
+  }, [formData.role]);
+
   const passwordStrength = (password) => {
     let strength = 0;
     if (password.length >= 8) strength++;
@@ -50,7 +61,17 @@ const RegisterPage = ({ showAlert }) => {
       formData
     );
     setErrors(errors);
-    if (!isValid) return;
+    console.log("registerSchema validation result:", {
+      isValid,
+      errors,
+      value,
+    });
+    if (!isValid) {
+      if (formData.role === "instructor" && errors.inviteCode) {
+        document.getElementById("invite-input")?.focus();
+      }
+      return;
+    }
 
     setIsLoading(true);
     setServerError("");
@@ -180,6 +201,7 @@ const RegisterPage = ({ showAlert }) => {
               <div className="mt-3">
                 <label className="form-label">講師授權碼</label>
                 <input
+                  id="invite-input"
                   type="password"
                   className={`form-control ${
                     errors.inviteCode ? "is-invalid" : ""
@@ -197,9 +219,6 @@ const RegisterPage = ({ showAlert }) => {
                   僅授權人員可成為講師
                 </div>
               </div>
-            )}
-            {errors.inviteCode && (
-              <div className="invalid-feedback">{errors.inviteCode}</div>
             )}
           </div>
 
