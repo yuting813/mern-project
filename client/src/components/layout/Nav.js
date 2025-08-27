@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthService from "../../services/auth.service";
+import useAuthUser from "../../hooks/useAuthUser";
 import logo from "../../assets/logo.png";
 import "../../styles/main.css";
 // import { formatCountdown } from "../../utils/timeUtils";
 
 const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
+  const {
+    isInstructor,
+    isStudent,
+    isLoggedIn,
+    canAccessCreateCoursePage,
+    canAccessEnrollPage,
+    username,
+    roleDisplayName,
+  } = useAuthUser(currentUser);
+
   const [showBanner, setShowBanner] = useState(true);
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
@@ -23,6 +34,17 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
     setCurrentUser(null);
     navigate("/");
   };
+
+  // 調試信息（開發環境）
+  if (process.env.NODE_ENV === "development") {
+    console.log("Nav Debug:", {
+      currentUser,
+      isInstructor,
+      isStudent,
+      isLoggedIn,
+      canAccessCreateCoursePage,
+    });
+  }
 
   const submitSearchFromNav = (e) => {
     e.preventDefault();
@@ -88,7 +110,6 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
             {/* 相對定位容器 */}
             <div className=" position-relative w-100">
               {/* 放大鏡：absolute；貼在輸入框左側 */}
-
               <button
                 type="submit"
                 className="btn p-0 border-0 bg-transparent position-absolute top-50"
@@ -99,7 +120,6 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
 
               {/* 圓角輸入框：ps-5 讓文字不壓到 icon */}
               <input
-                // className="form-control rounded-pill border-light shadow-none ps-5"
                 className="form-control search-input ps-5"
                 type="search"
                 placeholder="搜尋課程、講師或關鍵字"
@@ -126,16 +146,20 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                 <>
                   <NavItem to="/" text="首頁" />
                   <NavItem to="/course" text="課程頁面" />
-                   {/* 重構前：直接檢查角色
+                  {/* 重構前：直接檢查角色
                    {currentUser.user.role === "instructor" && (<NavItem to="/CreateCourse" text="新增課程" />)}
                   
-                   重構後：使用AuthService */}
+                  第一階段重構後：使用AuthService */}
+                  {/* {AuthService.canCreateCourse(currentUser) && ( */}
+                  {/* 最終版: 使用明確的權限檢查 */}
                   {/* 講師才能新增課程 */}
-                  {AuthService.canCreateCourse(currentUser) && (
+                  {canAccessCreateCoursePage && (
                     <NavItem to="/CreateCourse" text="新增課程" />
                   )}
+                  {/* 第一階段重構後：使用AuthService */}
+                  {/* {AuthService.canEnrollCourse(currentUser) && ( */}
                   {/* 學生才能註冊課程 */}
-                  {AuthService.canEnrollCourse(currentUser) && (
+                  {canAccessEnrollPage && (
                     <NavItem to="/enroll" text="註冊課程" />
                   )}
                   <NavItem to="/profile" text="個人頁面" />
@@ -144,21 +168,21 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
                       onClick={handleLogout}
                       className="nav-link btn btn-link"
                     >
-                      <span className="hover-text-primary">登出</span>
+                      登出 ({username} - {roleDisplayName})
                     </button>
                   </li>
                 </>
               ) : (
                 <>
                   <NavItem
-                    to="/login"
-                    text="登入"
-                    className="nav-login-link "
-                  />
-                  <NavItem
                     to="/register"
                     text="註冊"
                     className="nav-register-link"
+                  />
+                  <NavItem
+                    to="/login"
+                    text="登入"
+                    className="nav-login-link "
                   />
                 </>
               )}

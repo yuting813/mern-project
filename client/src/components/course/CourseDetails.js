@@ -1,20 +1,21 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CourseService from "../../services/course.service";
-import AuthService from "../../services/auth.service";
+import useAuthUser from "../../hooks/useAuthUser";
 
 const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
   const navigate = useNavigate();
   const [isEnrolling, setIsEnrolling] = useState(false);
+  const { uid, isStudent } = useAuthUser(currentUser);
 
   // 判斷目前使用者是否已註冊（兼容 students 可能是 id 字串或物件）
   const isEnrolled = useMemo(() => {
-    if (!currentUser || !course?.students) return false;
-    const me = currentUser.user?._id || currentUser._id;
+    if (!uid || !course?.students) return false;
+    const me = uid;
     return course.students.some(
       (s) => (typeof s === "string" ? s : s?._id) === me
     );
-  }, [course?.students, currentUser]);
+  }, [course?.students, uid]);
 
   const handleEnroll = async () => {
     // 未登入
@@ -27,7 +28,7 @@ const CourseDetails = ({ course, isNearRightEdge, showAlert, currentUser }) => {
     // if (currentUser.user?.role === "instructor")
 
     // 重構後：使用AuthService
-    if (!AuthService.canEnrollCourse(currentUser)) {
+    if (!isStudent) {
       showAlert("無法註冊", "註冊請轉換至學生身分", "elegant", 2000);
       return;
     }
