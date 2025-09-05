@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import bgImg from "../../assets/bgimg.jpg";
 import bgImgS from "../../assets/bgimg-s.jpg";
-import bannerImg from "../../assets/bannerimg3.png";
-import bannerImgS from "../../assets/bannerimg3-s.png";
-
+ 
 // 依使用者偏好減少動效，自動關閉 autoplay
 const autoPlayAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)")
   .matches;
@@ -14,8 +11,8 @@ const autoPlayAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)")
 const slides = [
   {
     id: 0,
-    desktopSrc: bannerImg,
-    mobileSrc: bannerImgS,
+    desktopSrc: "/assets/banner.png", // public
+    mobileSrc: "/assets/banner-s.png", // public（小尺寸）
     title: "全年投入學習，享受 20% 優惠",
     description:
       "以額外優惠價格，無限存取我們在科技、商務等多個領域中最受好評的課程。適用相關條款。",
@@ -64,6 +61,8 @@ const BannerSlide = ({
             height="400"
             src={desktopSrc}
             loading={lazy ? "lazy" : "eager"}
+            // 只有首張給高優先權
+            fetchPriority={lazy ? undefined : "high"}
             sizes="(max-width: 768px) 100vw, 100vw"
           />
         </picture>
