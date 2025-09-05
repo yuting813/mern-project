@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import bgImg from "../../assets/bgimg.jpg";
 import bgImgS from "../../assets/bgimg-s.jpg";
- 
+
 // 依使用者偏好減少動效，自動關閉 autoplay
 const autoPlayAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)")
   .matches;
@@ -36,8 +36,6 @@ const slides = [
 ];
 
 const BannerSlide = ({
-  desktopSrc,
-  mobileSrc,
   title,
   description,
   cta,
@@ -53,17 +51,23 @@ const BannerSlide = ({
     <div className="banner-container">
       <div className="image-container w-100">
         <picture>
-          <source srcSet={mobileSrc} media="(max-width: 768px)" />
+          {/* WebP：提供兩個寬度 + sizes，所有裝置都能吃到 WebP */}
+          <source
+            type="image/webp"
+            srcSet="/assets/banner-s.webp 640w, /assets/banner.webp 1280w"
+            sizes="100vw"
+          />
+          {/* 後備 PNG：同樣提供兩個寬度 */}
           <img
             className="banner-img"
             alt={title}
-            width="1340"
-            height="400"
-            src={desktopSrc}
+            width={1340}
+            height={400}
+            src="/assets/banner.png"
+            srcSet="/assets/banner-s.png 640w, /assets/banner.png 1280w"
+            sizes="100vw"
             loading={lazy ? "lazy" : "eager"}
-            // 只有首張給高優先權
-            fetchPriority={lazy ? undefined : "high"}
-            sizes="(max-width: 768px) 100vw, 100vw"
+            fetchPriority={lazy ? "auto" : "high"}
           />
         </picture>
       </div>
