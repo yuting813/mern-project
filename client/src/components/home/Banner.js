@@ -1,10 +1,7 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import bgImg from "../../assets/bgimg.jpg";
 import bgImgS from "../../assets/bgimg-s.jpg";
-import bannerImg from "../../assets/bannerimg3.png";
-import bannerImgS from "../../assets/bannerimg3-s.png";
 
 // 依使用者偏好減少動效，自動關閉 autoplay
 const autoPlayAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -14,8 +11,8 @@ const autoPlayAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)")
 const slides = [
   {
     id: 0,
-    desktopSrc: bannerImg,
-    mobileSrc: bannerImgS,
+    desktopSrc: "/assets/banner.png", // public
+    mobileSrc: "/assets/banner-s.png", // public（小尺寸）
     title: "全年投入學習，享受 20% 優惠",
     description:
       "以額外優惠價格，無限存取我們在科技、商務等多個領域中最受好評的課程。適用相關條款。",
@@ -39,8 +36,6 @@ const slides = [
 ];
 
 const BannerSlide = ({
-  desktopSrc,
-  mobileSrc,
   title,
   description,
   cta,
@@ -56,15 +51,23 @@ const BannerSlide = ({
     <div className="banner-container">
       <div className="image-container w-100">
         <picture>
-          <source srcSet={mobileSrc} media="(max-width: 768px)" />
+          {/* WebP：提供兩個寬度 + sizes，所有裝置都能吃到 WebP */}
+          <source
+            type="image/webp"
+            srcSet="/assets/banner-s.webp 640w, /assets/banner.webp 1280w"
+            sizes="100vw"
+          />
+          {/* 後備 PNG：同樣提供兩個寬度 */}
           <img
             className="banner-img"
             alt={title}
-            width="1340"
-            height="400"
-            src={desktopSrc}
+            width={1340}
+            height={400}
+            src="/assets/banner.png"
+            srcSet="/assets/banner-s.png 640w, /assets/banner.png 1280w"
+            sizes="100vw"
             loading={lazy ? "lazy" : "eager"}
-            sizes="(max-width: 768px) 100vw, 100vw"
+            fetchPriority={lazy ? "auto" : "high"}
           />
         </picture>
       </div>
