@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 
-import bgImg from "../../assets/bgimg.jpg";
-import bgImgS from "../../assets/bgimg-s.jpg";
+// carousel banner（非 LCP）
+import carousel1DesktopJpg from "../../assets/carousel-banner-1-desktop.jpg";
+import carousel1DesktopWebp from "../../assets/carousel-banner-1-desktop.webp";
+import carousel1MobileJpg from "../../assets/carousel-banner-1-mobile.jpg";
+import carousel1MobileWebp from "../../assets/carousel-banner-1-mobile.webp";
 
 // 依使用者偏好減少動效，自動關閉 autoplay
 const autoPlayAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)")
   .matches;
 
-// 集中管理 slide；支援 per-slide interval
+// slides 設定
 const slides = [
   {
     id: 0,
-    desktopSrc: "/assets/banner.png", // public
-    mobileSrc: "/assets/banner-s.png", // public（小尺寸）
+    type: "hero",
     title: "全年投入學習，享受 20% 優惠",
     description:
       "以額外優惠價格，無限存取我們在科技、商務等多個領域中最受好評的課程。適用相關條款。",
@@ -23,53 +25,81 @@ const slides = [
   },
   {
     id: 1,
-    desktopSrc: bgImg,
-    mobileSrc: bgImgS,
+    type: "carousel",
+    desktopSrc: carousel1DesktopJpg,
+    desktopWebp: carousel1DesktopWebp,
+    mobileSrc: carousel1MobileJpg,
+    mobileWebp: carousel1MobileWebp,
     title: "彈指之間，即可獲得知識",
     description:
       "向現實世界中全球各地的專家學習，購買 $320 起的課程，還剩一天！",
-    cta: null,
-    ctaTo: null,
     lazy: true,
     interval: 4000,
   },
 ];
 
 const BannerSlide = ({
+  index,
+  total,
+  type,
+  desktopSrc,
+  desktopWebp,
+  mobileSrc,
+  mobileWebp,
   title,
   description,
   cta,
   ctaTo,
-  isActive = false,
-  lazy = false,
+  isActive,
+  lazy,
   interval,
 }) => (
   <div
     className={`carousel-item ${isActive ? "active" : ""}`}
+    role="group"
+    aria-roledescription="slide"
+    aria-label={`第 ${index + 1} 張，共 ${total} 張`}
+    aria-hidden={!isActive}
     data-bs-interval={autoPlayAllowed ? interval : undefined}
   >
     <div className="banner-container">
       <div className="image-container w-100">
-        <picture>
-          {/* WebP：提供兩個寬度 + sizes，所有裝置都能吃到 WebP */}
-          <source
-            type="image/webp"
-            srcSet="/assets/banner-s.webp 640w, /assets/banner.webp 1280w"
-            sizes="100vw"
-          />
-          {/* 後備 PNG：同樣提供兩個寬度 */}
-          <img
-            className="banner-img"
-            alt={title}
-            width={1340}
-            height={400}
-            src="/assets/banner.png"
-            srcSet="/assets/banner-s.png 640w, /assets/banner.png 1280w"
-            sizes="100vw"
-            loading={lazy ? "lazy" : "eager"}
-            fetchPriority={lazy ? "auto" : "high"}
-          />
-        </picture>
+        {type === "hero" ? (
+          <picture>
+            <source
+              type="image/webp"
+              srcSet="/assets/home-hero-mobile.webp 640w, /assets/home-hero-desktop.webp 1280w"
+              sizes="100vw"
+            />
+            <img
+              className="banner-img"
+              alt={title}
+              width={1340}
+              height={400}
+              src="/assets/home-hero-desktop.png"
+              srcSet="/assets/home-hero-mobile.png 640w, /assets/home-hero-desktop.png 1280w"
+              sizes="100vw"
+              loading="eager"
+              fetchPriority="high"
+            />
+          </picture>
+        ) : (
+          <picture>
+            <source
+              type="image/webp"
+              srcSet={`${mobileWebp} 640w, ${desktopWebp} 1280w`}
+              sizes="100vw"
+            />
+            <img
+              className="banner-img"
+              alt={title}
+              src={desktopSrc}
+              srcSet={`${mobileSrc} 640w, ${desktopSrc} 1280w`}
+              sizes="100vw"
+              loading="lazy"
+            />
+          </picture>
+        )}
       </div>
 
       <div className="text-container bg-white border p-4">
@@ -79,9 +109,7 @@ const BannerSlide = ({
           <a
             className="banner-btn-purple"
             href={ctaTo}
-            onClick={(e) => {
-              e.stopPropagation(); // 阻止冒泡到 carousel
-            }}
+            onClick={(e) => e.stopPropagation()}
             aria-label={cta}
           >
             {cta}
@@ -97,51 +125,40 @@ const Banner = () => {
     const el = document.getElementById("homeBannerCarousel");
     if (!el) return;
 
-    // 建立/取得 carousel 實例
     const carousel =
       window.bootstrap?.Carousel.getInstance(el) ||
       new window.bootstrap.Carousel(el, {
-        interval: autoPlayAllowed ? 4500 : false, // 全域預設（會被每張覆蓋）
+        interval: autoPlayAllowed ? 4500 : false,
         ride: autoPlayAllowed ? "carousel" : false,
         pause: "hover",
         touch: true,
         keyboard: true,
       });
 
-    // 使用者互動（左右箭頭/圓點）後停止自動播放，避免搶操作
     const stopOnInteraction = () => carousel.pause();
     const controls = el.querySelectorAll(
       ".carousel-control-prev, .carousel-control-next, .carousel-indicators button"
     );
     controls.forEach((btn) => btn.addEventListener("click", stopOnInteraction));
 
-    // 分頁不可見暫停
-    const onVisibility = () => {
-      if (document.hidden) carousel.pause();
-      else if (autoPlayAllowed) carousel.cycle();
-    };
-    document.addEventListener("visibilitychange", onVisibility);
-
     return () => {
       controls.forEach((btn) =>
         btn.removeEventListener("click", stopOnInteraction)
       );
-      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
   return (
-    <section aria-label="首頁促銷與主題橫幅">
+    <section aria-label="首頁促銷與主題橫幅" aria-roledescription="carousel">
       <div
         id="homeBannerCarousel"
         className="carousel slide banner-position"
         data-bs-ride={autoPlayAllowed ? "carousel" : undefined}
-        data-bs-interval={autoPlayAllowed ? 4500 : undefined}
         data-bs-pause="hover"
         data-bs-touch="true"
         data-bs-keyboard="true"
       >
-        {/* indicators（自動依 slides 產生） */}
+        {/* indicators */}
         <div className="carousel-indicators">
           {slides.map((_, idx) => (
             <button
@@ -151,19 +168,24 @@ const Banner = () => {
               data-bs-slide-to={idx}
               className={idx === 0 ? "active" : ""}
               aria-current={idx === 0 ? "true" : undefined}
-              aria-label={`Slide ${idx + 1}`}
+              aria-label={`前往第 ${idx + 1} 張`}
             />
           ))}
         </div>
 
-        {/* slides */}
         <div className="carousel-inner">
           {slides.map((s, idx) => (
-            <BannerSlide key={s.id} {...s} isActive={idx === 0} />
+            <BannerSlide
+              key={s.id}
+              {...s}
+              index={idx}
+              total={slides.length}
+              isActive={idx === 0}
+            />
           ))}
         </div>
 
-        {/* controls */}
+        {/* controls（保留） */}
         <button
           className="carousel-control-prev"
           type="button"
