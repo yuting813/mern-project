@@ -1,17 +1,13 @@
-import React, { useState, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import CourseImage from "./CourseImage";
 import CourseDetails from "./CourseDetails";
 
 const CourseCard = forwardRef(
   ({ course, showAlert, currentUser, isNearRightEdge }, ref) => {
-    const [isHovering, setIsHovering] = useState(false);
-
     return (
       <div
         ref={ref}
-        className="me-3 p-2 position-relative card-img-size mb-4"
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
+        className="me-3 p-2 position-relative card-img-size mb-4 course-card"
       >
         <div className="course-imager">
           <CourseImage course={course} />
@@ -27,12 +23,15 @@ const CourseCard = forwardRef(
           <span className="badge-tag">暢銷課程</span>
         </div>
 
-        <div className={`course-details-wrapper ${isHovering ? "show" : ""}`}>
+        <div
+          className={`course-details-wrapper ${
+            isNearRightEdge ? "align-left" : "align-right"
+          }`}
+        >
           <CourseDetails
             course={course}
             showAlert={showAlert}
             currentUser={currentUser}
-            isNearRightEdge={isNearRightEdge}
           />
         </div>
       </div>

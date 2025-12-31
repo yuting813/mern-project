@@ -48,3 +48,11 @@
   outline: none;
   box-shadow: 0 0 0 0.15rem rgba(164, 53, 240, 0.25);
 }
+
+.btn-purple:disabled,
+.btn-purple[disabled] {
+  background-color: #d8b4fe;
+  border-color: #d8b4fe;
+  color: #ffffff;
+  opacity: 1;
+}
