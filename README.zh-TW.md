@@ -3,7 +3,7 @@
 [English](README.md) | [繁體中文](README.zh-TW.md)
 
 這是一個使用 **MERN**（MongoDB, Express, React, Node.js）技術棧開發的線上課程平台。  
-此專案為**面試導向的全棧作品**，重點展示權限系統設計、資料驗證一致性與可維護的前端架構，而非單純堆疊功能。
+此專案著重於**權限系統設計、資料驗證邊界與可維護的前端架構**，並刻意避免單純堆疊功能，以利技術面試討論。
 
 ---
 
@@ -51,12 +51,12 @@
 以下為高層結構，前端以功能導向拆分，權限與業務邏輯集中管理：
 
 ```
-├── client/                 # React 前端
-├── config/                 # 伺服器配置
-├── models/                 # Mongoose 模型
-├── routes/                 # API 路由
-├── validation/             # 後端驗證
-└── server.js               # 伺服器入口
+|-- client/                 # React 前端
+|-- config/                 # 伺服器配置
+|-- models/                 # Mongoose 模型
+|-- routes/                 # API 路由
+|-- validation/             # 後端驗證
+`-- server.js               # 伺服器入口
 ```
 
 ---
@@ -94,6 +94,7 @@ npm run dev
 ## 環境變數
 
 **root**
+
 ```
 MONGODB_CONNECTION=
 PASSPORT_SECRET=
@@ -101,6 +102,7 @@ INSTRUCTOR_INVITE_CODE=
 ```
 
 **client**
+
 ```
 REACT_APP_API_BASE_URL=http://localhost:8080
 ```
@@ -112,3 +114,22 @@ REACT_APP_API_BASE_URL=http://localhost:8080
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://course.tinahu.dev/)
 
 ---
+
+## 測試帳密
+
+- 角色：`student`
+- Email：`demo.student@course.tinahu.dev`
+- 密碼：`DemoCourse!2025`
+
+講師註冊需要邀請碼，面試時可提供以便現場測試。
+
+---
+
+## 面試討論重點（Interview Talking Points）
+
+此專案適合用來討論以下主題：
+
+- 權限系統如何集中設計，避免 UI 元件耦合業務邏輯
+- 前後端驗證邊界的切分與一致性策略
+- 課程流程中的資料流設計（Create / Enroll / Drop）
+- UX 穩定性取捨（Skeleton、Lazy loading、行動裝置互動）
