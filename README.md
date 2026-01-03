@@ -1,17 +1,17 @@
 # MERN Course Platform
 
-[English](README.md) | [Chinese](README.zh-TW.md)
+[English](README.md) | [繁體中文](README.zh-TW.md)
 
-A full-stack course management platform built with the MERN stack, designed as an **interview-oriented portfolio project**.
+A full-stack course management platform built with the MERN stack, focusing on **authorization design, frontend–backend boundaries, and predictable UX behavior**.
 
-This project focuses on **role-based authorization, permission-driven UI decisions, and maintainable frontend architecture**, rather than feature stacking.
+The goal of this project is to explore **permission-driven UI design and long-term maintainability**, rather than feature completeness.
 
 ---
 
 ## Highlights
 
 - Role-based access control (Student / Instructor)
-- Permission-driven UI (centralized, not scattered conditionals)
+- Permission-driven UI (centralized rules instead of scattered conditionals)
 - Complete course lifecycle: create, enroll, drop, edit
 - Frontend & backend validation with Joi
 - UX optimizations: skeleton loading, lazy routes, CLS prevention
@@ -93,6 +93,7 @@ npm run dev
 ## Environment Variables
 
 **root**
+
 ```
 MONGODB_CONNECTION=
 PASSPORT_SECRET=
@@ -100,6 +101,7 @@ INSTRUCTOR_INVITE_CODE=
 ```
 
 **client**
+
 ```
 REACT_APP_API_BASE_URL=http://localhost:8080
 ```
@@ -112,9 +114,21 @@ REACT_APP_API_BASE_URL=http://localhost:8080
 
 ---
 
-## What This Project Demonstrates
+## Demo Account
 
-- I design permission systems, not just UI
-- I understand full-stack data flow
-- I care about UX stability and maintainability
-- I can clearly explain architectural trade-offs in interviews
+- Role: `student`
+- Email: `demo.student@course.tinahu.dev`
+- Password: `DemoCourse!2025`
+
+Instructor registration requires an invite code. I can provide it during the interview for live testing.
+
+---
+
+## Interview Discussion Topics
+
+This project is well-suited for technical discussions around:
+
+- Centralized permission systems and permission-driven UI design
+- Frontend–backend validation boundaries using Joi
+- Course lifecycle data flow (create, enroll, drop, edit)
+- UX stability and performance trade-offs (skeleton loading, lazy routes, mobile interaction)
