@@ -66,36 +66,44 @@ const BannerSlide = ({
       <div className="image-container w-100">
         {type === "hero" ? (
           <picture>
+            {/* Mobile Image (max-width: 767px) */}
             <source
+              media="(max-width: 767px)"
+              srcSet="/assets/home-hero-mobile.webp"
               type="image/webp"
-              srcSet="/assets/home-hero-mobile.webp 640w, /assets/home-hero-desktop.webp 1280w"
-              sizes="100vw"
             />
+            <source
+              media="(max-width: 767px)"
+              srcSet="/assets/home-hero-mobile.png"
+              type="image/png"
+            />
+            {/* Desktop Image (Default/min-width: 768px) */}
+            <source srcSet="/assets/home-hero-desktop.webp" type="image/webp" />
             <img
               className="banner-img"
               alt={title}
               width={1340}
               height={400}
               src="/assets/home-hero-desktop.png"
-              srcSet="/assets/home-hero-mobile.png 640w, /assets/home-hero-desktop.png 1280w"
-              sizes="100vw"
               loading="eager"
               fetchPriority="high"
             />
           </picture>
         ) : (
           <picture>
+            {/* Mobile Image */}
             <source
+              media="(max-width: 767px)"
+              srcSet={mobileWebp}
               type="image/webp"
-              srcSet={`${mobileWebp} 640w, ${desktopWebp} 1280w`}
-              sizes="100vw"
             />
+            <source media="(max-width: 767px)" srcSet={mobileSrc} />
+            {/* Desktop Image */}
+            <source srcSet={desktopWebp} type="image/webp" />
             <img
               className="banner-img"
               alt={title}
               src={desktopSrc}
-              srcSet={`${mobileSrc} 640w, ${desktopSrc} 1280w`}
-              sizes="100vw"
               loading="lazy"
             />
           </picture>
@@ -137,13 +145,13 @@ const Banner = () => {
 
     const stopOnInteraction = () => carousel.pause();
     const controls = el.querySelectorAll(
-      ".carousel-control-prev, .carousel-control-next, .carousel-indicators button"
+      ".carousel-control-prev, .carousel-control-next, .carousel-indicators button",
     );
     controls.forEach((btn) => btn.addEventListener("click", stopOnInteraction));
 
     return () => {
       controls.forEach((btn) =>
-        btn.removeEventListener("click", stopOnInteraction)
+        btn.removeEventListener("click", stopOnInteraction),
       );
     };
   }, []);
