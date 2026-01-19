@@ -1,185 +1,152 @@
-
 # Client (React) — MERN 課程平台
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://mern-project-ivory.vercel.app/)
-> 前端子專案（React）。負責路由、身分驗證、權限渲染、課程 CRUD 的 UI 與 API 串接。  
-> 與後端（Express + MongoDB + JWT）透過 `REACT_APP_API_BASE_URL` 溝通。
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://course.tinahu.dev/)
+
+> 前端子專案（React）。負責處理複雜路由、身分驗證、權限動態渲染，以及課程 CRUD 的 UI 互動與 API 串接。
+> 系統與後端（Express + MongoDB + JWT）透過環境變數 `REACT_APP_API_BASE_URL` 進行解耦通訊。
 
 ---
 
-## 重點速覽（TL;DR）
-- **技術**：React 18、React Router v6、Axios、Bootstrap（樣式）、`React.lazy + Suspense`
-- **認證**：JWT（`Authorization: JWT <token>`），登入後以 `localStorage.user` 持久化 `{ token, user }`
-- **權限**：`useAuthUser` + `PermissionService`（`normalizeUser`、`isInstructor/isStudent/isLoggedIn`、`getCoursesFetcher`、`canEditCourse`）
-- **Service layer（服務層 / API clients）**：`AuthService`、`CourseService`（自動夾帶 `Authorization` header）
-- **建置與部署**：`npm run build` 產出 `client/build`，production 由 Express 提供靜態檔與萬用路由
+## 工程亮點 (Engineering Highlights)
 
----
+這裡不僅是實作功能，更著重於可維護性與系統設計：
 
+### 1. 系統架構設計 (Service-Oriented Architecture)
 
-## 專案結構（前端）
+- **設計決策**：採用 SOA 概念，將 API 請求與業務邏輯（Business Logic）完全抽離至 Service Layer。
+- **效益**：確保 UI 組件（View）與 API 資料結構（Model）解耦。若後端 API 欄位變更，僅需修改 Service 層，無需查找並修改所有 UI 組件。
 
-```
+### 2. 語意化權限控制 (Semantic Permission Logic)
+
+- **設計決策**：實作 `PermissionService` 與 `useAuthUser` Hook。
+- **效益**：UI 組件僅根據「語意旗標」（如 `canEdit`, `isInstructor`）進行渲染，而非直接在 JSX 中判斷 `user.role === 'teacher'` 等原始資料。這提升了代碼的可讀性，也讓權限邏輯集中管理，便於測試。
+
+### 3. 狀態可預測性 (Predictable State)
+
+- **設計決策**：針對 API 的生命週期——加載中（Loading）、權限不足（Forbidden）與錯誤情境（Error Handling）——實作一致的 UI 處理機制。
+- **效益**：消除「介面閃爍」或「無回應」的體驗，確保用戶在各種邊際情況（Edge Cases）下都能獲得連貫的系統回饋。
+
+### 4. 性能優化 (Performance & UX)
+
+- **設計決策**：
+- **Code Splitting**：導入 Route-based Code Splitting，利用 `React.lazy` + `Suspense` 減少首屏加載體積（Bundle Size）。
+- **Art Direction**：針對響應式圖片採用 Art Direction 技術，精準控制 Mobile/Desktop 下載不同尺寸的資源，節省頻寬。
+
+## 技術棧與重點速覽 (Tech Stack & TL;DR)
+
+- **Core**: React 18, React Router v6
+- **Network**: Axios (Interceptors configured)
+- **UI Framework**: Bootstrap 5
+- **Optimization**: React.lazy + Suspense
+- **Auth**: JWT (Bearer Token) + LocalStorage Persistence
+- **Deployment**: Express Static Serving (Production) + Catch-all Route
+
+## 專案結構 (Project Structure)
+
+設計思維：UI 僅使用語意旗標，不直接讀取後端 Raw Data 結構，降低耦合度。
+
+```text
 client/src/
-├── components/              # 可復用組件
-│   ├── CourseCard/          # 課程卡片組件
-│   ├── Navigation/          # 導航組件
-│   └── common/              # 通用組件
-├── pages/                   # 頁面組件
-│   ├── HomePage/            # 首頁
-│   ├── LoginPage/           # 登入頁
-│   └── CoursePage/          # 課程頁
-├── services/                # API 服務層（Service layer / API clients）
-│   ├── auth.service.js      # 認證服務
-│   └── course.service.js    # 課程服務
-├── hooks/                   # 自定義 Hooks（含 useAuthUser）
-├── utils/                   # 工具函數（含 normalizeUser 等）
-├── styles/                  # 樣式文件
-└── validation/              # 表單驗證（Joi schema 等）
+├── components/           # 可復用 UI 組件（視覺與邏輯分離）
+│   ├── CourseCard/       # 課程卡片（封裝權限判斷，內部消化 canEdit 邏輯）
+│   ├── Navigation/       # 導航列（含 Responsive Menu）
+│   └── common/           # 通用組件（Spinner, Alert, Modal）
+├── pages/                # 頁面級組件（配合 React.lazy 進行路由層級拆分）
+├── services/             # API 服務層（Service Layer / API Clients）
+│   ├── auth.service.js   # 封裝註冊、登入與 Token 管理
+│   └── course.service.js # 封裝課程 CRUD，自動夾帶 Auth Header
+├── hooks/                # 自定義 Hooks（業務邏輯抽離，如 useAuthUser）
+├── utils/                # 工具函數（資料正規化 normalizeUser）
+├── styles/               # 全局與組件樣式
+└── validation/           # 前端表單驗證（Joi Schemas）
+
 ```
 
-> UI 僅使用語意旗標，不直接讀 raw 結構，降低耦合。
+## 認證與權限架構 (Auth & Permissions)
 
----
+### 1. 狀態管理與持久化
 
-## 快速開始
+- **流程**：登入成功後，前端將 `{ token, user }` 存入 `localStorage`。
+- **安全性**：Service Layer 在發出請求時，會自動從持久化存儲讀取 Token，並注入 Axios 的 `Authorization` Header，確保 Token 不會暴露在 URL 或不必要的組件 Props 中。
 
-```bash
-cd client
-npm install
+### 2. 語意化權限判斷 (Code Example)
 
-# 設定環境變數（React 只會讀取以 REACT_APP_ 開頭的變數）
-cp .env.example .env
-# .env（範例）
-# REACT_APP_API_BASE_URL=http://localhost:8080
+透過自定義 Hook 封裝複雜邏輯，讓組件內代碼保持「宣告式（Declarative）」的簡潔風格：
 
-# 開發模式
-npm start
-```
-
-> 改 `.env` 後需重新啟動 `npm start` 才會生效（build-time 注入）。
-
----
-
-## 環境變數
-
-| 變數 | 說明 | 範例 |
-| --- | --- | --- |
-| `REACT_APP_API_BASE_URL` | 後端 API Base URL | `http://localhost:8080` |
-
-`.env.example` 已提供範本；請複製為 `.env` 並調整。
-
----
-
-## NPM Scripts
-
-```bash
-npm start     # 啟動開發伺服器
-npm run build # 產出 /client/build 作為靜態檔
-```
-
-> 產出的 `client/build` 在 **production** 由 Express 靜態服務並以萬用路由回傳 `index.html`。
-
----
-
-## 路由一覽
-
-- `/` 首頁  
-- `/login` 登入  
-- `/register` 註冊  
-- `/course` 我的課程（講師＝我開的課、學生＝我註冊的課）  
-- `/createcourse` 新增課程（**講師限定**）  
-- `/enroll` 搜尋/註冊課程  
-- `/profile` 個人頁面  
-
-> 多數頁面以 `React.lazy + Suspense` 懶載入。
-
----
-
-## 認證與權限（前端視角）
-
-### 狀態保存
-- 登入 `POST /api/user/login` 成功後，後端回傳：
-  ```json
-  {
-    "success": true,
-    "message": "登入成功",
-    "token": "JWT <jwt_token>",
-    "user": { "_id": "...", "username": "...", "email": "...", "role": "student|instructor" }
-  }
-  ```
-- 前端以 `localStorage.setItem("user", JSON.stringify(data))` 保存。
-- Service layer（例：`course.service.js`）會從 `localStorage.user.token` 讀取並加到 `Authorization` header。
-
-### 權限判斷
-- 以 `useAuthUser` + `PermissionService` 輸出語意旗標與能力方法：
-  - 旗標：`isInstructor / isStudent / isLoggedIn`
-  - 能力：`getCoursesFetcher()`、`canEditCourse(course)`、`canDropCourse()`…
-- `normalizeUser()` 容錯 `{ user:{...} }` 與扁平 `{...}` 兩種形態。
-
-**範例：**
-```jsx
-import useAuthUser from "../hooks/useAuthUser";
-
-const { uid, isInstructor, isStudent, getCoursesFetcher, canEditCourse } = useAuthUser(currentUser);
+```javascript
+// 範例：在課程列表頁面
+// UI 不需知道 "誰" 是老師，只需知道 "如何" 獲取數據
+const { uid, isInstructor, getCoursesFetcher } = useAuthUser(currentUser);
 
 useEffect(() => {
+  // 透過 Service Layer 取得正確的 Fetcher（多型策略）
+  // 學生 => 獲取已註冊課程; 講師 => 獲取已發布課程
   const fetcher = getCoursesFetcher();
-  fetcher(uid).then(setCourseData);
+
+  if (uid) {
+    fetcher(uid).then(setCourseData).catch(handleError); // 統一錯誤處理
+  }
 }, [getCoursesFetcher, uid]);
 ```
 
----
+## RESTful API 對接表
 
-## RESTful API（前端對接）
+前端透過統一的介面與後端溝通，以下為核心功能對接：
 
-| 方法 | 端點                         | 功能       | 權限   |
-| ---- | ---------------------------- | ---------- | ------ |
-| POST | `/api/user/register`         | 用戶註冊   | 公開   |
-| POST | `/api/user/login`            | 用戶登入   | 公開   |
-| GET  | `/api/courses`               | 課程列表   | 認證   |
-| POST | `/api/courses`               | 建立課程   | 講師   |
-| PATCH| `/api/courses/:id`           | 更新課程   | 講師   |
-| DELETE | `/api/courses/:id`         | 刪除課程   | 講師   |
-| POST | `/api/courses/enroll/:id`    | 選課       | 學生   |
-| POST | `/api/courses/drop/:id`      | 退選       | 學生   |
+| 方法  | 端點 (Endpoint)         | 功能描述      | 權限要求              |
+| ----- | ----------------------- | ------------- | --------------------- |
+| POST  | /api/user/login         | 用戶登入      | 公開                  |
+| GET   | /api/courses            | 獲取課程列表  | 認證用戶              |
+| POST  | /api/courses            | 建立新課程    | 講師限定 (Instructor) |
+| PATCH | /api/courses/:id        | 更新課程內容  | 課程持有者 (Owner)    |
+| POST  | /api/courses/enroll/:id | 註冊/選修課程 | 學生限定 (Student)    |
 
-**共同 Header（節錄）**
-```http
-Authorization: JWT <token>
-Content-Type: application/json
-```
-
----
-
-## 建置與部署
+## 開發環境設定 (Development Setup)
 
 ```bash
-npm run build
+# 1. 進入前端目錄
+cd client
+
+# 2. 安裝依賴
+npm install
+
+# 3. 配置環境變數
+# 請確保 .env 中的 REACT_APP_API_BASE_URL 正確指向後端
+cp .env.example .env
+
+# 4. 啟動開發伺服器
+npm start
+
 ```
-- 產出：`client/build`  
-- 後端（Express）在 `NODE_ENV=production` 時：
-  - 靜態服務 `client/build`
-  - 以萬用路由回傳 `index.html`（支援 React Router）
 
----
+## 建置與部署 (Build & Deploy)
 
-<details>
-<summary>疑難排解</summary>
+本專案採用 Hybrid Deployment 策略，Production 環境下由後端伺服器託管前端資源。
 
-- **白頁/404 子路由**：分離部署需啟用 SPA 轉址（Netlify `_redirects` 或 Vercel rewrites）。
-- **抓不到 API**：`.env` 的 `REACT_APP_API_BASE_URL` 是否正確；改後重啟 dev server。
-- **401**：`Authorization: JWT <token>` 是否帶到；token 可能過期，請重新登入。
-- **CORS/混合內容**：後端 `cors()` 放行你的前端網域；前端用 **HTTPS** 指向 API。
-### 快速自查
-1. `console.log(process.env.REACT_APP_API_BASE_URL)` 是否正確 → 錯就修 `.env` 並重啟。
-2. DevTools → Network：
-   - 先看 `OPTIONS /api/...` 是否過（CORS headers 有 `Access-Control-Allow-Origin` 與 `Authorization`）。
-   - 再看實際 `GET/POST` 的狀態碼（401/403/404/500 對應處理）。
-3. `curl -i https://api.yourdomain.com/api/courses` → 能回 200/401/404 代表後端活著；連不上才是後端問題。
+```bash
+# 產出物位於: client/build 目錄
+npm run build
 
-</details>
+```
 
+**Production 運作邏輯**：
 
+1. 後端 Express 配置靜態資源服務指向 `client/build`。
+2. **關鍵配置**：後端需配置「萬用路由（Catch-all Route）」，將所有非 API 請求重導向至 `index.html`，以支援 React Router 的 History Mode 運作（避免重新整理後 404）。
 
-> 術語約定：文件中使用 **Service layer（服務層 / API clients）** 作為統一定義；首次出現中英並列，後續以英文為主。
+## 疑難排解 (Troubleshooting)
+
+**SPA 404 錯誤**
+
+- **現象**：在子路由（如 `/courses/edit`）重新整理頁面時出現 404。
+- **解法**：確認後端是否已正確配置 `app.get('*', ...)` 轉向 `index.html`。
+
+**API 連線失敗**
+
+- **檢查**：打開瀏覽器 DevTools Network 面板，檢查 Request URL 是否正確。
+- **解法**：確認 `.env` 中的 `REACT_APP_API_BASE_URL` 是否包含 `http://` 協議前綴及正確 Port 號。
+
+**CORS 問題**
+
+- **現象**：Console 出現 "Access-Control-Allow-Origin" 錯誤。
+- **解法**：開發模式下，請確認後端 Express 的 `cors()` 中介軟體已放行前端開發網域（如 `localhost:3000`）。
