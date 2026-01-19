@@ -1,12 +1,20 @@
 import React from "react";
-import logo from '../../assets/logo.png';
+import logo from "../../assets/logo.png";
+
+const FOOTER_CONTENT = {
+  warning:
+    "本網站為個人作品集展示，僅供技術交流用途。為了您的資訊安全，請勿輸入任何敏感個資（如信用卡號）。",
+  copyright: (year) => `© ${year} - Built by Tina Hu`,
+};
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <div className="bg-light py-3 px-5 mt-5">
+    <footer className="bg-light py-4 px-5 mt-5">
       <div className="row align-items-center">
-        <div className="col-md-6">
-          <a className="navbar-brand" href="/">
+        <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
+          <a className="navbar-brand" href="/" aria-label="回到首頁">
             <img
               src={logo}
               alt="Logo"
@@ -15,14 +23,14 @@ const Footer = () => {
             />
           </a>
         </div>
-        <div className="col-md-6 text-md-end">
-          <p className="mb-0">
-            本網站僅供練習之用,請勿提供任何個人資料,例如信用卡號碼。
+        <div className="col-md-6 text-center text-md-end">
+          <p className="mb-0 text-muted small">{FOOTER_CONTENT.warning}</p>
+          <p className="mt-2 text-muted">
+            {FOOTER_CONTENT.copyright(currentYear)}
           </p>
-          <p className="mb-0">&copy; 2025 Tina Hu</p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
