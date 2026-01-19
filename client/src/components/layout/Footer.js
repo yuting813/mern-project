@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 const FOOTER_CONTENT = {
@@ -14,14 +14,14 @@ const Footer = () => {
     <footer className="bg-light py-4 px-5 mt-5">
       <div className="row align-items-center">
         <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
-          <a className="navbar-brand" href="/" aria-label="回到首頁">
+          <Link className="navbar-brand" to="/" aria-label="回到首頁">
             <img
               src={logo}
-              alt="Logo"
+              alt="MERN Course Platform Logo"
               className="img-fluid"
               style={{ maxHeight: "70px" }}
             />
-          </a>
+          </Link>
         </div>
         <div className="col-md-6 text-center text-md-end">
           <p className="mb-0 text-muted small">{FOOTER_CONTENT.warning}</p>
