@@ -1,20 +1,23 @@
-# Client (React) — MERN 課程平台
+# Client (React) — 課程管理系統前端架構
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://course.tinahu.dev/)
+[Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel)
 
-> 前端子專案（React）。負責處理複雜路由、身分驗證、權限動態渲染，以及課程 CRUD 的 UI 互動與 API 串接。
-> 系統與後端（Express + MongoDB + JWT）透過環境變數 `REACT_APP_API_BASE_URL` 進行解耦通訊。
+> 隸屬於 MERN Course Platform 的前端子專案。 本文件專注於說明 React 端如何透過 SOA 架構 與 權限驅動設計，解決前後端分離開發中的狀態同步與維護性問題。
 
 ---
 
+## 專案定位
+
+這是一個基於 React 開發的課程管理介面。負責處理複雜路由、身分驗證、權限動態渲染，以及課程 CRUD 的 UI 互動與 API 串接。 系統與後端（Express + MongoDB）透過環境變數 REACT_APP_API_BASE_URL 進行解耦通訊，確保開發與部署環境的靈活性。
+
 ## 工程亮點 (Engineering Highlights)
 
-這裡不僅是實作功能，更著重於可維護性與系統設計：
+這裡不僅是實作功能，更著重於 可維護性 (Maintainability) 與 系統設計 (System Design)：
 
 ### 1. 系統架構設計 (Service-Oriented Architecture)
 
-- **設計決策**：採用 SOA 概念，將 API 請求與業務邏輯（Business Logic）完全抽離至 Service Layer。
-- **效益**：確保 UI 組件（View）與 API 資料結構（Model）解耦。若後端 API 欄位變更，僅需修改 Service 層，無需查找並修改所有 UI 組件。
+- **設計決策**：採用 SOA 概念，將 API 請求與業務邏輯（Business Logic）完全抽離至 `Service Layer`。
+- **效益**：確保 UI 組件（View）與 API 資料結構（Model）解耦。若後端 API 欄位變更，僅需修改 Service 層，無需查找並修改所有 UI 組件，大幅降低維護成本。
 
 ### 2. 語意化權限控制 (Semantic Permission Logic)
 
@@ -30,13 +33,13 @@
 
 - **設計決策**：
 - **Code Splitting**：導入 Route-based Code Splitting，利用 `React.lazy` + `Suspense` 減少首屏加載體積（Bundle Size）。
-- **Art Direction**：針對響應式圖片採用 Art Direction 技術，精準控制 Mobile/Desktop 下載不同尺寸的資源，節省頻寬。
+- **Art Direction**：針對響應式圖片採用 Art Direction 技術，精準控制 Mobile/Desktop 下載不同尺寸的資源，節省頻寬並提升 LCP (Largest Contentful Paint) 指標。
 
 ## 技術棧與重點速覽 (Tech Stack & TL;DR)
 
 - **Core**: React 18, React Router v6
-- **Network**: Axios (Interceptors configured)
-- **UI Framework**: Bootstrap 5
+- **Network**: Axios (Encapsulated in Service Layer)
+- **UI Framework**: Bootstrap 5 (Customized)
 - **Optimization**: React.lazy + Suspense
 - **Auth**: JWT (Bearer Token) + LocalStorage Persistence
 - **Deployment**: Express Static Serving (Production) + Catch-all Route
@@ -45,12 +48,12 @@
 
 設計思維：UI 僅使用語意旗標，不直接讀取後端 Raw Data 結構，降低耦合度。
 
-```text
+```
 client/src/
 ├── components/           # 可復用 UI 組件（視覺與邏輯分離）
 │   ├── CourseCard/       # 課程卡片（封裝權限判斷，內部消化 canEdit 邏輯）
 │   ├── Navigation/       # 導航列（含 Responsive Menu）
-│   └── common/           # 通用組件（Spinner, Alert, Modal）
+│   └── common/           # 通用組件（Spinner, Alert, Modal - 確保全站 UI 一致性）
 ├── pages/                # 頁面級組件（配合 React.lazy 進行路由層級拆分）
 ├── services/             # API 服務層（Service Layer / API Clients）
 │   ├── auth.service.js   # 封裝註冊、登入與 Token 管理
@@ -73,7 +76,7 @@ client/src/
 
 透過自定義 Hook 封裝複雜邏輯，讓組件內代碼保持「宣告式（Declarative）」的簡潔風格：
 
-```javascript
+```jsx
 // 範例：在課程列表頁面
 // UI 不需知道 "誰" 是老師，只需知道 "如何" 獲取數據
 const { uid, isInstructor, getCoursesFetcher } = useAuthUser(currentUser);
