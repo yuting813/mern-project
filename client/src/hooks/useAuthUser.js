@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
-import AuthService from "../services/auth.service";
-import PermissionService from "../services/permission.service";
+import { useEffect, useMemo, useState, useCallback } from 'react';
+import AuthService from '../services/auth.service';
+import PermissionService from '../services/permission.service';
 
 export default function useAuthUser(explicitUserLike) {
   // 狀態管理
@@ -29,13 +29,14 @@ export default function useAuthUser(explicitUserLike) {
     return {
       // 課程獲取
       getCoursesFetcher: () => PermissionService.getCoursesFetcher(raw),
-      
+
       // 課程操作權限檢查
-      getCourseActions: (course) => PermissionService.getCourseActions(raw, course),
-      
+      getCourseActions: (course) =>
+        PermissionService.getCourseActions(raw, course),
+
       // 角色檢查方法
       hasRole: (role) => PermissionService.hasRole(raw, role),
-      
+
       // 功能權限檢查
       canCreateCourse: () => PermissionService.canCreateCourse(raw),
       canEnrollCourse: () => PermissionService.canEnrollCourse(raw),
@@ -57,7 +58,7 @@ export default function useAuthUser(explicitUserLike) {
   // 跨分頁同步：監聽 localStorage 的變化
   useEffect(() => {
     const onStorage = (e) => {
-      if (e.key === "user") {
+      if (e.key === 'user') {
         try {
           setRaw(e.newValue ? JSON.parse(e.newValue) : null);
         } catch {
@@ -65,26 +66,26 @@ export default function useAuthUser(explicitUserLike) {
         }
       }
     };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   return {
     // 用戶基本信息
     ...userInfo,
     user: PermissionService.normalizeUser(raw),
-    
+
     // 權限信息
     ...permissions,
-    
+
     // 業務邏輯方法
     ...businessLogic,
-    
+
     // 控制方法
     refresh,
     updateUser,
     setRaw, // 保留向後兼容
-    
+
     // 原始數據（調試用）
     rawUser: raw,
   };

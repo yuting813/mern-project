@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import CourseService from "../services/course.service.js";
-import CourseSkeleton from "../components/course/CourseSkeleton";
-import CreateCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
-import CreateCourseMobile from "../assets/CreateCourse-mobile-v2.jpg";
-import EditCourseModal from "../components/course/EditCourseModal.jsx";
-import useAuthUser from "../hooks/useAuthUser";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CourseService from '../services/course.service.js';
+import CourseSkeleton from '../components/course/CourseSkeleton';
+import CreateCourseDesktop from '../assets/CreateCourse-desktop-v1.jpg';
+import CreateCourseMobile from '../assets/CreateCourse-mobile-v2.jpg';
+import EditCourseModal from '../components/course/EditCourseModal.jsx';
+import useAuthUser from '../hooks/useAuthUser';
 
 /* ── 子元件：課程圖片 ───────────────────────── */
-const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
-  const defaultImage = "https://i.ibb.co/BKqMHq0/logo.png";
+const CourseImage = ({ course, width = '16rem', height = '11rem' }) => {
+  const defaultImage = 'https://i.ibb.co/BKqMHq0/logo.png';
   const [imgSrc, setImgSrc] = useState(course.image || defaultImage);
 
   const handleImageError = () => {
@@ -22,7 +22,7 @@ const CourseImage = ({ course, width = "16rem", height = "11rem" }) => {
       alt="課程圖片"
       onError={handleImageError}
       className="img-fluid"
-      style={{ width, height, objectFit: "cover" }}
+      style={{ width, height, objectFit: 'cover' }}
     />
   );
 };
@@ -43,46 +43,46 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
     roleDisplayName,
     getCoursesFetcher,
     getCourseActions,
-    canEditCourse
+    canEditCourse,
   } = useAuthUser(currentUser);
 
   /* ── 導頁方法 ─────────────────────────────── */
-  const handleTakeToLogin = () => navigate("/login");
-  const handleTakeToCreateCourse = () => navigate("/CreateCourse");
-  const handleTakeToEnroll = () => navigate("/enroll");
+  const handleTakeToLogin = () => navigate('/login');
+  const handleTakeToCreateCourse = () => navigate('/CreateCourse');
+  const handleTakeToEnroll = () => navigate('/enroll');
 
   /* ── 課程操作方法 ─────────────────────────── */
   const handleDelete = (e) => {
     const courseId = e.target.id;
-    if (window.confirm("確定要刪除這個課程嗎？")) {
+    if (window.confirm('確定要刪除這個課程嗎？')) {
       CourseService.delete(courseId)
         .then(() => {
-          showAlert("已刪除課程", "課程已成功刪除。", "elegant", 1000);
+          showAlert('已刪除課程', '課程已成功刪除。', 'elegant', 1000);
           setCourseData((prev) => prev.filter((c) => c._id !== courseId));
         })
         .catch((err) => {
-          console.error("刪除課程失敗:", err.message);
-          showAlert("課程擁有者才能刪除課程", "請稍後再試。", "error", 1000);
+          console.error('刪除課程失敗:', err.message);
+          showAlert('課程擁有者才能刪除課程', '請稍後再試。', 'error', 1000);
         });
     }
   };
 
   const handleDrop = (e) => {
     const courseId = e.target.id;
-    if (window.confirm("確定要退選這個課程嗎？")) {
+    if (window.confirm('確定要退選這個課程嗎？')) {
       CourseService.dropCourse(courseId)
         .then(() => {
           showAlert(
-            "已退選課程",
-            "課程已成功從您的列表中移除。",
-            "elegant",
+            '已退選課程',
+            '課程已成功從您的列表中移除。',
+            'elegant',
             1000
           );
           setCourseData((prev) => prev.filter((c) => c._id !== courseId));
         })
         .catch((err) => {
-          console.error("退選課程時發生錯誤:", err.message);
-          showAlert("退選課程失敗", "請稍後再試。", "error", 1000);
+          console.error('退選課程時發生錯誤:', err.message);
+          showAlert('退選課程失敗', '請稍後再試。', 'error', 1000);
         });
     }
   };
@@ -90,7 +90,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
   const handleEdit = (course) => {
     // 使用 Hook 提供的權限檢查方法
     if (!canEditCourse(course)) {
-      showAlert("權限錯誤", "只有課程講師才能編輯課程", "error", 1500);
+      showAlert('權限錯誤', '只有課程講師才能編輯課程', 'error', 1500);
       return;
     }
     setEditingCourse(course);
@@ -115,7 +115,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
   // 課程操作按鈕渲染（使用權限檢查）
   const renderCourseActions = (course) => {
     const actions = getCourseActions(course);
-    
+
     if (actions.canEdit || actions.canDelete) {
       return (
         <div className="d-flex justify-content-between align-items-center">
@@ -195,7 +195,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
   /* ── 未登入狀態 ───────────────────────────── */
   if (!isLoggedIn) {
     return (
-      <div style={{ padding: "3rem" }}>
+      <div style={{ padding: '3rem' }}>
         <div className="banner-container">
           <div className="w-100">
             <picture>
@@ -231,11 +231,9 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
 
   /* ── 已登入狀態 ───────────────────────────── */
   return (
-    <div style={{ padding: "3rem" }}>
+    <div style={{ padding: '3rem' }}>
       <div className="container mb-4">
-        <h1 className="mb-2 text-start">
-          歡迎來到{roleDisplayName}的課程頁面
-        </h1>
+        <h1 className="mb-2 text-start">歡迎來到{roleDisplayName}的課程頁面</h1>
         <h5 className="text-muted bg-gray-100 py-3">以下是您目前的課程清單:</h5>
       </div>
 
@@ -319,18 +317,18 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
                 <div
                   className="card h-100 border-0 shadow-sm"
                   style={{
-                    transition: "all 0.3s ease-in-out",
-                    cursor: "pointer",
+                    transition: 'all 0.3s ease-in-out',
+                    cursor: 'pointer',
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.boxShadow =
-                      "0 8px 16px rgba(0,0,0,0.15)";
-                    e.currentTarget.style.transform = "translateY(-4px)";
+                      '0 8px 16px rgba(0,0,0,0.15)';
+                    e.currentTarget.style.transform = 'translateY(-4px)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.boxShadow =
-                      "0 2px 4px rgba(0,0,0,0.05)";
-                    e.currentTarget.style.transform = "translateY(0)";
+                      '0 2px 4px rgba(0,0,0,0.05)';
+                    e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
                   <CourseImage course={course} height="180px" />
@@ -344,7 +342,7 @@ const CoursePage = ({ currentUser, setCurrentUser, showAlert }) => {
                       <li>
                         課程價格：${Number(course.price).toLocaleString()}
                       </li>
-                      <li>講師：{course.instructor?.username || "未指定"}</li>
+                      <li>講師：{course.instructor?.username || '未指定'}</li>
                     </ul>
                   </div>
                   <div className="card-footer border-white bg-white">

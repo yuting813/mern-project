@@ -1,7 +1,7 @@
-import { FaUser, FaIdCard, FaEnvelope, FaUserTag } from "react-icons/fa";
-import profileImgV3 from "../assets/profile-v3.jpg";
-import profileImgV2 from "../assets/profile-v2.jpg";
-import profileImgV1 from "../assets/profile-v1.jpg";
+import { FaUser, FaIdCard, FaEnvelope, FaUserTag } from 'react-icons/fa';
+import profileImgV3 from '../assets/profile-v3.jpg';
+import profileImgV2 from '../assets/profile-v2.jpg';
+import profileImgV1 from '../assets/profile-v1.jpg';
 
 const ProfilePage = ({ currentUser, setCurrentUser }) => {
   return (

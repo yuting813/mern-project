@@ -1,12 +1,13 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
 
-const rootDir = path.resolve(__dirname, "..");
-const sourceDir = path.join(rootDir, "client", "build");
-const targetDir = path.join(rootDir, "build");
+const rootDir = path.resolve(__dirname, '..');
+const sourceDir = path.join(rootDir, 'client', 'build');
+const targetDir = path.join(rootDir, 'build');
 
 if (!fs.existsSync(sourceDir)) {
   console.error(`Missing build output at ${sourceDir}`);
+  // eslint-disable-next-line no-process-exit
   process.exit(1);
 }
 

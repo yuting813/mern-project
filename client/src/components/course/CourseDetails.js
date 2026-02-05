@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import CourseService from "../../services/course.service";
-import useAuthUser from "../../hooks/useAuthUser";
+import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CourseService from '../../services/course.service';
+import useAuthUser from '../../hooks/useAuthUser';
 
 const CourseDetails = ({ course, showAlert, currentUser }) => {
   const navigate = useNavigate();
@@ -10,23 +10,23 @@ const CourseDetails = ({ course, showAlert, currentUser }) => {
   const [isEnrolling, setIsEnrolling] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   const isEnrolled = useMemo(() => {
     if (!uid || !course?.students) return false;
     return course.students.some(
-      (s) => (typeof s === "string" ? s : s?._id) === uid
+      (s) => (typeof s === 'string' ? s : s?._id) === uid
     );
   }, [course?.students, uid]);
 
   const handleEnroll = async () => {
     if (!currentUser) {
-      showAlert("請先登入", "註冊課程前，請先登入學生帳號。", "elegant", 1000);
+      showAlert('請先登入', '註冊課程前，請先登入學生帳號。', 'elegant', 1000);
       return;
     }
 
     if (!isStudent) {
-      showAlert("無法註冊", "註冊請轉換至學生身分", "elegant", 2000);
+      showAlert('無法註冊', '註冊請轉換至學生身分', 'elegant', 2000);
       return;
     }
 
@@ -35,10 +35,10 @@ const CourseDetails = ({ course, showAlert, currentUser }) => {
     try {
       setIsEnrolling(true);
       await CourseService.enroll(course._id);
-      showAlert("課程註冊成功!", "將導向到課程頁面。", "elegant", 500);
-      navigate("/course");
+      showAlert('課程註冊成功!', '將導向到課程頁面。', 'elegant', 500);
+      navigate('/course');
     } catch {
-      showAlert("註冊失敗", "請稍後再試", "error", 3000);
+      showAlert('註冊失敗', '請稍後再試', 'error', 3000);
     } finally {
       setIsEnrolling(false);
     }
@@ -57,7 +57,7 @@ const CourseDetails = ({ course, showAlert, currentUser }) => {
           aria-expanded={expanded}
         >
           <strong>{course.title}</strong>
-          <span className="float-end">{expanded ? "▲" : "▼"}</span>
+          <span className="float-end">{expanded ? '▲' : '▼'}</span>
         </button>
 
         {expanded && (
@@ -66,7 +66,7 @@ const CourseDetails = ({ course, showAlert, currentUser }) => {
             <p className="text-muted small mb-2">{course.description}</p>
 
             <ul className="list-unstyled text-muted small mb-3">
-              <li>講師：{course.instructor?.username || "未指定"}</li>
+              <li>講師：{course.instructor?.username || '未指定'}</li>
               <li>4.8 ★★★★★ ({course.students.length})</li>
               <li>課程價格：${Number(course.price).toLocaleString()}</li>
             </ul>
@@ -74,10 +74,10 @@ const CourseDetails = ({ course, showAlert, currentUser }) => {
             <button
               type="button"
               onClick={handleEnroll}
-            className="btn btn-sm btn-purple w-100"
+              className="btn btn-sm btn-purple w-100"
               disabled={isEnrolled || isEnrolling}
             >
-              {isEnrolled ? "已註冊" : isEnrolling ? "註冊中…" : "註冊課程"}
+              {isEnrolled ? '已註冊' : isEnrolling ? '註冊中…' : '註冊課程'}
             </button>
           </div>
         )}
@@ -101,25 +101,25 @@ const CourseDetails = ({ course, showAlert, currentUser }) => {
     // >
 
     <div className="course-details-card">
-        <h6 className="fw-bold">{course.title}</h6>
-        <p className="text-muted small mb-2" style={{ minHeight: "3rem" }}>
-          {course.description}
-        </p>
+      <h6 className="fw-bold">{course.title}</h6>
+      <p className="text-muted small mb-2" style={{ minHeight: '3rem' }}>
+        {course.description}
+      </p>
 
-        <ul className="list-unstyled text-muted small mb-3">
-          <li>講師：{course.instructor?.username || "未指定"}</li>
-          <li>4.8 ★★★★★ ({course.students.length})</li>
-          <li>課程價格：${Number(course.price).toLocaleString()}</li>
-        </ul>
+      <ul className="list-unstyled text-muted small mb-3">
+        <li>講師：{course.instructor?.username || '未指定'}</li>
+        <li>4.8 ★★★★★ ({course.students.length})</li>
+        <li>課程價格：${Number(course.price).toLocaleString()}</li>
+      </ul>
 
-        <button
-          type="button"
-          onClick={handleEnroll}
+      <button
+        type="button"
+        onClick={handleEnroll}
         className="btn btn-sm btn-purple w-100"
-          disabled={isEnrolled || isEnrolling}
-        >
-          {isEnrolled ? "已註冊" : isEnrolling ? "註冊中…" : "註冊課程"}
-        </button>
+        disabled={isEnrolled || isEnrolling}
+      >
+        {isEnrolled ? '已註冊' : isEnrolling ? '註冊中…' : '註冊課程'}
+      </button>
     </div>
   );
 };

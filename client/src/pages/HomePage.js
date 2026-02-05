@@ -1,15 +1,15 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import "../styles/main.css";
-import Banner from "../components/home/Banner.js";
-import CourseBanner from "../components/course/CourseBanner.js";
-import AI from "../assets/ai.png";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/main.css';
+import Banner from '../components/home/Banner.js';
+import CourseBanner from '../components/course/CourseBanner.js';
+import AI from '../assets/ai.png';
 
 const HomePage = ({ showAlert, currentUser }) => {
   const navigate = useNavigate();
 
   const handleTakeToEnroll = () => {
-    navigate("/enroll");
+    navigate('/enroll');
   };
 
   return (
@@ -47,7 +47,7 @@ const HomePage = ({ showAlert, currentUser }) => {
               src={AI}
               alt="AI Learning"
               className="img-fluid"
-              style={{ maxHeight: "100vh", objectFit: "contain" }}
+              style={{ maxHeight: '100vh', objectFit: 'contain' }}
             />
           </div>
         </div>

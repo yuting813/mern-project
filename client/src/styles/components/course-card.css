@@ -22,7 +22,9 @@
   visibility: hidden;
   pointer-events: none;
   z-index: 1500;
-  transition: opacity 0.1s ease, visibility 0.1s ease;
+  transition:
+    opacity 0.1s ease,
+    visibility 0.1s ease;
 }
 
 .course-card:hover .course-details-wrapper {

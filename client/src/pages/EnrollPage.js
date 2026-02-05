@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import CourseService from "../services/course.service";
-import CourseCardS from "../components/course/CourseCardScroller";
-import CourseImage from "../components/course/CourseImage";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import CourseService from '../services/course.service';
+import CourseCardS from '../components/course/CourseCardScroller';
+import CourseImage from '../components/course/CourseImage';
 
 const EnrollPage = ({ currentUser, showAlert }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const [searchResult, setSearchResult] = useState([]);
-  const [searchError, setSearchError] = useState("");
+  const [searchError, setSearchError] = useState('');
 
   /* ───── 進頁即判斷是否帶 keyword ───── */
   useEffect(() => {
@@ -22,7 +22,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
   const runSearch = (keyword) => {
     if (!keyword) {
       setSearchResult([]);
-      setSearchError("請輸入搜尋關鍵字");
+      setSearchError('請輸入搜尋關鍵字');
       return;
     }
 
@@ -30,7 +30,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
       .then(({ data }) => {
         if (data?.length) {
           setSearchResult(data);
-          setSearchError("");
+          setSearchError('');
         } else {
           setSearchResult([]);
           setSearchError(`找不到與「${keyword}」相關的課程，請再試一次。`);
@@ -38,7 +38,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
       })
       .catch(() => {
         setSearchResult([]);
-        setSearchError("搜尋過程中發生錯誤，請稍後再試。");
+        setSearchError('搜尋過程中發生錯誤，請稍後再試。');
       });
   };
 
@@ -46,25 +46,25 @@ const EnrollPage = ({ currentUser, showAlert }) => {
   const handleEnrollClick = (courseId) => {
     // 未登入
     if (!currentUser) {
-      showAlert("請先登入", "註冊課程前，請先登入學生帳號。", "elegant", 2000);
+      showAlert('請先登入', '註冊課程前，請先登入學生帳號。', 'elegant', 2000);
       return;
     }
 
     // 不是學生
-    if (currentUser.user.role === "instructor") {
-      showAlert("無法註冊", "註冊請轉換至學生身分", "elegant", 3000);
+    if (currentUser.user.role === 'instructor') {
+      showAlert('無法註冊', '註冊請轉換至學生身分', 'elegant', 3000);
       return;
     }
 
     // OK → 呼叫 API
     CourseService.enroll(courseId)
       .then(() => {
-        showAlert("課程註冊成功!", "將導向到課程頁面。", "elegant", 3000);
-        navigate("/course");
+        showAlert('課程註冊成功!', '將導向到課程頁面。', 'elegant', 3000);
+        navigate('/course');
       })
       .catch((err) => {
         console.error(err);
-        showAlert("檢查註冊狀態失敗", "請稍後再試", "error", 3000);
+        showAlert('檢查註冊狀態失敗', '請稍後再試', 'error', 3000);
       });
   };
 
@@ -106,7 +106,7 @@ const EnrollPage = ({ currentUser, showAlert }) => {
                     <ul className="list-unstyled text-muted small mt-auto mb-2">
                       <li>學生人數：{course.students.length}</li>
                       <li>價格：${course.price}</li>
-                      <li>講師：{course.instructor?.username || "未指定"}</li>
+                      <li>講師：{course.instructor?.username || '未指定'}</li>
                     </ul>
                   </div>
 

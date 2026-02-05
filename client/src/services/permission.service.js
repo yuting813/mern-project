@@ -64,17 +64,17 @@ class PermissionService {
   // 用戶數據標準化（內建）
   static normalizeUser(userLike) {
     if (!userLike) return null;
-    
+
     // 如果是嵌套結構 { user: {...} }，提取內層
     if (userLike.user && typeof userLike.user === 'object') {
       return userLike.user;
     }
-    
+
     // 如果已經是扁平結構，直接返回
     if (userLike._id || userLike.id) {
       return userLike;
     }
-    
+
     return null;
   }
 
@@ -88,7 +88,7 @@ class PermissionService {
         email: null,
         role: null,
         roleDisplayName: '未登入',
-        isLoggedIn: false
+        isLoggedIn: false,
       };
     }
 
@@ -98,15 +98,18 @@ class PermissionService {
       email: normalizedUser.email,
       role: normalizedUser.role,
       roleDisplayName: this.getRoleDisplayName(normalizedUser.role),
-      isLoggedIn: true
+      isLoggedIn: true,
     };
   }
 
   static getRoleDisplayName(role) {
     switch (role) {
-      case 'instructor': return '講師';
-      case 'student': return '學生';
-      default: return '未知';
+      case 'instructor':
+        return '講師';
+      case 'student':
+        return '學生';
+      default:
+        return '未知';
     }
   }
 
@@ -122,14 +125,14 @@ class PermissionService {
       isInstructor,
       isStudent,
       isLoggedIn,
-      
+
       // 功能權限
       canCreateCourse: isInstructor,
       canEnrollCourse: isStudent,
       canDropCourse: isStudent,
       canViewInstructorDashboard: isInstructor,
       canViewStudentDashboard: isStudent,
-      
+
       // 頁面訪問權限
       canAccessCreateCoursePage: isInstructor,
       canAccessEnrollPage: isStudent,
@@ -140,15 +143,15 @@ class PermissionService {
   // 新增：課程數據獲取邏輯（解決 getCoursesFetcher 問題）
   static getCoursesFetcher(user) {
     const normalizedUser = this.normalizeUser(user);
-    
+
     if (this.isInstructor(normalizedUser)) {
       return (userId) => CourseService.getInstructorCourses(userId);
     }
-    
+
     if (this.isStudent(normalizedUser)) {
       return (userId) => CourseService.getEnrolledCourses(userId);
     }
-    
+
     // 未登入或未知角色
     return () => Promise.resolve([]);
   }
@@ -156,12 +159,12 @@ class PermissionService {
   // 新增：課程操作權限檢查
   static getCourseActions(user, course) {
     const normalizedUser = this.normalizeUser(user);
-    
+
     return {
       canEdit: this.canEditCourse(normalizedUser, course),
       canDelete: this.canEditCourse(normalizedUser, course), // 同編輯權限
       canDrop: this.isStudent(normalizedUser),
-      canEnroll: this.isStudent(normalizedUser)
+      canEnroll: this.isStudent(normalizedUser),
     };
   }
 }

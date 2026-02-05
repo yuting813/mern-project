@@ -1,24 +1,24 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthService from "../services/auth.service";
-import Login from "../assets/login.webp";
-import loginSchema from "../validation/schemas/loginSchema";
-import { validateWithSchema } from "../utils/validationUtils";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthService from '../services/auth.service';
+import Login from '../assets/login.webp';
+import loginSchema from '../validation/schemas/loginSchema';
+import { validateWithSchema } from '../utils/validationUtils';
+import { useEffect } from 'react';
 
 const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
   const navigate = useNavigate();
-  let [message, setMessage] = useState("");
+  let [message, setMessage] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   useEffect(() => {
-    document.getElementById("email-input")?.focus();
+    document.getElementById('email-input')?.focus();
   }, []);
 
   const handleChange = (e) => {
@@ -45,18 +45,18 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
           formData.email,
           formData.password
         );
-        localStorage.setItem("user", JSON.stringify(response.data));
-        showAlert("登入成功!", "您將被導向至個人資料頁面。", "elegant", 500);
+        localStorage.setItem('user', JSON.stringify(response.data));
+        showAlert('登入成功!', '您將被導向至個人資料頁面。', 'elegant', 500);
         setCurrentUser(AuthService.getCurrentUser());
 
         setTimeout(() => {
-          navigate("/profile");
+          navigate('/profile');
         }, 500);
       } catch (e) {
-        const fallbackMsg = "登入失敗，請稍後再試";
+        const fallbackMsg = '登入失敗，請稍後再試';
         if (e.response && e.response.data) {
           const serverMsg = e.response.data.message || e.response.data;
-          setMessage(typeof serverMsg === "string" ? serverMsg : fallbackMsg);
+          setMessage(typeof serverMsg === 'string' ? serverMsg : fallbackMsg);
         } else {
           setMessage(fallbackMsg);
         }
@@ -85,7 +85,7 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
               value={formData.email}
               onChange={handleChange}
               className={`form-control custom-input 
-              ${errors.email ? "is-invalid" : " "}`}
+              ${errors.email ? 'is-invalid' : ' '}`}
               placeholder=" "
               required
             />
@@ -104,7 +104,7 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
               value={formData.password}
               onChange={handleChange}
               className={`form-control custom-input ${
-                errors.password ? "is-invalid" : ""
+                errors.password ? 'is-invalid' : ''
               }`}
               placeholder=""
               required
@@ -129,7 +129,7 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
                   登入中...
                 </>
               ) : (
-                "登入"
+                '登入'
               )}
             </button>
           </div>
@@ -137,7 +137,7 @@ const LoginPage = ({ currentUser, setCurrentUser, showAlert }) => {
 
         <div className="text-center my-3">
           <p className="bg-light p-3 mt-4 mb-3 ">
-            還沒有帳戶嗎？{" "}
+            還沒有帳戶嗎？{' '}
             <a href="/register" className="tn-text-a">
               註冊
             </a>

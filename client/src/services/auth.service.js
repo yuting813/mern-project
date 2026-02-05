@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const API_URL = `${process.env.REACT_APP_API_BASE_URL}/api/user`;
 
@@ -10,22 +10,22 @@ class AuthService {
       password,
     });
   }
-  
+
   logout() {
-    localStorage.removeItem("user");
+    localStorage.removeItem('user');
   }
-  
+
   register(formData) {
     return axios.post(`${API_URL}/register`, formData);
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem("user"));
+    return JSON.parse(localStorage.getItem('user'));
   }
 
   // 設置當前用戶（登入後使用）
   setCurrentUser(userData) {
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem('user', JSON.stringify(userData));
   }
 
   // 檢查是否已登入

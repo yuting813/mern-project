@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import CourseService from "../services/course.service";
-import createCourseDesktop from "../assets/CreateCourse-desktop-v1.jpg";
-import createCourseMobile from "../assets/CreateCourse-mobile-v2.jpg";
-import planYourCurriculum from "../assets/plan-your-curriculum-v1.jpg";
-import courseSchema from "../validation/schemas/courseSchema";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CourseService from '../services/course.service';
+import createCourseDesktop from '../assets/CreateCourse-desktop-v1.jpg';
+import createCourseMobile from '../assets/CreateCourse-mobile-v2.jpg';
+import planYourCurriculum from '../assets/plan-your-curriculum-v1.jpg';
+import courseSchema from '../validation/schemas/courseSchema';
 
 const CreateCoursePage = ({ currentUser, showAlert }) => {
   const navigate = useNavigate();
 
-  let [title, setTitle] = useState("");
-  let [description, setDescription] = useState("");
+  let [title, setTitle] = useState('');
+  let [description, setDescription] = useState('');
   let [price, setPrice] = useState(0);
-  let [message, setMessage] = useState("");
-  let [image, setImage] = useState("");
+  let [message, setMessage] = useState('');
+  let [image, setImage] = useState('');
 
   const handleTakeToLogin = () => {
-    navigate("/login");
+    navigate('/login');
   };
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -36,7 +36,7 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
         setImage(reader.result);
       };
       reader.onerror = (error) => {
-        console.error("Error reading file:", error);
+        console.error('Error reading file:', error);
       };
       reader.readAsDataURL(file);
     }
@@ -47,7 +47,7 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
       { abortEarly: false }
     );
     if (!error) {
-      setMessage("");
+      setMessage('');
       return true;
     }
     setMessage(error.details[0].message); // 只顯示第一筆錯誤
@@ -61,19 +61,19 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
     CourseService.post(title, description, price, image)
       .then(() => {
         showAlert(
-          "新課程已創建成功!",
-          "您將被導向至個人課程頁面。",
-          "elegant",
+          '新課程已創建成功!',
+          '您將被導向至個人課程頁面。',
+          'elegant',
           500
         );
 
         setTimeout(() => {
-          navigate("/course");
+          navigate('/course');
         }, 500);
       })
       .catch((error) => {
         const serverMsg = error.response?.data?.message || error.response?.data;
-        setMessage(typeof serverMsg === "string" ? serverMsg : "建立課程失敗");
+        setMessage(typeof serverMsg === 'string' ? serverMsg : '建立課程失敗');
       });
   };
 
@@ -112,7 +112,7 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
           </div>
         </div>
       )}
-      {currentUser && currentUser.user.role !== "instructor" && (
+      {currentUser && currentUser.user.role !== 'instructor' && (
         <div>
           <div className="banner-container">
             <picture>
@@ -140,7 +140,7 @@ const CreateCoursePage = ({ currentUser, showAlert }) => {
         </div>
       )}
 
-      {currentUser && currentUser.user.role === "instructor" && (
+      {currentUser && currentUser.user.role === 'instructor' && (
         <div className="container pt-5">
           <div className=" row flex-md-row flex-column-reverse">
             <div className="col-md-6">

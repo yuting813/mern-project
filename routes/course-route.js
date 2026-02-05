@@ -1,33 +1,33 @@
-const router = require("express").Router();
-const passport = require("passport");
-const Course = require("../models").course;
-const User = require("../models").user;
-const { courseValidation } = require("../validation");
+const router = require('express').Router();
+const passport = require('passport');
+const Course = require('../models').course;
+const User = require('../models').user;
+const { courseValidation } = require('../validation');
 
 router.use((req, res, next) => {
-  console.log("course route正在接受一個request...");
+  console.log('course route正在接受一個request...');
   next();
 });
 
 // 搜尋課程
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     let { keyword } = req.query;
 
     if (!keyword) {
       let courseFound = await Course.find({})
-        .populate("instructor", ["username", "email"])
+        .populate('instructor', ['username', 'email'])
         .lean();
       return res.json(courseFound);
     }
 
     let courses = await Course.find({
       $or: [
-        { title: { $regex: keyword, $options: "i" } }, // 'i' 使正則表達式不須分大小寫
-        { description: { $regex: keyword, $options: "i" } },
+        { title: { $regex: keyword, $options: 'i' } }, // 'i' 使正則表達式不須分大小寫
+        { description: { $regex: keyword, $options: 'i' } },
       ],
     })
-      .populate("instructor", ["username", "email"])
+      .populate('instructor', ['username', 'email'])
       .lean();
 
     return res.json(courses);
@@ -37,19 +37,19 @@ router.get("/", async (req, res) => {
 });
 
 // 透過講師id來尋找課程
-router.get("/instructor/:instructorId", async (req, res) => {
+router.get('/instructor/:instructorId', async (req, res) => {
   let { instructorId } = req.params;
   let coursesFound = await Course.find({ instructor: instructorId })
-    .populate("instructor", ["username", "email"])
+    .populate('instructor', ['username', 'email'])
     .exec();
   return res.send(coursesFound);
 });
 
 // 透過學生id來尋找註冊過的課程
-router.get("/student/:studentId", async (req, res) => {
+router.get('/student/:studentId', async (req, res) => {
   let { studentId } = req.params;
   let coursesFound = await Course.find({ students: studentId })
-    .populate("instructor", ["username", "email"])
+    .populate('instructor', ['username', 'email'])
     .exec();
   return res.send(coursesFound);
 });
@@ -68,11 +68,11 @@ router.get("/student/:studentId", async (req, res) => {
 // });
 
 // 用課程id來尋找課程
-router.get("/:_id", async (req, res) => {
+router.get('/:_id', async (req, res) => {
   let { _id } = req.params;
   try {
     let courseFound = await Course.findOne({ _id })
-      .populate("instructor", ["email"])
+      .populate('instructor', ['email'])
       .exec();
     return res.send(courseFound);
   } catch (e) {
@@ -81,8 +81,8 @@ router.get("/:_id", async (req, res) => {
 });
 // 新增課程
 router.post(
-  "/",
-  passport.authenticate("jwt", { session: false }),
+  '/',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     // 驗證數據符合規範
     let { error } = courseValidation(req.body);
@@ -91,7 +91,7 @@ router.post(
     if (req.user.isStudent()) {
       return res
         .status(400)
-        .send("只有講師才能發佈新課程。若你已經是講師，請透過講師帳號登入。");
+        .send('只有講師才能發佈新課程。若你已經是講師，請透過講師帳號登入。');
     }
 
     let { title, description, price, image } = req.body;
@@ -103,10 +103,10 @@ router.post(
         instructor: req.user._id,
         image: image,
       });
-      let savedCourse = await newCourse.save();
-      return res.send("新課程已經保存");
+      await newCourse.save();
+      return res.send('新課程已經保存');
     } catch (e) {
-      return res.status(500).send("無法創建課程。。。");
+      return res.status(500).send('無法創建課程。。。');
     }
   }
 );
@@ -148,15 +148,15 @@ router.post(
 
 // 讓學生透過課程id來註冊新課程
 router.post(
-  "/enroll/:_id",
-  passport.authenticate("jwt", { session: false }),
+  '/enroll/:_id',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     let { _id } = req.params;
     try {
       let course = await Course.findOne({ _id }).exec();
       course.students.push(req.user._id);
       await course.save();
-      return res.send("註冊完成");
+      return res.send('註冊完成');
     } catch (e) {
       return res.send(e);
     }
@@ -165,8 +165,8 @@ router.post(
 
 // 更改課程
 router.patch(
-  "/:_id",
-  passport.authenticate("jwt", { session: false }),
+  '/:_id',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     // 驗證數據符合規範
     let { error } = courseValidation(req.body);
@@ -177,7 +177,7 @@ router.patch(
     try {
       let courseFound = await Course.findOne({ _id });
       if (!courseFound) {
-        return res.status(400).send("找不到課程。無法更新課程內容。");
+        return res.status(400).send('找不到課程。無法更新課程內容。');
       }
 
       // 使用者必須是此課程講師，才能編輯課程
@@ -187,41 +187,41 @@ router.patch(
           runValidators: true,
         });
         return res.status(200).json({
-          message: "課程已經被更新成功",
+          message: '課程已經被更新成功',
           updatedCourse,
         });
       } else {
-        return res.status(403).send("只有此課程的講師才能編輯課程。");
+        return res.status(403).send('只有此課程的講師才能編輯課程。');
       }
     } catch (e) {
-      console.error("更新課程時發生錯誤:", e);
-      return res.status(500).send("更新課程時發生錯誤");
+      console.error('更新課程時發生錯誤:', e);
+      return res.status(500).send('更新課程時發生錯誤');
     }
   }
 );
 
 // 刪除課程
 router.delete(
-  "/:_id",
-  passport.authenticate("jwt", { session: false }),
+  '/:_id',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     let { _id } = req.params;
     // 確認課程存在
     try {
       let courseFound = await Course.findOne({ _id }).exec();
       if (!courseFound) {
-        return res.status(400).send("找不到課程，無法刪除");
+        return res.status(400).send('找不到課程，無法刪除');
       }
 
       // 使用者必須是此課程講師，才能修改課程
       if (courseFound.instructor.equals(req.user._id)) {
         let deleteCourse = await Course.deleteOne({ _id }).exec();
         return res.send({
-          msg: "課程已經刪除",
+          msg: '課程已經刪除',
           deleteCourse,
         });
       } else {
-        return res.status(403).send("使用者必須是此課程講師，才能刪除課程");
+        return res.status(403).send('使用者必須是此課程講師，才能刪除課程');
       }
     } catch (e) {
       return res.status(500).send(e);
@@ -231,25 +231,25 @@ router.delete(
 
 // 新增：學生退選課程
 router.post(
-  "/drop/:_id",
-  passport.authenticate("jwt", { session: false }),
+  '/drop/:_id',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     let { _id } = req.params;
     try {
       let course = await Course.findById(_id);
       if (!course) {
-        return res.status(404).json({ message: "找不到課程" });
+        return res.status(404).json({ message: '找不到課程' });
       }
 
       let student = await User.findById(req.user._id);
       if (!student) {
-        return res.status(404).json({ message: "找不到學生資料" });
+        return res.status(404).json({ message: '找不到學生資料' });
       }
 
       // 檢查學生是否已經註冊這門課程~
       const studentIndex = course.students.indexOf(req.user._id);
       if (studentIndex === -1) {
-        return res.status(400).json({ message: "您尚未註冊這門課程" });
+        return res.status(400).json({ message: '您尚未註冊這門課程' });
       }
 
       // 從課程的學生列表中移除該學生
@@ -265,12 +265,12 @@ router.post(
 
       await student.save();
 
-      return res.status(200).json({ message: "成功退選課程" });
+      return res.status(200).json({ message: '成功退選課程' });
     } catch (e) {
-      console.error("退選課程時發生錯誤:", e);
+      console.error('退選課程時發生錯誤:', e);
       return res
         .status(500)
-        .json({ message: "退選課程時發生錯誤", error: e.message });
+        .json({ message: '退選課程時發生錯誤', error: e.message });
     }
   }
 );

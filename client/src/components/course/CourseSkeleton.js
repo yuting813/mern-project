@@ -1,7 +1,6 @@
-import React from "react";
-import CourseSkeletonCard from "./CourseSkeletonCard";
-import "../../styles/components/course-skeleton.css";
-
+import React from 'react';
+import CourseSkeletonCard from './CourseSkeletonCard';
+import '../../styles/components/course-skeleton.css';
 
 const CourseSkeleton = () => {
   return (

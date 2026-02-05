@@ -1,38 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 // carousel banner（非 LCP）
-import carousel1DesktopJpg from "../../assets/carousel-banner-1-desktop.jpg";
-import carousel1DesktopWebp from "../../assets/carousel-banner-1-desktop.webp";
-import carousel1MobileJpg from "../../assets/carousel-banner-1-mobile.jpg";
-import carousel1MobileWebp from "../../assets/carousel-banner-1-mobile.webp";
+import carousel1DesktopJpg from '../../assets/carousel-banner-1-desktop.jpg';
+import carousel1DesktopWebp from '../../assets/carousel-banner-1-desktop.webp';
+import carousel1MobileJpg from '../../assets/carousel-banner-1-mobile.jpg';
+import carousel1MobileWebp from '../../assets/carousel-banner-1-mobile.webp';
 
 // 依使用者偏好減少動效，自動關閉 autoplay
-const autoPlayAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)")
+const autoPlayAllowed = !window.matchMedia('(prefers-reduced-motion: reduce)')
   .matches;
 
 // slides 設定
 const slides = [
   {
     id: 0,
-    type: "hero",
-    title: "全年投入學習，享受 20% 優惠",
+    type: 'hero',
+    title: '全年投入學習，享受 20% 優惠',
     description:
-      "以額外優惠價格，無限存取我們在科技、商務等多個領域中最受好評的課程。適用相關條款。",
-    cta: "現享優惠",
-    ctaTo: "/enroll",
+      '以額外優惠價格，無限存取我們在科技、商務等多個領域中最受好評的課程。適用相關條款。',
+    cta: '現享優惠',
+    ctaTo: '/enroll',
     lazy: false,
     interval: 5000,
   },
   {
     id: 1,
-    type: "carousel",
+    type: 'carousel',
     desktopSrc: carousel1DesktopJpg,
     desktopWebp: carousel1DesktopWebp,
     mobileSrc: carousel1MobileJpg,
     mobileWebp: carousel1MobileWebp,
-    title: "彈指之間，即可獲得知識",
+    title: '彈指之間，即可獲得知識',
     description:
-      "向現實世界中全球各地的專家學習，購買 $320 起的課程，還剩一天！",
+      '向現實世界中全球各地的專家學習，購買 $320 起的課程，還剩一天！',
     lazy: true,
     interval: 4000,
   },
@@ -55,7 +55,7 @@ const BannerSlide = ({
   interval,
 }) => (
   <div
-    className={`carousel-item ${isActive ? "active" : ""}`}
+    className={`carousel-item ${isActive ? 'active' : ''}`}
     role="group"
     aria-roledescription="slide"
     aria-label={`第 ${index + 1} 張，共 ${total} 張`}
@@ -64,7 +64,7 @@ const BannerSlide = ({
   >
     <div className="banner-container">
       <div className="image-container w-100">
-        {type === "hero" ? (
+        {type === 'hero' ? (
           <picture>
             {/* Mobile Image (max-width: 767px) */}
             <source
@@ -130,28 +130,28 @@ const BannerSlide = ({
 
 const Banner = () => {
   useEffect(() => {
-    const el = document.getElementById("homeBannerCarousel");
+    const el = document.getElementById('homeBannerCarousel');
     if (!el) return;
 
     const carousel =
       window.bootstrap?.Carousel.getInstance(el) ||
       new window.bootstrap.Carousel(el, {
         interval: autoPlayAllowed ? 4500 : false,
-        ride: autoPlayAllowed ? "carousel" : false,
-        pause: "hover",
+        ride: autoPlayAllowed ? 'carousel' : false,
+        pause: 'hover',
         touch: true,
         keyboard: true,
       });
 
     const stopOnInteraction = () => carousel.pause();
     const controls = el.querySelectorAll(
-      ".carousel-control-prev, .carousel-control-next, .carousel-indicators button",
+      '.carousel-control-prev, .carousel-control-next, .carousel-indicators button'
     );
-    controls.forEach((btn) => btn.addEventListener("click", stopOnInteraction));
+    controls.forEach((btn) => btn.addEventListener('click', stopOnInteraction));
 
     return () => {
       controls.forEach((btn) =>
-        btn.removeEventListener("click", stopOnInteraction),
+        btn.removeEventListener('click', stopOnInteraction)
       );
     };
   }, []);
@@ -161,7 +161,7 @@ const Banner = () => {
       <div
         id="homeBannerCarousel"
         className="carousel slide banner-position"
-        data-bs-ride={autoPlayAllowed ? "carousel" : undefined}
+        data-bs-ride={autoPlayAllowed ? 'carousel' : undefined}
         data-bs-pause="hover"
         data-bs-touch="true"
         data-bs-keyboard="true"
@@ -174,8 +174,8 @@ const Banner = () => {
               type="button"
               data-bs-target="#homeBannerCarousel"
               data-bs-slide-to={idx}
-              className={idx === 0 ? "active" : ""}
-              aria-current={idx === 0 ? "true" : undefined}
+              className={idx === 0 ? 'active' : ''}
+              aria-current={idx === 0 ? 'true' : undefined}
               aria-label={`前往第 ${idx + 1} 張`}
             />
           ))}
