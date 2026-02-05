@@ -33,7 +33,6 @@
       "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder}",
       "skipFiles": ["<node_internals>/**"]
-
     },
     {
       // 整合 debug 模式
@@ -44,7 +43,6 @@
       "runtimeArgs": ["run", "dev:debug"],
       "cwd": "${workspaceFolder}",
       "skipFiles": ["<node_internals>/**"]
-
     }
   ],
   "compounds": [

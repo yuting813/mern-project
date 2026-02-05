@@ -2,7 +2,7 @@ export function normalizeUser(userLike) {
   if (!userLike) return null;
 
   // 如果是嵌套結構 { user: {...} }，提取內層
-  if (userLike.user && typeof userLike.user === "object") {
+  if (userLike.user && typeof userLike.user === 'object') {
     return userLike.user;
   }
 

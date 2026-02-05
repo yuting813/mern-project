@@ -1,7 +1,5 @@
-
-
-import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 
 const EditCourseModal = ({ course, onSave, onClose }) => {
   const [title, setTitle] = useState(course.title);

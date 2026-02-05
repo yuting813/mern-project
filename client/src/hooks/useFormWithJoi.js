@@ -1,6 +1,6 @@
 // 📁 src/hooks/useFormWithJoi.js
-import { useState } from "react";
-import { validateWithSchema } from "../utils/validationUtils";
+import { useState } from 'react';
+import { validateWithSchema } from '../utils/validationUtils';
 
 const useFormWithJoi = (initialValues, schema) => {
   const [formData, setFormData] = useState(initialValues);
@@ -10,7 +10,7 @@ const useFormWithJoi = (initialValues, schema) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 

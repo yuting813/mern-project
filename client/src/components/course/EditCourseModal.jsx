@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const EditCourseModal = ({ course, onClose, onUpdate, showAlert }) => {
   const [formData, setFormData] = useState({
     title: course.title,
     description: course.description,
     price: course.price,
-    image: course.image || "",
+    image: course.image || '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,28 +23,28 @@ const EditCourseModal = ({ course, onClose, onUpdate, showAlert }) => {
 
     // 基本表單驗證
     if (!formData.title.trim()) {
-      showAlert("驗證錯誤", "課程標題不能為空", "error", 1500);
+      showAlert('驗證錯誤', '課程標題不能為空', 'error', 1500);
       return;
     }
     if (!formData.description.trim()) {
-      showAlert("驗證錯誤", "課程描述不能為空", "error", 1500);
+      showAlert('驗證錯誤', '課程描述不能為空', 'error', 1500);
       return;
     }
     if (formData.price < 0) {
-      showAlert("驗證錯誤", "課程價格不能為負數", "error", 1500);
+      showAlert('驗證錯誤', '課程價格不能為負數', 'error', 1500);
       return;
     }
 
     setIsSubmitting(true);
     try {
       await onUpdate(course._id, formData);
-      showAlert("更新成功", "課程資訊已成功更新", "elegant", 1500);
+      showAlert('更新成功', '課程資訊已成功更新', 'elegant', 1500);
       onClose();
     } catch (error) {
       showAlert(
-        "更新失敗",
-        error.message || "更新課程時發生錯誤",
-        "error",
+        '更新失敗',
+        error.message || '更新課程時發生錯誤',
+        'error',
         1500
       );
     } finally {
@@ -55,7 +55,7 @@ const EditCourseModal = ({ course, onClose, onUpdate, showAlert }) => {
   return (
     <div
       className="modal d-block"
-      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+      style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
@@ -135,7 +135,7 @@ const EditCourseModal = ({ course, onClose, onUpdate, showAlert }) => {
                   className="btn btn-primary"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "更新中..." : "更新"}
+                  {isSubmitting ? '更新中...' : '更新'}
                 </button>
               </div>
             </form>

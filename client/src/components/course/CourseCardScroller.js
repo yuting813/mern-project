@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import CourseService from "../../services/course.service";
-import CourseCard from "./CourseCard";
-import ScrollButton from "./ScrollButton";
-import CourseSkeleton from "./CourseSkeleton";
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import CourseService from '../../services/course.service';
+import CourseCard from './CourseCard';
+import ScrollButton from './ScrollButton';
+import CourseSkeleton from './CourseSkeleton';
 
 const CourseCardScroller = ({ showAlert, currentUser }) => {
   const [courses, setCourses] = useState([]);
@@ -38,7 +38,6 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
       })
     );
   }, [setNearRightEdge]);
-  
 
   const scroll = useCallback(
     (direction) => {
@@ -46,8 +45,8 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
       const container = containerRef.current;
       const scrollDistance = container.clientWidth;
       container.scrollBy({
-        left: direction === "right" ? scrollDistance : -scrollDistance,
-        behavior: "smooth",
+        left: direction === 'right' ? scrollDistance : -scrollDistance,
+        behavior: 'smooth',
       });
       setTimeout(checkScrollState, 500); // 滾動完成後檢查狀態
     },
@@ -61,22 +60,22 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
         setCourses(response.data);
         setTimeout(checkScrollState, 0);
       } catch (error) {
-        console.error("獲取課程資料失敗:", error);
-        setError("獲取課程資料失敗");
+        console.error('獲取課程資料失敗:', error);
+        setError('獲取課程資料失敗');
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchCourses();
- 
+
     const container = containerRef.current;
     if (container) {
-      container.addEventListener("scroll", checkScrollState);
-      window.addEventListener("resize", checkScrollState);
+      container.addEventListener('scroll', checkScrollState);
+      window.addEventListener('resize', checkScrollState);
       return () => {
-        container.removeEventListener("scroll", checkScrollState);
-        window.removeEventListener("resize", checkScrollState);
+        container.removeEventListener('scroll', checkScrollState);
+        window.removeEventListener('resize', checkScrollState);
       };
     }
   }, [checkScrollState]);
@@ -85,14 +84,15 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    
-    let startX, isDragging = false;
-    
+
+    let startX,
+      isDragging = false;
+
     const handleTouchStart = (e) => {
       startX = e.touches[0].clientX;
       isDragging = true;
     };
-    
+
     const handleTouchMove = (e) => {
       if (!isDragging) return;
       const currentX = e.touches[0].clientX;
@@ -102,15 +102,15 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
         startX = currentX;
       }
     };
-    
+
     const handleTouchEnd = () => {
       isDragging = false;
     };
-    
+
     container.addEventListener('touchstart', handleTouchStart);
     container.addEventListener('touchmove', handleTouchMove);
     container.addEventListener('touchend', handleTouchEnd);
-    
+
     return () => {
       container.removeEventListener('touchstart', handleTouchStart);
       container.removeEventListener('touchmove', handleTouchMove);
@@ -132,7 +132,7 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
     <div className="course-card-scroller">
       <ScrollButton
         direction="left"
-        onClick={() => scroll("left")}
+        onClick={() => scroll('left')}
         isVisible={showLeftArrow}
       />
       <div ref={containerRef} className="course-card-grid">
@@ -149,7 +149,7 @@ const CourseCardScroller = ({ showAlert, currentUser }) => {
       </div>
       <ScrollButton
         direction="right"
-        onClick={() => scroll("right")}
+        onClick={() => scroll('right')}
         isVisible={showRightArrow}
       />
     </div>

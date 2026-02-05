@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.png';
 
 const FOOTER_CONTENT = {
   warning:
-    "本網站為個人作品集展示，僅供技術交流用途。為了您的資訊安全，請勿輸入任何敏感個資（如信用卡號）。",
+    '本網站為個人作品集展示，僅供技術交流用途。為了您的資訊安全，請勿輸入任何敏感個資（如信用卡號）。',
   copyright: (year) => `© ${year} - Built by Tina Hu`,
 };
 
@@ -19,7 +19,7 @@ const Footer = () => {
               src={logo}
               alt="MERN Course Platform Logo"
               className="img-fluid"
-              style={{ maxHeight: "70px" }}
+              style={{ maxHeight: '70px' }}
             />
           </Link>
         </div>

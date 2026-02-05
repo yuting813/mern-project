@@ -111,7 +111,9 @@
 }
 /* 假設搜尋框最外層 class 叫 .nav-search */
 .nav-search input.form-control {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .nav-search input.form-control:focus {
@@ -126,7 +128,9 @@
   border-radius: 2.5rem;
   font-size: 1rem;
   padding: 0 1rem 0 2.5rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   min-width: 0;
 }
 

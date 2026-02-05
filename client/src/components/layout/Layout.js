@@ -1,8 +1,8 @@
-import React, { Suspense, lazy } from "react";
-import { Outlet } from "react-router-dom";
-import Nav from "./Nav";
+import React, { Suspense, lazy } from 'react';
+import { Outlet } from 'react-router-dom';
+import Nav from './Nav';
 
-const Footer = lazy(() => import("./Footer"));
+const Footer = lazy(() => import('./Footer'));
 
 const Layout = ({ currentUser, setCurrentUser, showAlert }) => {
   return (

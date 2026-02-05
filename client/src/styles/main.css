@@ -1,8 +1,8 @@
-@import "components/banner.css";
-@import "components/card-scroller.css";
-@import "components/course-card.css";
-@import "components/nav.css";
-@import "components/login.css";
+@import 'components/banner.css';
+@import 'components/card-scroller.css';
+@import 'components/course-card.css';
+@import 'components/nav.css';
+@import 'components/login.css';
 
 * {
   box-sizing: border-box;

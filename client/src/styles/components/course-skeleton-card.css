@@ -1,45 +1,42 @@
-
-
-
 .skeleton-course-card {
-    width: 13.5rem;
-    margin-right: 1rem;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    overflow: hidden;
-    animation: skeleton-loading 1.5s infinite;
+  width: 13.5rem;
+  margin-right: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  overflow: hidden;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-image {
+  height: 150px;
+  background-color: #e0e0e0;
+}
+
+.skeleton-content {
+  padding: 1rem;
+}
+
+.skeleton-title {
+  height: 1.2rem;
+  margin-bottom: 0.5rem;
+  background-color: #e0e0e0;
+  width: 80%;
+}
+
+.skeleton-text {
+  height: 1rem;
+  background-color: #e0e0e0;
+  width: 60%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    opacity: 0.6;
   }
-  
-  .skeleton-image {
-    height: 150px;
-    background-color: #e0e0e0;
+  50% {
+    opacity: 1;
   }
-  
-  .skeleton-content {
-    padding: 1rem;
+  100% {
+    opacity: 0.6;
   }
-  
-  .skeleton-title {
-    height: 1.2rem;
-    margin-bottom: 0.5rem;
-    background-color: #e0e0e0;
-    width: 80%;
-  }
-  
-  .skeleton-text {
-    height: 1rem;
-    background-color: #e0e0e0;
-    width: 60%;
-  }
-  
-  @keyframes skeleton-loading {
-    0% {
-      opacity: 0.6;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0.6;
-    }
-  }
+}

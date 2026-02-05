@@ -1,6 +1,6 @@
-import React from "react";
-import CourseCardScroller from "./CourseCardScroller";
-import "../../styles/components/course-card.css";
+import React from 'react';
+import CourseCardScroller from './CourseCardScroller';
+import '../../styles/components/course-card.css';
 
 const CourseBanner = ({ showAlert, currentUser }) => {
   return (
@@ -8,14 +8,13 @@ const CourseBanner = ({ showAlert, currentUser }) => {
       <div className="p-4 mt-3">
         <div>
           <h2>
-            {" "}
+            {' '}
             <strong>您所有需要的技能皆整合於一處 </strong>
           </h2>
 
           <p className="fs-6 mb-5">從關鍵技能到技術主題，支援您的專業發展。</p>
-
         </div>
-        <div className="p-3 " style={{ border: "1px solid #ccc" }}>
+        <div className="p-3 " style={{ border: '1px solid #ccc' }}>
           <h3>
             <strong>讓 JavaScript 增強您的軟體開發技能</strong>
           </h3>

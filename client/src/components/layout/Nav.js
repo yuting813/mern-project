@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import AuthService from "../../services/auth.service";
-import useAuthUser from "../../hooks/useAuthUser";
-import logo from "../../assets/logo.png";
-import "../../styles/main.css";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import AuthService from '../../services/auth.service';
+import useAuthUser from '../../hooks/useAuthUser';
+import logo from '../../assets/logo.png';
+import '../../styles/main.css';
 // import { formatCountdown } from "../../utils/timeUtils";
 
 const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
@@ -19,25 +19,25 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
 
   const [showBanner, setShowBanner] = useState(true);
   const navigate = useNavigate();
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
   const location = useLocation();
   // const [countdownTime, setCountdownTime] = useState(10800);
 
   // 若離開 /enroll，就重設 Nav 的輸入框，避免殘留文字
   useEffect(() => {
-    if (location.pathname !== "/enroll") setKeyword("");
+    if (location.pathname !== '/enroll') setKeyword('');
   }, [location.pathname]);
 
   const handleLogout = () => {
     AuthService.logout();
-    showAlert("已登出!", "您將被導向至首頁", "elegant", 500);
+    showAlert('已登出!', '您將被導向至首頁', 'elegant', 500);
     setCurrentUser(null);
-    navigate("/");
+    navigate('/');
   };
 
   // 調試信息（開發環境）
-  if (process.env.NODE_ENV === "development") {
-    console.log("Nav Debug:", {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Nav Debug:', {
       currentUser,
       isInstructor,
       isStudent,
@@ -48,11 +48,11 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
 
   const submitSearchFromNav = (e) => {
     e.preventDefault();
-    if (!keyword.trim()) return showAlert("請輸入關鍵字");
+    if (!keyword.trim()) return showAlert('請輸入關鍵字');
 
     // 導向 /enroll 並攜帶 keyword
-    navigate("/enroll", { state: { keyword } });
-    showAlert("搜尋中…", "", "elegant", 600);
+    navigate('/enroll', { state: { keyword } });
+    showAlert('搜尋中…', '', 'elegant', 600);
   };
 
   // useEffect(() => {
@@ -98,7 +98,7 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
               src={logo}
               alt="Your Logo"
               className="img-fluid"
-              style={{ maxHeight: "70px" }}
+              style={{ maxHeight: '70px' }}
             />
           </Link>
 
@@ -194,7 +194,7 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   );
 };
 
-const NavItem = ({ to, text, className = "hover-text-primary " }) => (
+const NavItem = ({ to, text, className = 'hover-text-primary ' }) => (
   <li className="nav-item">
     <Link className="nav-link" to={to}>
       <span className={className}>{text}</span>

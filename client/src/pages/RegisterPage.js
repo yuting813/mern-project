@@ -1,41 +1,41 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthService from "../services/auth.service";
-import Register from "../assets/register.webp";
-import registerSchema from "../validation/schemas/registerSchema";
-import { validateWithSchema } from "../utils/validationUtils";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthService from '../services/auth.service';
+import Register from '../assets/register.webp';
+import registerSchema from '../validation/schemas/registerSchema';
+import { validateWithSchema } from '../utils/validationUtils';
+import { useEffect } from 'react';
 
 const RegisterPage = ({ showAlert }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    role: "",
+    username: '',
+    email: '',
+    password: '',
+    role: '',
     terms: true,
-    inviteCode: "",
+    inviteCode: '',
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [serverError, setServerError] = useState("");
+  const [serverError, setServerError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
   useEffect(() => {
-    document.getElementById("username-input")?.focus();
+    document.getElementById('username-input')?.focus();
   }, []);
 
   // 角色切換時的清理
   useEffect(() => {
-    if (formData.role !== "instructor") {
-      setFormData((p) => ({ ...p, inviteCode: "" }));
+    if (formData.role !== 'instructor') {
+      setFormData((p) => ({ ...p, inviteCode: '' }));
       setErrors((p) => {
         const { inviteCode, ...rest } = p || {};
         return rest;
@@ -61,31 +61,31 @@ const RegisterPage = ({ showAlert }) => {
       formData
     );
     setErrors(errors);
-    console.log("registerSchema validation result:", {
+    console.log('registerSchema validation result:', {
       isValid,
       errors,
       value,
     });
     if (!isValid) {
-      if (formData.role === "instructor" && errors.inviteCode) {
-        document.getElementById("invite-input")?.focus();
+      if (formData.role === 'instructor' && errors.inviteCode) {
+        document.getElementById('invite-input')?.focus();
       }
       return;
     }
 
     setIsLoading(true);
-    setServerError("");
+    setServerError('');
 
     try {
       await AuthService.register(value);
 
-      showAlert("註冊成功!", "您將被導向至登入頁面。", "elegant", 1500);
-      setTimeout(() => navigate("/login"), 1500);
+      showAlert('註冊成功!', '您將被導向至登入頁面。', 'elegant', 1500);
+      setTimeout(() => navigate('/login'), 1500);
     } catch (e) {
-      const fallbackMsg = "註冊時發生錯誤，請稍後再試。";
+      const fallbackMsg = '註冊時發生錯誤，請稍後再試。';
       const serverMsg =
         e.response?.data?.message || e.response?.data || fallbackMsg;
-      setServerError(typeof serverMsg === "string" ? serverMsg : fallbackMsg);
+      setServerError(typeof serverMsg === 'string' ? serverMsg : fallbackMsg);
     } finally {
       setIsLoading(false);
     }
@@ -101,9 +101,9 @@ const RegisterPage = ({ showAlert }) => {
         <h2 className="my-4 text-center">註冊並開始學習</h2>
         {serverError && (
           <div className="alert alert-danger ">
-            {typeof serverError === "string"
+            {typeof serverError === 'string'
               ? serverError
-              : serverError.message || "發生未知錯誤"}
+              : serverError.message || '發生未知錯誤'}
           </div>
         )}
 
@@ -116,7 +116,7 @@ const RegisterPage = ({ showAlert }) => {
               value={formData.username}
               onChange={handleChange}
               className={`form-control custom-input ${
-                errors.username ? "is-invalid" : ""
+                errors.username ? 'is-invalid' : ''
               }`}
               placeholder=" "
             />
@@ -134,7 +134,7 @@ const RegisterPage = ({ showAlert }) => {
               value={formData.email}
               onChange={handleChange}
               className={`form-control custom-input ${
-                errors.email ? "is-invalid" : ""
+                errors.email ? 'is-invalid' : ''
               }`}
               placeholder=" "
             />
@@ -152,7 +152,7 @@ const RegisterPage = ({ showAlert }) => {
               value={formData.password}
               onChange={handleChange}
               className={`form-control custom-input ${
-                errors.password ? "is-invalid" : ""
+                errors.password ? 'is-invalid' : ''
               }`}
               placeholder=" "
             />
@@ -164,9 +164,9 @@ const RegisterPage = ({ showAlert }) => {
             )}
             {formData.password && (
               <div className="password-strength mt-2">
-                密碼強度:{" "}
+                密碼強度:{' '}
                 {
-                  ["弱", "普通", "中等", "強", "很強"][
+                  ['弱', '普通', '中等', '強', '很強'][
                     passwordStrength(formData.password) - 1
                   ]
                 }
@@ -182,7 +182,7 @@ const RegisterPage = ({ showAlert }) => {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className={`form-control ${errors.role ? "is-invalid" : ""}`}
+              className={`form-control ${errors.role ? 'is-invalid' : ''}`}
             >
               <option value="" disabled>
                 請選擇身份
@@ -197,14 +197,14 @@ const RegisterPage = ({ showAlert }) => {
           </div>
           <div className="form-group mb-2">
             {/* 僅當選講師時顯示授權碼欄位 */}
-            {formData.role === "instructor" && (
+            {formData.role === 'instructor' && (
               <div className="mt-3">
                 <label className="form-label">講師授權碼</label>
                 <input
                   id="invite-input"
                   type="password"
                   className={`form-control ${
-                    errors.inviteCode ? "is-invalid" : ""
+                    errors.inviteCode ? 'is-invalid' : ''
                   }`}
                   placeholder="請輸入授權碼"
                   autoComplete="off"
@@ -260,7 +260,7 @@ const RegisterPage = ({ showAlert }) => {
 
         <div className="text-center my-3">
           <p className="bg-light p-3 mt-4 mb-3">
-            已經擁有帳戶？{" "}
+            已經擁有帳戶？{' '}
             <a href="/login" className="tn-text-a">
               登入
             </a>
