@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = `${process.env.REACT_APP_API_BASE_URL}/api/user`;
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/api/user`;
 
 class AuthService {
   // 核心認證功能

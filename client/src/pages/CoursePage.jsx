@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CourseService from '../services/course.service.js';
+import CourseService from '../services/course.service';
 import CourseSkeleton from '../components/course/CourseSkeleton';
 import CreateCourseDesktop from '../assets/CreateCourse-desktop-v1.jpg';
 import CreateCourseMobile from '../assets/CreateCourse-mobile-v2.jpg';

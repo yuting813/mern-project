@@ -36,7 +36,7 @@ const NavComponent = ({ currentUser, setCurrentUser, showAlert }) => {
   };
 
   // 調試信息（開發環境）
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.MODE === 'development') {
     console.log('Nav Debug:', {
       currentUser,
       isInstructor,

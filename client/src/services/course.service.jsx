@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = `${process.env.REACT_APP_API_BASE_URL}/api/courses`;
+const API_URL = `${import.meta.env.VITE_API_BASE_URL}/api/courses`;
 
 // 定義獲取token的函數
 function getToken() {
